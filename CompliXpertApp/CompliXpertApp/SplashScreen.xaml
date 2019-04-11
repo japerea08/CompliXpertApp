@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CompliXpertApp.SplashScreen"
+             Title="CompliXpert">
+    <StackLayout Margin="16" Spacing="20" Padding="0,100,0,0">
+        <Image Source="compli_logo.png"></Image>
+        <StackLayout Margin="16">
+            <Label Text="Enter Your Login Credentials"></Label>
+            <Entry Placeholder="Username" x:Name="username"></Entry>
+            <Entry Placeholder="Password" IsPassword="True" x:Name="password"></Entry>
+            <Button Text="Login" BackgroundColor="#428bca" TextColor="White" Clicked="LoginClicked"></Button>
+            <Label Text="Create an Account" XAlign="Center" Margin="0,30,0,0">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="CreateAccountClicked"></TapGestureRecognizer>
+                </Label.GestureRecognizers>
+            </Label>
+            <Label Text="Forgot Password?" XAlign="Center" Margin="0,10,0,0">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="ForgotPasswordClicked"></TapGestureRecognizer>
+                </Label.GestureRecognizers>
+            </Label>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>
