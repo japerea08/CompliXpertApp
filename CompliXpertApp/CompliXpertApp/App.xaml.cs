@@ -17,6 +17,7 @@ namespace CompliXpertApp
         protected override void OnStart()
         {
             // Handle when your app starts
+            //check to see whether the file directory exists
         }
 
         protected override void OnSleep()
