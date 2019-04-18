@@ -1,4 +1,4 @@
-﻿using System;
+﻿using CompliXpertApp.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,7 +11,7 @@ namespace CompliXpertApp
         {
             InitializeComponent();
             //constructor sets the MainPage property to a MainPage object type
-            MainPage = new NavigationPage (new SplashScreen());
+            MainPage = new NavigationPage (new LoginScreen());
         }
 
         protected override void OnStart()

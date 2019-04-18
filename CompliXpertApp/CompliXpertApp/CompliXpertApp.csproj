@@ -24,17 +24,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="AccountListPage.xaml">
+    <EmbeddedResource Update="Views\AccountListScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="SplashScreen.xaml">
+    <EmbeddedResource Update="Views\LoginScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="DataAccess\" />
-    <Folder Include="ViewModels\" />
-    <Folder Include="Views\" />
   </ItemGroup>
 </Project>

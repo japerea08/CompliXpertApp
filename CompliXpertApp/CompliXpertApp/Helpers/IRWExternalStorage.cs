@@ -6,9 +6,11 @@ namespace CompliXpertApp.Helpers
 {
     public interface IRWExternalStorage
     {
-        bool FolderExists(string folderPath);
+        bool FolderExists();
         string ReadFile(string filePath);
         string WriteFile(string filePath, string jsonString);
         void CreateFolder();
+        bool isPermissionSet();
+        void RequestPermissions();
     }
 }

@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace CompliXpertApp
+namespace CompliXpertApp.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AccountListPage : ContentPage
+	public partial class AccountListScreen : ContentPage
 	{
-		public AccountListPage ()
+		public AccountListScreen ()
 		{
 			InitializeComponent ();
 		}

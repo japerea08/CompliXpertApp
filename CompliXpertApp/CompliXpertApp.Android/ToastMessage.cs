@@ -1,6 +1,7 @@
 ﻿using CompliXpertApp;
 using Xamarin.Forms;
 using Android.Widget;
+using CompliXpertApp.Helpers;
 
 [assembly: Dependency(typeof(ToastMessage))]
 

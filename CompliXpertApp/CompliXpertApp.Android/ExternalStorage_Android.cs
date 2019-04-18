@@ -4,6 +4,10 @@ using Android.OS;
 using Android.Widget;
 using CompliXpertApp;
 using System.IO;
+using Android.Support.V4.App;
+using Android.Content.PM;
+using Android;
+using Android.App;
 
 [assembly: Dependency(typeof(ExternalStorage_Android))]
 
@@ -11,9 +15,24 @@ namespace CompliXpertApp
 {
     public class ExternalStorage_Android : IRWExternalStorage
     {
-        public bool FolderExists(string folderPath)
+        static readonly int REQUEST_STORAGE = 1;
+        static string[] PERMISSIONS_STORAGE = { Manifest.Permission.ReadExternalStorage, Manifest.Permission.WriteExternalStorage };
+
+        public void RequestPermissions()
         {
-            if (Directory.Exists(folderPath) == false)
+
+        }
+        public bool isPermissionSet()
+        {
+            if (ActivityCompat.CheckSelfPermission(Android.App.Application.Context, Manifest.Permission.ReadExternalStorage) != (int) Permission.Granted || ActivityCompat.CheckSelfPermission(Android.App.Application.Context, Manifest.Permission.WriteExternalStorage) != (int) Permission.Granted)
+            {
+                return false;
+            }
+            return true;
+        }
+        public bool FolderExists()
+        {
+            if (Directory.Exists(Environment.ExternalStorageDirectory.AbsolutePath + "/CompliXpert") == false)
             {
                 return false;
             }
