@@ -1,12 +1,8 @@
-﻿using System.ComponentModel;
-
-namespace CompliXpertApp.Models
+﻿namespace CompliXpertApp.Models
 {
-    public class User: INotifyPropertyChanged
+    public class User
     {
-        public Field UserName { get; set; }
-        public Field Password { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
+        public string UserName { get; set; }
+        public string Password { get; set; }
     }
 }

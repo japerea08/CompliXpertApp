@@ -7,9 +7,9 @@
             <Image Source="compli_logo.png"></Image>
             <StackLayout Margin="16">
                 <Label Text="Enter Your Login Credentials"></Label>
-                <Entry Placeholder="Username" Text="{Binding Username}" x:Name="username"></Entry>
-                <Entry Placeholder="Password" Text="{Binding Password}"  IsPassword="True" x:Name="password"></Entry>
-                <Button Text="Login" BackgroundColor="#428bca" TextColor="White" Clicked="LoginClicked"></Button>
+                <Entry Placeholder="{Binding UsernamePlaceholder}" Text="{Binding Username}" PlaceholderColor="{Binding UsernamePlaceholderColor}"></Entry>
+                <Entry Placeholder="{Binding PasswordPlaceholder}" Text="{Binding Password}"  IsPassword="True" PlaceholderColor="{Binding PasswordPlaceholderColor}"></Entry>
+                <Button Text="Login" BackgroundColor="#428bca" TextColor="White" Command="{Binding CheckLoginCredentialsCommand}"></Button>
                 <Label Text="Create an Account" XAlign="Center" Margin="0,30,0,0">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="CreateAccountClicked"></TapGestureRecognizer>
