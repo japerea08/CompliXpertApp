@@ -1,7 +1,9 @@
 ﻿using CompliXpertApp.Helpers;
 using CompliXpertApp.Models;
 using CompliXpertApp.Views;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -12,8 +14,6 @@ namespace CompliXpertApp.ViewModels
 {
     class LoginViewModel : INotifyPropertyChanged, IRWExternalStorage
     {
-        private string username = string.Empty;
-        private string password = string.Empty;
         private readonly string userNamePlaceholder = "Enter Username";
         private readonly string passwordPlaceholder = "Enter Password";
         private bool isBusy = false;
@@ -29,7 +29,6 @@ namespace CompliXpertApp.ViewModels
         //properties
         public ICommand OnValidationCommand { get; set; }
         public User User { get; set; }
-        public bool ErrorMessageVisibility { get; set; }
         public Color UsernamePlaceholderColor
         {
             get { return usernamePlaceholderColor; }
@@ -90,21 +89,25 @@ namespace CompliXpertApp.ViewModels
         async void CheckLoginCredentials()
         {
             if(String.IsNullOrEmpty(Username) == false && String.IsNullOrEmpty(Password) == false)
-            { 
+            {
+                List<Account> accounts = new List<Account>();
                 //check for the file that has our data async
-                string json = await ReadFileAsync();
                 IsBusy = true;
-                await Task.Delay(4000);
+                string json = await ReadFileAsync();
+                if(json != null)
+                {
+                    accounts = JsonConvert.DeserializeObject<List<Account>>(json);
+                }
                 IsBusy = false;
                 //launch the next activity
-                await App.Current.MainPage.Navigation.PushAsync(new AccountListScreen());
+                await App.Current.MainPage.Navigation.PushAsync(new AccountListScreen(accounts));
             }
             else
             {
                 //change entry color to red
-                if (String.IsNullOrEmpty(username) == true)
+                if (String.IsNullOrEmpty(User.UserName) == true)
                     UsernamePlaceholderColor = Color.Red;
-                if (String.IsNullOrEmpty(password) == true)
+                if (String.IsNullOrEmpty(User.Password) == true)
                     PasswordPlaceholderColor = Color.Red;
             }
         }

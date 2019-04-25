@@ -20,5 +20,9 @@ namespace CompliXpertApp.Models
 
         public ICollection<CallReport> CallReport { get; set; }
         public ICollection<FatcaQuestionnaire> FatcaQuestionnaire { get; set; }
+        public override string ToString()
+        {
+            return AccountNumber.ToString() + " " + CustomerName;
+        }
     }
 }
