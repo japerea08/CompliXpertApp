@@ -1,14 +1,16 @@
 ﻿using CompliXpertApp.Helpers;
 using CompliXpertApp.Models;
+using CompliXpertApp.Views;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace CompliXpertApp.ViewModels
 {
-    class LoginViewModel : INotifyPropertyChanged
+    class LoginViewModel : INotifyPropertyChanged, IRWExternalStorage
     {
         private string username = string.Empty;
         private string password = string.Empty;
@@ -57,7 +59,11 @@ namespace CompliXpertApp.ViewModels
         public bool IsBusy
         {
             get { return isBusy; }
-            set { isBusy = value; }
+            set
+            {
+                isBusy = value;
+                OnPropertyChanged();
+            }
         }
         public string Username
         {
@@ -81,12 +87,17 @@ namespace CompliXpertApp.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        void CheckLoginCredentials()
+        async void CheckLoginCredentials()
         {
             if(String.IsNullOrEmpty(Username) == false && String.IsNullOrEmpty(Password) == false)
-            {
-                //await Navigation.PushAsync(new AccountListScreen());
-                DependencyService.Get<IToast>().WriteToast("Username and password entered");
+            { 
+                //check for the file that has our data async
+                string json = await ReadFileAsync();
+                IsBusy = true;
+                await Task.Delay(4000);
+                IsBusy = false;
+                //launch the next activity
+                await App.Current.MainPage.Navigation.PushAsync(new AccountListScreen());
             }
             else
             {
@@ -96,6 +107,17 @@ namespace CompliXpertApp.ViewModels
                 if (String.IsNullOrEmpty(password) == true)
                     PasswordPlaceholderColor = Color.Red;
             }
+        }
+
+        public Task<string> WriteFileAsync(string filePath, string jsonString)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<string> ReadFileAsync()
+        {
+            var json = await DependencyService.Get<IRWExternalStorage>().ReadFileAsync();
+            return json;
         }
     }
 }

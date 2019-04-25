@@ -8,6 +8,7 @@ using Android.Support.V4.App;
 using Android.Content.PM;
 using Android;
 using Android.App;
+using System.Threading.Tasks;
 
 [assembly: Dependency(typeof(ExternalStorage_Android))]
 
@@ -15,37 +16,6 @@ namespace CompliXpertApp
 {
     public class ExternalStorage_Android : IRWExternalStorage
     {
-        static readonly int REQUEST_STORAGE = 1;
-        static string[] PERMISSIONS_STORAGE = { Manifest.Permission.ReadExternalStorage, Manifest.Permission.WriteExternalStorage };
-
-        public void RequestPermissions()
-        {
-
-        }
-        public bool isPermissionSet()
-        {
-            if (ActivityCompat.CheckSelfPermission(Android.App.Application.Context, Manifest.Permission.ReadExternalStorage) != (int) Permission.Granted || ActivityCompat.CheckSelfPermission(Android.App.Application.Context, Manifest.Permission.WriteExternalStorage) != (int) Permission.Granted)
-            {
-                return false;
-            }
-            return true;
-        }
-        public bool FolderExists()
-        {
-            if (Directory.Exists(Environment.ExternalStorageDirectory.AbsolutePath + "/CompliXpert") == false)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public void CreateFolder()
-        {
-            Directory.CreateDirectory(Environment.ExternalStorageDirectory.AbsolutePath + "/CompliXpert");
-        }
-
-        //returns the text from file as a string
         public string ReadFile(string filePath)
         {
             string fullPath = GetExternalPath() + filePath;
@@ -87,6 +57,31 @@ namespace CompliXpertApp
                 return compliXpertFolder.FullName;
             }
             return path;
+        }
+
+        public async Task<string> ReadFileAsync()
+        {
+            string filePath = GetExternalPath() + "/compliXpertcustomers.txt";
+            try
+            {
+                using (StreamReader reader = new StreamReader(filePath))
+                {
+                    var json = await reader.ReadToEndAsync();
+                    return json;
+                }
+            }
+            catch (IOException)
+            {
+                var context = Android.App.Application.Context;
+                string message = "File not accessible";
+                Toast.MakeText(context, message, ToastLength.Long).Show();
+                return null;
+            }
+        }
+
+        public Task<string> WriteFileAsync(string filePath, string jsonString)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
