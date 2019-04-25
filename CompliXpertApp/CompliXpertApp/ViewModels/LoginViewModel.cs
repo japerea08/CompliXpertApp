@@ -20,6 +20,7 @@ namespace CompliXpertApp.ViewModels
 
         public LoginViewModel()
         {
+            User = new User();
             CheckLoginCredentialsCommand = new Command(CheckLoginCredentials);
         }
 

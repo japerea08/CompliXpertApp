@@ -23,12 +23,34 @@ namespace CompliXpertApp.Droid
             Log.Debug(TAG, "SplashActivity.OnCreate");
         }
 
+        //requesting runtime permissions here because we want it asked only when the application first starts up
+        protected override void OnStart()
+        {
+            base.OnStart();
+            //ask for the runtime permissions here...
+            if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.ReadExternalStorage) == (int) Permission.Granted && ActivityCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) == (int) Permission.Granted)
+            {
+                //we have permission, go ahead with the app
+                StartActivity(new Intent(Application.Context, typeof(MainActivity)));
+            }
+            else
+            {
+                // storage permission is not granted. If necessary display rationale & request.
+                if (ActivityCompat.ShouldShowRequestPermissionRationale(this, Manifest.Permission.WriteExternalStorage) || ActivityCompat.ShouldShowRequestPermissionRationale(this, Manifest.Permission.ReadExternalStorage))
+                {
+
+                }
+            }
+
+            Task startupWork = new Task(() => { SimulateStartup(); });
+            startupWork.Start();
+        }
+
         // Launches the startup task
         protected override void OnResume()
         {
             base.OnResume();
-            Task startupWork = new Task(() => { SimulateStartup(); });
-            startupWork.Start();
+
         }
 
         public override void OnBackPressed() { }
@@ -40,23 +62,31 @@ namespace CompliXpertApp.Droid
             //await Task.Delay(8000); // Simulate a bit of startup work.
             // check for permissons
             if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.ReadExternalStorage) != (int) Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) != (int) Permission.Granted)
-                RequestStoragePermissions();            
+                RequestStoragePermissions();
             else
-                StartActivity(new Intent(Application.Context, typeof(MainActivity)));           
+                StartActivity(new Intent(Application.Context, typeof(MainActivity)));
         }
 
-        private  void RequestStoragePermissions()
+        private void RequestStoragePermissions()
         {
             ActivityCompat.RequestPermissions(this, PERMISSIONS_STORAGE, REQUEST_STORAGE);
         }
 
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        public override async void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
-            if(requestCode == 1)
+            //means the user made a selection 
+            if (requestCode == 1)
             {
-                //start the main actib
-                //here is when the main activity is started
+                //check to see if the permission has been granted
+                if (grantResults.Length > 0 && grantResults[0] == Permission.Granted)
+                {
+
+                }
                 StartActivity(new Intent(Application.Context, typeof(MainActivity)));
+            }
+            else
+            {
+                //do nothing
             }
         }
     }
