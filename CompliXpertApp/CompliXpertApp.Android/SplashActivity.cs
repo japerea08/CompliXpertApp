@@ -3,9 +3,12 @@ using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
+using Android.Support.Design.Widget;
 using Android.Support.V4.App;
 using Android.Support.V7.App;
 using Android.Util;
+using Android.Views;
+using System;
 using System.Threading.Tasks;
 
 namespace CompliXpertApp.Droid
@@ -38,12 +41,17 @@ namespace CompliXpertApp.Droid
                 // storage permission is not granted. If necessary display rationale & request.
                 if (ActivityCompat.ShouldShowRequestPermissionRationale(this, Manifest.Permission.WriteExternalStorage) || ActivityCompat.ShouldShowRequestPermissionRationale(this, Manifest.Permission.ReadExternalStorage))
                 {
+                    var view = FindViewById(Android.Resource.Id.Content);
 
+                    Snackbar.Make(view, "CompliXpert App Needs To Access File Storage", Snackbar.LengthIndefinite).SetAction("Ok", new Action<View>(delegate(View obj) {
+                        ActivityCompat.RequestPermissions(this, PERMISSIONS_STORAGE, REQUEST_STORAGE);
+                    })).Show();
+                }
+                else
+                {
+                    ActivityCompat.RequestPermissions(this, PERMISSIONS_STORAGE, REQUEST_STORAGE);
                 }
             }
-
-            Task startupWork = new Task(() => { SimulateStartup(); });
-            startupWork.Start();
         }
 
         // Launches the startup task
@@ -56,23 +64,18 @@ namespace CompliXpertApp.Droid
         public override void OnBackPressed() { }
 
         // Simulates background work that happens behind the splash screen
-        void SimulateStartup()
-        {
-            Log.Debug(TAG, "Performing some startup work that takes a bit of time.");
-            //await Task.Delay(8000); // Simulate a bit of startup work.
-            // check for permissons
-            if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.ReadExternalStorage) != (int) Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) != (int) Permission.Granted)
-                RequestStoragePermissions();
-            else
-                StartActivity(new Intent(Application.Context, typeof(MainActivity)));
-        }
+        //void SimulateStartup()
+        //{
+        //    Log.Debug(TAG, "Performing some startup work that takes a bit of time.");
+        //    //await Task.Delay(8000); // Simulate a bit of startup work.
+        //    // check for permissons
+        //    if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.ReadExternalStorage) != (int) Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) != (int) Permission.Granted)
+  
+        //    else
+        //        StartActivity(new Intent(Application.Context, typeof(MainActivity)));
+        //}
 
-        private void RequestStoragePermissions()
-        {
-            ActivityCompat.RequestPermissions(this, PERMISSIONS_STORAGE, REQUEST_STORAGE);
-        }
-
-        public override async void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
             //means the user made a selection 
             if (requestCode == 1)
@@ -80,13 +83,19 @@ namespace CompliXpertApp.Droid
                 //check to see if the permission has been granted
                 if (grantResults.Length > 0 && grantResults[0] == Permission.Granted)
                 {
-
+                    //start the activity
+                    StartActivity(new Intent(Application.Context, typeof(MainActivity)));
                 }
-                StartActivity(new Intent(Application.Context, typeof(MainActivity)));
-            }
-            else
-            {
-                //do nothing
+                else
+                {
+                    var view = FindViewById(Android.Resource.Id.Content);
+                    //display a snackbar indicating
+                    Snackbar.Make(view, "You Must Allow CompliXpert Access to Files", Snackbar.LengthIndefinite).SetAction("Ok", new Action<View>(delegate (View obj) {
+                        var activity = (Activity) this;
+                        activity.FinishAffinity();
+                        base.OnStop();
+                    })).Show();
+                }
             }
         }
     }
