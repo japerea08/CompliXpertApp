@@ -8,7 +8,9 @@ using Android.Support.V4.App;
 using Android.Support.V7.App;
 using Android.Util;
 using Android.Views;
+using Android.Widget;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace CompliXpertApp.Droid
@@ -34,6 +36,8 @@ namespace CompliXpertApp.Droid
             if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.ReadExternalStorage) == (int) Permission.Granted && ActivityCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) == (int) Permission.Granted)
             {
                 //we have permission, go ahead with the app
+                //create the folder async
+                CheckFolder().Wait();
                 StartActivity(new Intent(Application.Context, typeof(MainActivity)));
             }
             else
@@ -54,7 +58,20 @@ namespace CompliXpertApp.Droid
             }
         }
 
-        // Launches the startup task
+
+        private async Task CheckFolder()
+        {
+            string path = Android.OS.Environment.ExternalStorageDirectory.AbsolutePath + "/CompliXpert";
+            //check to see if the folder exists
+            if (Directory.Exists(path) == false)
+            {
+                var directory = await Task.Run(() => Directory.CreateDirectory(path));
+                var context = Android.App.Application.Context;
+                string message = directory.FullName + " has been created!";
+                Toast.MakeText(context, message, ToastLength.Long).Show();
+            }
+        }
+
         protected override void OnResume()
         {
             base.OnResume();
@@ -63,19 +80,7 @@ namespace CompliXpertApp.Droid
 
         public override void OnBackPressed() { }
 
-        // Simulates background work that happens behind the splash screen
-        //void SimulateStartup()
-        //{
-        //    Log.Debug(TAG, "Performing some startup work that takes a bit of time.");
-        //    //await Task.Delay(8000); // Simulate a bit of startup work.
-        //    // check for permissons
-        //    if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.ReadExternalStorage) != (int) Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) != (int) Permission.Granted)
-  
-        //    else
-        //        StartActivity(new Intent(Application.Context, typeof(MainActivity)));
-        //}
-
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        public override async void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
             //means the user made a selection 
             if (requestCode == 1)
@@ -83,6 +88,7 @@ namespace CompliXpertApp.Droid
                 //check to see if the permission has been granted
                 if (grantResults.Length > 0 && grantResults[0] == Permission.Granted)
                 {
+                    await CheckFolder();
                     //start the activity
                     StartActivity(new Intent(Application.Context, typeof(MainActivity)));
                 }
@@ -93,7 +99,6 @@ namespace CompliXpertApp.Droid
                     Snackbar.Make(view, "You Must Allow CompliXpert Access to Files", Snackbar.LengthIndefinite).SetAction("Ok", new Action<View>(delegate (View obj) {
                         var activity = (Activity) this;
                         activity.FinishAffinity();
-                        base.OnStop();
                     })).Show();
                 }
             }
