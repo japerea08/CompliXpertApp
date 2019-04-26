@@ -3,6 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CompliXpertApp.Views.AccountListScreen"
              Title="CompliXpert">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="+ Add Customer"
+                     Command="{Binding AddCustomerCommand}"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Resources>
         <Style x:Key="rowStyle" TargetType="Button">
             <Setter Property="TextColor" Value="Black" />

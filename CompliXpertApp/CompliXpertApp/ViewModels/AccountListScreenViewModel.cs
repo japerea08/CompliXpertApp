@@ -1,7 +1,7 @@
 ﻿using CompliXpertApp.Helpers;
 using CompliXpertApp.Models;
+using CompliXpertApp.Views;
 using System.Collections.Generic;
-using System.ComponentModel;
 using Xamarin.Forms;
 
 namespace CompliXpertApp.ViewModels
@@ -13,9 +13,17 @@ namespace CompliXpertApp.ViewModels
         {
             customer = new Account();
             Accounts = accounts;
+            AddCustomerCommand = new Command(AddCustomer);
+        }
+
+        public async void AddCustomer()
+        {
+            await App.Current.MainPage.Navigation.PushAsync(new AddCustomerScreen());
         }
 
         //properties
+        public Command AddCustomerCommand { get; }
+
         public List<Account> Accounts { get; set; }
         public Account CustomerSelected
         {

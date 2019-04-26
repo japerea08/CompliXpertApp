@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CompliXpertApp.Views.AddCustomerScreen"
+             Title="CompliXpert">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Margin="20,5">
+                <Label Text="Add a Customer"
+                       Margin="0,0,0,20"
+                   FontAttributes="Bold"
+                   FontSize="Large"
+                   HorizontalTextAlignment="Start"/>
+                <Label Text="Enter Customer Name"
+                   FontAttributes="Bold"
+                   FontSize="Medium"/>
+                <Entry/>
+                <Label Text="Account Status"
+                   FontAttributes="Bold"
+                   FontSize="Medium"/>
+                <Picker Title="Select Status">
+                    <Picker.Items>
+                        <x:String>Active Account</x:String>
+                        <x:String>Inactive Account</x:String>
+                    </Picker.Items>
+                </Picker>
+                <Label Text="Account Type"
+                   FontAttributes="Bold"
+                   FontSize="Medium"/>
+                <Picker Title="Select Type">
+                    <Picker.Items>
+                        <x:String>Corporation</x:String>
+                        <x:String>Individual</x:String>
+                    </Picker.Items>
+                </Picker>
+                <Label Text="Account Class"
+                   FontAttributes="Bold"
+                   FontSize="Medium"/>
+                <Picker Title="Select Class">
+                    <Picker.Items>
+                        <x:String>None</x:String>
+                        <x:String>Demand Deposit Account</x:String>
+                        <x:String>Money Market</x:String>
+                    </Picker.Items>
+                </Picker>
+                <Button Text="Add Customer" BackgroundColor="#428bca" TextColor="White"></Button>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
