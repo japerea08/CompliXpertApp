@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace CompliXpertApp.ViewModels
@@ -97,6 +96,7 @@ namespace CompliXpertApp.ViewModels
                 {
                     accounts = JsonConvert.DeserializeObject<List<Account>>(json);
                 }
+                //database access here...
                 IsBusy = false;
                 //launch the next activity
                 await App.Current.MainPage.Navigation.PushAsync(new AccountListScreen(accounts));

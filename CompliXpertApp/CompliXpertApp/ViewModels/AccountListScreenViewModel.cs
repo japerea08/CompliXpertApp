@@ -36,11 +36,12 @@ namespace CompliXpertApp.ViewModels
                 customer = value;
                 if (customer == null)
                     return;
-                callNextScreen();
+                CallReportScreen();
+
             }
         }
         //
-        public void callNextScreen()
+        public void CallReportScreen()
         {
             DependencyService.Get<IToast>().WriteToast(CustomerSelected.CustomerName);
         }
