@@ -27,7 +27,6 @@ namespace CompliXpertApp.ViewModels
         }
 
         //properties
-        public ICommand OnValidationCommand { get; set; }
         public User User { get; set; }
         public Color UsernamePlaceholderColor
         {
