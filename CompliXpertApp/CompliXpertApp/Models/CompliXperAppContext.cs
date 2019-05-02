@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace CompliXpertApp.Models
 {
     public partial class CompliXperAppContext: DbContext
     {
+        private string databaseName = "CompliXpertDB.db";
         public CompliXperAppContext()
         {
             Database.EnsureCreated();
@@ -22,9 +24,10 @@ namespace CompliXpertApp.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),databaseName);
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=tcp:sydeltest01.database.windows.net,1433;Initial Catalog=CompliXpertLite;Persist Security Info=False;User ID=sydeladmin;Password=#Baseball08;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                optionsBuilder.UseSqlite($"Filename={databasePath}");
             }
         }
 

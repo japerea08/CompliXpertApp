@@ -1,28 +1,32 @@
 ﻿using CompliXpertApp.Helpers;
 using CompliXpertApp.Models;
 using CompliXpertApp.Views;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace CompliXpertApp.ViewModels
 {
-    class LoginViewModel : INotifyPropertyChanged, IRWExternalStorage
+    class LoginViewModel : INotifyPropertyChanged
     {
         private readonly string userNamePlaceholder = "Enter Username";
         private readonly string passwordPlaceholder = "Enter Password";
         private bool isBusy = false;
+        private bool canLogin = true;
         private Color usernamePlaceholderColor = Color.Default;
         private Color passwordPlaceholderColor = Color.Default;
 
         public LoginViewModel()
         {
             User = new User();
-            CheckLoginCredentialsCommand = new Command(CheckLoginCredentials);
+            CheckLoginCredentialsCommand = new Command(async () => await CheckLoginCredentialsAsync(), () => canLogin);
         }
 
         //properties
@@ -75,7 +79,7 @@ namespace CompliXpertApp.ViewModels
 
         //methods
         //databind to this command property
-        public Command CheckLoginCredentialsCommand { get; }
+        public ICommand CheckLoginCredentialsCommand { get; private set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -84,22 +88,26 @@ namespace CompliXpertApp.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        async void CheckLoginCredentials()
+        void CanAttemptLogin(bool value)
         {
-            if(String.IsNullOrEmpty(Username) == false && String.IsNullOrEmpty(Password) == false)
+            canLogin = value;
+            ((Command) CheckLoginCredentialsCommand).ChangeCanExecute();
+        }
+        async Task CheckLoginCredentialsAsync()
+        {
+            
+            if (String.IsNullOrEmpty(Username) == false && String.IsNullOrEmpty(Password) == false)
             {
-                List<Account> accounts = new List<Account>();
-                //check for the file that has our data async
+                CanAttemptLogin(false);
+                //List<Account> accounts = new List<Account>();
                 IsBusy = true;
-                string json = await ReadFileAsync();
-                if(json != null)
-                {
-                    accounts = JsonConvert.DeserializeObject<List<Account>>(json);
-                }
-                //database access here...
+                List<Account> accounts = await Task.Run(()=> GetJsonAsync());
+                await Task.Run(()=> AddAccountsAsync(accounts));
+                accounts = await Task.Run(() => GetAccountsAsync());
                 IsBusy = false;
                 //launch the next activity
                 await App.Current.MainPage.Navigation.PushAsync(new AccountListScreen(accounts));
+                CanAttemptLogin(true);
             }
             else
             {
@@ -111,15 +119,64 @@ namespace CompliXpertApp.ViewModels
             }
         }
 
+        public async Task<List<Account>> GetAccountsAsync()
+        {
+            using (var context = new CompliXperAppContext())
+            {
+                //get all accounts 
+                var accounts = context.Account;
+                foreach (var account in accounts)
+                {
+                    account.CallReport = await (
+                            from _report in context.CallReport
+                            where _report.AccountNumber == account.AccountNumber
+                            select new CallReport
+                            {
+                                CallReportId = _report.CallReportId,
+                                Purpose = _report.Purpose,
+                                OfficerComments = _report.OfficerComments,
+                                OtherComments = _report.OtherComments,
+                                CustomerComments = _report.CustomerComments,
+                                AccountNumber = _report.AccountNumber
+
+                            }
+                        ).ToArrayAsync();
+
+                    account.FatcaQuestionnaire = await (
+                            from _fatca in context.FatcaQuestionnaire
+                            where _fatca.AccountNumber == account.AccountNumber
+                            select new FatcaQuestionnaire
+                            {
+                                QuestionnaireId = _fatca.QuestionnaireId,
+                                Nationality = _fatca.Nationality,
+                                ReasonforAlert = _fatca.ReasonforAlert,
+                                CustomerResponse = _fatca.CustomerResponse,
+                                AccountNumber = _fatca.AccountNumber,
+                            }
+                        ).ToArrayAsync();
+                }
+                return await accounts.ToListAsync();
+            }
+        }
+        public async Task AddAccountsAsync(List<Account> accounts)
+        {
+            using (var context = new CompliXperAppContext())
+            {
+                //add accounts that do not exist in the database
+                var newAccounts = accounts.Where(account => context.Account.Any(dbAccount => dbAccount.AccountNumber == account.AccountNumber) == false).ToList();
+                await context.Account.AddRangeAsync(newAccounts);
+                await context.SaveChangesAsync();
+
+            }
+        }
         public Task<string> WriteFileAsync(string filePath, string jsonString)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<string> ReadFileAsync()
+        public async Task<List<Account>> GetJsonAsync()
         {
-            var json = await DependencyService.Get<IRWExternalStorage>().ReadFileAsync();
-            return json;
+            return JsonConvert.DeserializeObject<List<Account>>(await DependencyService.Get<IRWExternalStorage>().ReadFileAsync());
         }
     }
 }
