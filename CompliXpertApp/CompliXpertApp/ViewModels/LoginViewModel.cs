@@ -102,8 +102,7 @@ namespace CompliXpertApp.ViewModels
                 //List<Account> accounts = new List<Account>();
                 IsBusy = true;
                 List<Account> accounts = await Task.Run(()=> GetJsonAsync());
-                await Task.Run(()=> AddAccountsAsync(accounts));
-                accounts = await Task.Run(() => GetAccountsAsync());
+                accounts = await Task.Run(() => AddandGetAccounts(accounts));
                 IsBusy = false;
                 //launch the next activity
                 await App.Current.MainPage.Navigation.PushAsync(new AccountListScreen(accounts));
@@ -119,9 +118,9 @@ namespace CompliXpertApp.ViewModels
             }
         }
 
-        public async Task<List<Account>> GetAccountsAsync()
+        public async Task<List<Account>> GetAccountsAsync(CompliXperAppContext context)
         {
-            using (var context = new CompliXperAppContext())
+            using (context)
             {
                 //get all accounts 
                 var accounts = context.Account;
@@ -158,22 +157,27 @@ namespace CompliXpertApp.ViewModels
                 return await accounts.ToListAsync();
             }
         }
-        public async Task AddAccountsAsync(List<Account> accounts)
+
+        public async Task<List<Account>> AddandGetAccounts(List<Account> accounts)
         {
             using (var context = new CompliXperAppContext())
             {
                 //add accounts that do not exist in the database
-                var newAccounts = accounts.Where(account => context.Account.Any(dbAccount => dbAccount.AccountNumber == account.AccountNumber) == false).ToList();
-                await context.Account.AddRangeAsync(newAccounts);
-                await context.SaveChangesAsync();
-
+                var newAccounts = accounts.Where(account => context.Account.Any(dbAccount => dbAccount.AccountNumber == account.AccountNumber) == false);
+                //means there are new accounts to be added to DB
+                if(newAccounts.Count() > 0)
+                {
+                    await context.Account.AddRangeAsync(newAccounts);
+                    await context.SaveChangesAsync();
+                    return await GetAccountsAsync(context);
+                }
+                else
+                {
+                    //no new accounts
+                    return accounts;
+                }
             }
         }
-        public Task<string> WriteFileAsync(string filePath, string jsonString)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<List<Account>> GetJsonAsync()
         {
             return JsonConvert.DeserializeObject<List<Account>>(await DependencyService.Get<IRWExternalStorage>().ReadFileAsync());
