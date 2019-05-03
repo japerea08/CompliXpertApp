@@ -2,13 +2,19 @@
 using CompliXpertApp.Models;
 using CompliXpertApp.Views;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace CompliXpertApp.ViewModels
 {
-    class AccountListScreenViewModel
+    class AccountListScreenViewModel : INotifyPropertyChanged
     {
-        private Account customer { get; set; }
+        private bool isBusy = false;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public AccountListScreenViewModel(List<Account> accounts)
         {
             customer = new Account();
@@ -22,8 +28,17 @@ namespace CompliXpertApp.ViewModels
         }
 
         //properties
+        private Account customer { get; set; }
         public Command AddCustomerCommand { get; }
-
+        public bool IsBusy
+        {
+            get { return isBusy; }
+            set
+            {
+                isBusy = value;
+                OnPropertyChanged();
+            }
+        }
         public List<Account> Accounts { get; set; }
         public Account CustomerSelected
         {
@@ -32,18 +47,23 @@ namespace CompliXpertApp.ViewModels
                 return customer;
             }
             set
-            {
+            {               
                 customer = value;
                 if (customer == null)
                     return;
-                CallReportScreen();
-
+                GetAccountMaster(CustomerSelected);
             }
         }
-        //
-        public void CallReportScreen()
+        //methods
+        async void GetAccountMaster(Account account)
         {
-            DependencyService.Get<IToast>().WriteToast(CustomerSelected.CustomerName);
+            IsBusy = true;
+            await App.Current.MainPage.Navigation.PushAsync(new AccountMaster(account));
+            IsBusy = false;
+        }
+        void OnPropertyChanged([CallerMemberName] string name = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }

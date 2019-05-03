@@ -99,12 +99,10 @@ namespace CompliXpertApp.ViewModels
             if (String.IsNullOrEmpty(Username) == false && String.IsNullOrEmpty(Password) == false)
             {
                 CanAttemptLogin(false);
-                //List<Account> accounts = new List<Account>();
                 IsBusy = true;
                 List<Account> accounts = await Task.Run(()=> GetJsonAsync());
                 accounts = await Task.Run(() => AddandGetAccounts(accounts));
                 IsBusy = false;
-                //launch the next activity
                 await App.Current.MainPage.Navigation.PushAsync(new AccountListScreen(accounts));
                 CanAttemptLogin(true);
             }

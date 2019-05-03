@@ -33,7 +33,7 @@
                         <Label Grid.Column="1"
                                Grid.Row="0"
                                HorizontalOptions="Fill"
-                               Text="Customer Name"
+                               Text="Account Title"
                                HorizontalTextAlignment="Center"
                                Style="{StaticResource rowStyle}"/>
                     </Grid>
@@ -66,6 +66,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <ActivityIndicator IsRunning="{Binding IsBusy}"></ActivityIndicator>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
