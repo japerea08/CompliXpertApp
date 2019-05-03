@@ -60,7 +60,7 @@ namespace CompliXpertApp.ViewModels
         }
         async Task GoToCreateCallReportAsync()
         {
-            await App.Current.MainPage.Navigation.PushAsync(new CreateCallReportScreen());
+            await App.Current.MainPage.Navigation.PushAsync(new CreateCallReportScreen(Customer));
         }
     }
 }
