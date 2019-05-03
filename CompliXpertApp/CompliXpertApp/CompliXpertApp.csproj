@@ -36,10 +36,10 @@
     <EmbeddedResource Update="Views\CallReportsList.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\LoginScreen.xaml">
+    <EmbeddedResource Update="Views\CreateCallReportScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\NewCallReportScreen.xaml">
+    <EmbeddedResource Update="Views\LoginScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

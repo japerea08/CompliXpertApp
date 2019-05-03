@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace CompliXpertApp.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class NewCallReportScreen : ContentPage
+	public partial class CreateCallReportScreen : ContentPage
 	{
-		public NewCallReportScreen ()
+		public CreateCallReportScreen ()
 		{
 			InitializeComponent ();
 		}

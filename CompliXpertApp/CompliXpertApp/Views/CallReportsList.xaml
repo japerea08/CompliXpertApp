@@ -1,12 +1,66 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CompliXpertApp.Views.CallReportsList">
+             x:Class="CompliXpertApp.Views.CallReportsList"
+             Title="CompliXpert">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout Margin="15">
+            <ListView ItemsSource="{Binding CallReports}">
+                <ListView.Header>
+                    <Grid BackgroundColor="#ddd">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0"
+                               Grid.Row="0"
+                               Text="Officer"/>
+                        <Label Grid.Column="1"
+                               Grid.Row="0"
+                               Text="Position"/>
+                        <Label Grid.Column="2"
+                               Grid.Row="0"
+                               Text="Reason"/>
+                        <Label Grid.Column="3"
+                               Grid.Row="0"
+                               Text="Call Date"/>
+                    </Grid>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0"
+                                       Grid.Row="0"
+                                       Text="{Binding Officer}"
+                                       />
+                                <Label Grid.Column="1"
+                                       Grid.Row="0"
+                                       Text="{Binding Position}"/>
+                                <Label Grid.Column="2"
+                                       Grid.Row="0"
+                                       Text="{Binding Reason}"/>
+                                <Label Grid.Column="3"
+                                       Grid.Row="0"
+                                       Text="{Binding CallDate}"
+                                       HorizontalTextAlignment="End"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

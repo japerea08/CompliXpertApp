@@ -6,6 +6,10 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Margin="20">
+                <Label Text="Account Master"
+                       FontAttributes="Bold"
+                       FontSize="Large"
+                       Margin="0,0,0,15"/>
                 <Label Text="Account Number"
                        FontAttributes="Bold"
                        FontSize="Medium"/>
@@ -43,8 +47,8 @@
                        TextDecorations="Underline"
                        FontSize="Small"/>
                 <StackLayout Orientation="Horizontal" Padding="0,10,0,0">
-                    <Button Text="View Call Reports" BackgroundColor="#428bca" TextColor="White"/>
-                    <Button Text="New Call Report" BackgroundColor="#428bca" TextColor="White"/>
+                    <Button Text="View Call Reports" BackgroundColor="#428bca" TextColor="White" Command="{Binding ViewCallReportsCommand}"/>
+                    <Button Text="New Call Report" BackgroundColor="#428bca" TextColor="White" Command="{Binding GoToCreateCallReportCommand}"/>
                 </StackLayout>
             </StackLayout>
         </ScrollView>

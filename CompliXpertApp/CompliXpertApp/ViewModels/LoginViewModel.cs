@@ -134,8 +134,16 @@ namespace CompliXpertApp.ViewModels
                                 OfficerComments = _report.OfficerComments,
                                 OtherComments = _report.OtherComments,
                                 CustomerComments = _report.CustomerComments,
-                                AccountNumber = _report.AccountNumber
-
+                                AccountNumber = _report.AccountNumber,
+                                Officer = _report.Officer,
+                                Position = _report.Position,
+                                Reason = _report.Reason,
+                                CallDate = _report.CallDate.Date,
+                                Status = _report.Status,
+                                Reference = _report.Reference,
+                                ApprovedBy = _report.ApprovedBy,
+                                ApprovedDate = _report.ApprovedDate,
+                                LastUpdated = _report.LastUpdated,
                             }
                         ).ToArrayAsync();
 

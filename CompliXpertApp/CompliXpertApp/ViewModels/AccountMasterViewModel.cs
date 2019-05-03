@@ -1,13 +1,19 @@
 ﻿using CompliXpertApp.Models;
-using System;
+using CompliXpertApp.Views;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace CompliXpertApp.ViewModels
 {
     class AccountMasterViewModel
     {
+        //attributes
+        private bool canTap = true;
         //properties
+        public ICommand ViewCallReportsCommand { get; private set; }
+        public ICommand GoToCreateCallReportCommand { get; private set; }
         public Account Customer { get; set; }
         public int AccountNumber
         {
@@ -38,6 +44,23 @@ namespace CompliXpertApp.ViewModels
         {
             Customer = new Account();
             Customer = account;
+            ViewCallReportsCommand = new Command(async () => await ViewCallReportsAsync(), () => canTap);
+            GoToCreateCallReportCommand = new Command(async () => await GoToCreateCallReportAsync());
+        }
+
+        //methods
+        async Task ViewCallReportsAsync()
+        {
+            List<CallReport> callReportList = new List<CallReport>();
+            //get all the Callreport
+            foreach (var callReport in Customer.CallReport)
+                callReportList.Add(callReport);
+
+            await App.Current.MainPage.Navigation.PushAsync(new CallReportsList(callReportList));
+        }
+        async Task GoToCreateCallReportAsync()
+        {
+            await App.Current.MainPage.Navigation.PushAsync(new CreateCallReportScreen());
         }
     }
 }
