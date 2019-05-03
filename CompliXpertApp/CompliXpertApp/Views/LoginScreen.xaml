@@ -6,7 +6,9 @@
         <StackLayout Margin="16" Spacing="20" Padding="0,100,0,0">
             <Image Source="compli_logo.png"></Image>
             <StackLayout Margin="16">
-                <Label Text="Enter Your Login Credentials"></Label>
+                <Label Text="Enter Your Login Credentials"
+                       FontSize="Medium"
+                       FontAttributes="Bold"></Label>
                 <Entry Placeholder="{Binding UsernamePlaceholder}" Text="{Binding Username}" PlaceholderColor="{Binding UsernamePlaceholderColor}"></Entry>
                 <Entry Placeholder="{Binding PasswordPlaceholder}" Text="{Binding Password}"  IsPassword="True" PlaceholderColor="{Binding PasswordPlaceholderColor}"></Entry>
                 <Button Text="Login" BackgroundColor="#428bca" TextColor="White" Command="{Binding CheckLoginCredentialsCommand}"></Button>
