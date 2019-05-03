@@ -15,8 +15,7 @@
         </Style>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout>
+        <StackLayout Margin="15">
                 <ListView ItemsSource="{Binding Accounts}"
                       SelectedItem="{Binding CustomerSelected}">
                     <ListView.Header>
@@ -67,8 +66,7 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <ActivityIndicator IsRunning="{Binding IsBusy}"></ActivityIndicator>
-            </StackLayout>
-        </ScrollView>
+            <Button Text="Download Accounts" BackgroundColor="#428bca" TextColor="White"/>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
