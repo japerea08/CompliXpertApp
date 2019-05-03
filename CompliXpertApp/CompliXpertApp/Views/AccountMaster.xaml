@@ -1,12 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CompliXpertApp.Views.AccountMaster">
+             x:Class="CompliXpertApp.Views.AccountMaster"
+             Title="CompliXpert">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <ScrollView>
+            <StackLayout>
+                <Label Text="Account Number"
+                       FontAttributes="Bold"/>
+                <Label Text="{Binding AccountNumber}"/>
+                <Label Text="Customer Number"
+                       FontAttributes="Bold"/>
+                <Label Text="{Binding CustomerNumber}"/>
+                <Label Text="Status"
+                       FontAttributes="Bold"/>
+                <Label Text="{Binding Status}"/>
+                <Label Text="Legal Type"
+                       FontAttributes="Bold"/>
+                <Label Text="{Binding AccountType}"/>
+                <Label Text="Account Class"
+                       FontAttributes="Bold"/>
+                <Label Text="{Binding AccountClass}"/>
+                <Label Text="Country"
+                       FontAttributes="Bold"/>
+                <Label Text="{Binding Country}"/>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
