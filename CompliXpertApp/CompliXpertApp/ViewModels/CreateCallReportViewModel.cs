@@ -9,7 +9,7 @@ namespace CompliXpertApp.ViewModels
         //attributes
         private bool customerVisitSelected = false;
         private bool fatcaQuestionnaireSelected = false;
-        private int selection = 99;
+        private int selection = -1;
         public CreateCallReportViewModel(Account account)
         {
             Account = account;

@@ -14,7 +14,7 @@
                    FontSize="Small"/>
                 <Label Text="{Binding AccountNumber}"/>
                 <Picker Title="Select a Reason"
-                    SelectedIndex="{Binding SelectedReason}">
+                        SelectedIndex="{Binding SelectedReason}">
                     <Picker.Items>
                         <x:String>Customer Visit</x:String>
                         <x:String>FATCA Questionnaire</x:String>
