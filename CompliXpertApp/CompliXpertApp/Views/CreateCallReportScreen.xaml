@@ -65,13 +65,18 @@
                        FontSize="Small"/>
                     <Entry/>
                 </StackLayout>
-                <StackLayout Orientation="Horizontal"
-                             HorizontalOptions="FillAndExpand">
-                    <Button Text="Save" BackgroundColor="#428bca" TextColor="White"></Button>
-                    <Button Text="Delete" BackgroundColor="#f44242" TextColor="White"></Button>
-                </StackLayout>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Text="Save" BackgroundColor="#428bca" TextColor="White"></Button>
+                    <Button Grid.Column="1" Text="Delete" BackgroundColor="#f44242" TextColor="White"></Button>
+                </Grid>
             </StackLayout>
         </ScrollView>
-        
     </ContentPage.Content>
 </ContentPage>
