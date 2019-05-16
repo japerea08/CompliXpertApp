@@ -8,12 +8,10 @@ using Xamarin.Forms;
 
 namespace CompliXpertApp.ViewModels
 {
-    class AccountListScreenViewModel : INotifyPropertyChanged
+    class AccountListScreenViewModel : AbstractNotifyPropertyChanged
     {
-        private string _accounts;
         private bool isBusy = false;
-        private List<Account> _accountList = new List<Account>();
-        public event PropertyChangedEventHandler PropertyChanged;
+        private List<Account> _accountList;
 
         public AccountListScreenViewModel()
         {
@@ -21,10 +19,9 @@ namespace CompliXpertApp.ViewModels
             {
                 Accounts = args;
             });
-            Customer = new Account();
             AddCustomerCommand = new Command(AddCustomer);
         }
-
+        //to be used for future development
         public async void AddCustomer()
         {
             await App.Current.MainPage.Navigation.PushAsync(new AddCustomerScreen());
@@ -75,10 +72,6 @@ namespace CompliXpertApp.ViewModels
             await App.Current.MainPage.Navigation.PushAsync(new AccountMaster());
             MessagingCenter.Send<AccountListScreenViewModel, Account>(this, Message.CustomerLoaded, account);
             IsBusy = false;
-        }
-        void OnPropertyChanged([CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }

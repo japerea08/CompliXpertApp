@@ -1,24 +1,34 @@
 ﻿using CompliXpertApp.Models;
 using System;
 using System.Collections.Generic;
+using CompliXpertApp.Helpers;
+using Xamarin.Forms;
 
 namespace CompliXpertApp.ViewModels
 {
-    class CallReportListViewModel
+    class CallReportListViewModel: AbstractNotifyPropertyChanged
     {
+        //attributes
+        private List<CallReport> _callReportsList;
+        private CallReport _callReport;
+        
         //constructor
-        public CallReportListViewModel(List<CallReport> callReports)
+        public CallReportListViewModel()
         {
-            CallReports = callReports;
+            MessagingCenter.Subscribe<AccountMasterViewModel, List<CallReport>>(this, Message.CallReportListLoaded, (sender, args) => { CallReports = args; });
         }
         //properties
-        public List<CallReport> CallReports { get; set; }
-        public CallReport ReportSelected { get; set; }
-        public int CallReportId { get { return ReportSelected.CallReportId; } }
-        public string Officer { get { return ReportSelected.Officer; } }
-        public string Position { get { return ReportSelected.Position; } }
-        public string Reason { get { return ReportSelected.Reason; } }
-        public DateTime CallDate { get { return ReportSelected.CallDate.Date; } }
-        public string Status { get { return ReportSelected.Status; } }
+        public List<CallReport> CallReports
+        {
+            get
+            {
+                return _callReportsList;
+            }
+            set
+            {
+                _callReportsList = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }

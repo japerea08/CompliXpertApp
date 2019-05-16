@@ -9,10 +9,10 @@ namespace CompliXpertApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class CallReportsList : ContentPage
 	{
-		public CallReportsList (List<CallReport> callReports)
+		public CallReportsList ()
 		{
 			InitializeComponent ();
-            BindingContext = new CallReportListViewModel(callReports);
+            BindingContext = new CallReportListViewModel();
 		}
 	}
 }

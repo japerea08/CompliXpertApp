@@ -20,5 +20,12 @@ namespace CompliXpertApp.Helpers
                 return "customerloaded";
             }
         }
+        public static string CallReportListLoaded
+        {
+            get
+            {
+                return "callreportlistloaded";
+            }
+        }
     }
 }

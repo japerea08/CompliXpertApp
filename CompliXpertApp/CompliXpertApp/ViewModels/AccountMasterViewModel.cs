@@ -10,12 +10,11 @@ using Xamarin.Forms;
 
 namespace CompliXpertApp.ViewModels
 {
-    class AccountMasterViewModel : INotifyPropertyChanged
+    class AccountMasterViewModel : AbstractNotifyPropertyChanged
     {
         //attributes
         private bool canTap = true;
-        private Account _customer = new Account();
-        public event PropertyChangedEventHandler PropertyChanged;
+        private Account _customer;
 
         //properties
         public ICommand ViewCallReportsCommand { get; private set; }
@@ -51,15 +50,13 @@ namespace CompliXpertApp.ViewModels
             foreach (var callReport in Customer.CallReport)
                 callReportList.Add(callReport);
 
-            await App.Current.MainPage.Navigation.PushAsync(new CallReportsList(callReportList));
+            await App.Current.MainPage.Navigation.PushAsync(new CallReportsList());
+            MessagingCenter.Send<AccountMasterViewModel, List<CallReport>>(this, Message.CallReportListLoaded, callReportList);
         }
         async Task GoToCreateCallReportAsync()
         {
             await App.Current.MainPage.Navigation.PushAsync(new CreateCallReportScreen(Customer));
         }
-        void OnPropertyChanged([CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
+        
     }
 }

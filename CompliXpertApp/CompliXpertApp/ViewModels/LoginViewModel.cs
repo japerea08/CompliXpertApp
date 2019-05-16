@@ -14,7 +14,7 @@ using Xamarin.Forms;
 
 namespace CompliXpertApp.ViewModels
 {
-    class LoginViewModel : INotifyPropertyChanged
+    class LoginViewModel : AbstractNotifyPropertyChanged
     {
         private readonly string userNamePlaceholder = "Enter Username";
         private readonly string passwordPlaceholder = "Enter Password";
@@ -25,6 +25,7 @@ namespace CompliXpertApp.ViewModels
 
         public LoginViewModel()
         {
+            //object for sigining in
             User = new User();
             CheckLoginCredentialsCommand = new Command(async () => await CheckLoginCredentialsAsync(), () => canLogin);
         }
@@ -80,13 +81,6 @@ namespace CompliXpertApp.ViewModels
         //methods
         //databind to this command property
         public ICommand CheckLoginCredentialsCommand { get; private set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        void OnPropertyChanged([CallerMemberName] string name="")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
 
         void CanAttemptLogin(bool value)
         {
