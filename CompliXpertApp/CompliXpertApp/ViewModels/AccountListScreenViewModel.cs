@@ -21,7 +21,7 @@ namespace CompliXpertApp.ViewModels
             {
                 Accounts = args;
             });
-            customer = new Account();
+            Customer = new Account();
             AddCustomerCommand = new Command(AddCustomer);
         }
 
@@ -31,7 +31,7 @@ namespace CompliXpertApp.ViewModels
         }
 
         //properties
-        private Account customer { get; set; }
+        private Account Customer { get; set; }
         public Command AddCustomerCommand { get; }
         public bool IsBusy
         {
@@ -58,12 +58,12 @@ namespace CompliXpertApp.ViewModels
         {
             get
             {
-                return customer;
+                return Customer;
             }
             set
             {               
-                customer = value;
-                if (customer == null)
+                Customer = value;
+                if (Customer == null)
                     return;
                 GetAccountMaster(CustomerSelected);
             }
@@ -72,7 +72,8 @@ namespace CompliXpertApp.ViewModels
         async void GetAccountMaster(Account account)
         {
             IsBusy = true;
-            await App.Current.MainPage.Navigation.PushAsync(new AccountMaster(account));
+            await App.Current.MainPage.Navigation.PushAsync(new AccountMaster());
+            MessagingCenter.Send<AccountListScreenViewModel, Account>(this, Message.CustomerLoaded, account);
             IsBusy = false;
         }
         void OnPropertyChanged([CallerMemberName] string name = "")

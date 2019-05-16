@@ -13,5 +13,12 @@ namespace CompliXpertApp.Helpers
                 return "accountslistloaded";
             }
         }
+        public static string CustomerLoaded
+        {
+            get
+            {
+                return "customerloaded";
+            }
+        }
     }
 }

@@ -8,10 +8,10 @@ namespace CompliXpertApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AccountMaster : ContentPage
 	{
-		public AccountMaster (Account account)
+		public AccountMaster ()
 		{
 			InitializeComponent ();
-            BindingContext = new AccountMasterViewModel(account);
+            BindingContext = new AccountMasterViewModel();
 		}
 	}
 }
