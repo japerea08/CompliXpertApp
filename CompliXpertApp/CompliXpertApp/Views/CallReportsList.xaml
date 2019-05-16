@@ -47,7 +47,7 @@
                                        HorizontalTextAlignment="Center"/>
                                 <Label Grid.Column="2"
                                        Grid.Row="0"
-                                       Text="{Binding CallDate}"/>
+                                       Text="{Binding Date}"/>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

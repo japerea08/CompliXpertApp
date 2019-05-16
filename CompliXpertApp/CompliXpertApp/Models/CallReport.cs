@@ -20,6 +20,13 @@ namespace CompliXpertApp.Models
         public string OtherComments { get; set; }
         public string CustomerComments { get; set; }
         public int? AccountNumber { get; set; }
+        public string Date
+        {
+            get
+            {
+                return CallDate.ToShortDateString();
+            }
+        }
 
         public Account AccountNumberNavigation { get; set; }
     }
