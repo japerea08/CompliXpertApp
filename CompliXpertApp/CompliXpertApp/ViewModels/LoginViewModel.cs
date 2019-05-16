@@ -102,8 +102,9 @@ namespace CompliXpertApp.ViewModels
                 IsBusy = true;
                 List<Account> accounts = await Task.Run(()=> GetJsonAsync());
                 accounts = await Task.Run(() => AddandGetAccounts(accounts));
-                IsBusy = false;
-                await App.Current.MainPage.Navigation.PushAsync(new AccountListScreen(accounts));
+                IsBusy = false;                
+                await App.Current.MainPage.Navigation.PushAsync(new AccountListScreen());
+                MessagingCenter.Send<LoginViewModel, List<Account>>(this, Message.AccountListLoaded, accounts);
                 CanAttemptLogin(true);
             }
             else

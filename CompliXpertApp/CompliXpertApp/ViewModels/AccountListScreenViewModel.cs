@@ -1,4 +1,5 @@
-﻿using CompliXpertApp.Models;
+﻿using CompliXpertApp.Helpers;
+using CompliXpertApp.Models;
 using CompliXpertApp.Views;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,14 +10,18 @@ namespace CompliXpertApp.ViewModels
 {
     class AccountListScreenViewModel : INotifyPropertyChanged
     {
+        private string _accounts;
         private bool isBusy = false;
-
+        private List<Account> _accountList = new List<Account>();
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public AccountListScreenViewModel(List<Account> accounts)
+        public AccountListScreenViewModel()
         {
+            MessagingCenter.Subscribe<LoginViewModel, List<Account>>(this, Message.AccountListLoaded, (sender, args) => 
+            {
+                Accounts = args;
+            });
             customer = new Account();
-            Accounts = accounts;
             AddCustomerCommand = new Command(AddCustomer);
         }
 
@@ -37,7 +42,18 @@ namespace CompliXpertApp.ViewModels
                 OnPropertyChanged();
             }
         }
-        public List<Account> Accounts { get; set; }
+        public List<Account> Accounts
+        {
+            get
+            {
+                return _accountList;
+            }
+            set
+            {
+                _accountList = value;
+                OnPropertyChanged();
+            }
+        }
         public Account CustomerSelected
         {
             get

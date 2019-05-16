@@ -9,11 +9,15 @@ namespace CompliXpertApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AccountListScreen : ContentPage
 	{
-		public AccountListScreen (List<Account> accounts)
+		public AccountListScreen ()
 		{
 			InitializeComponent ();
-            //binding context for data binding
-            BindingContext = new AccountListScreenViewModel(accounts);
+            BindingContext = new AccountListScreenViewModel();
         }
-	}
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            
+        }
+    }
 }
