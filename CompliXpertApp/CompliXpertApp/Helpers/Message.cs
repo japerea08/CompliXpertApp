@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CompliXpertApp.Helpers
+﻿namespace CompliXpertApp.Helpers
 {
     static class Message
     {
@@ -25,6 +21,20 @@ namespace CompliXpertApp.Helpers
             get
             {
                 return "callreportlistloaded";
+            }
+        }
+        public static string CallReportCreated
+        {
+            get
+            {
+                return "callreportcreated";
+            }
+        }
+        public static string FatcaCreated
+        {
+            get
+            {
+                return "fatcacreated";
             }
         }
     }

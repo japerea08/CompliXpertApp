@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CompliXpertApp.Views.CreateCallReportScreen">
+             x:Class="CompliXpertApp.Views.CreateCallReportScreen"
+             Title="CompliXpert">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Margin="15">
@@ -12,9 +13,14 @@
                 <Label Text="Account"
                    FontAttributes="Bold"
                    FontSize="Small"/>
-                <Label Text="{Binding AccountNumber}"/>
+                <Label Text="{Binding Account.AccountNumber}"/>
+                <Label Text="Customer Name"
+                   FontAttributes="Bold"
+                   FontSize="Small"/>
+                <Label Text="{Binding Account.CustomerName}"/>
                 <Picker Title="Select a Reason"
-                        SelectedIndex="{Binding SelectedReason}">
+                        SelectedItem="{Binding SelectedReason}"
+                        SelectedIndex="{Binding SelectedIndex}">
                     <Picker.Items>
                         <x:String>Customer Visit</x:String>
                         <x:String>FATCA Questionnaire</x:String>
@@ -27,45 +33,45 @@
                     <Label Text="Call Date"
                        FontAttributes="Bold"
                        FontSize="Small"/>
-                    <DatePicker></DatePicker>
+                    <DatePicker Date="{Binding NewCallReport.CallDate}"></DatePicker>
                     <Label Text="Reference"
                        FontAttributes="Bold"
                        FontSize="Small"/>
-                    <Entry/>
+                    <Entry Text="{Binding NewCallReport.Reference}"/>
                 </StackLayout>
                 <StackLayout IsVisible="{Binding CustomerVisitSelected}">
                     <Label Text="Purpose of Visit or Phone Call"
                        FontAttributes="Bold"
                        FontSize="Small"/>
-                    <Entry/>
+                    <Entry Text="{Binding NewCallReport.Purpose}"/>
                     <Label Text="Officer's Observations or Comments"
                        FontAttributes="Bold"
                        FontSize="Small"/>
-                    <Entry/>
+                    <Entry Text="{Binding NewCallReport.OfficerComments}"/>
                     <Label Text="Other Comments"
                        FontAttributes="Bold"
                        FontSize="Small"/>
-                    <Entry/>
+                    <Entry Text="{Binding NewCallReport.OtherComments}"/>
                     <Label Text="Customer Comments"
                        FontAttributes="Bold"
                        FontSize="Small"/>
-                    <Entry/>
+                    <Entry Text="{Binding NewCallReport.CustomerComments}"/>
                 </StackLayout>
                 <StackLayout IsVisible="{Binding FatcaSelected}">
                     <Label Text="Nationality"
                        FontAttributes="Bold"
                        FontSize="Small"/>
-                    <Entry/>
+                    <Entry Text="{Binding Fatca.Nationality}"/>
                     <Label Text="Reason for Alert"
                        FontAttributes="Bold"
                        FontSize="Small"/>
-                    <Entry/>
+                    <Entry Text="{Binding Fatca.ReasonforAlert}"/>
                     <Label Text="Customer Response"
                        FontAttributes="Bold"
                        FontSize="Small"/>
-                    <Entry/>
+                    <Entry Text="{Binding Fatca.CustomerResponse}"/>
                 </StackLayout>
-                <Grid>
+                <Grid Padding="0,0,0,10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
@@ -73,9 +79,10 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Text="Save" BackgroundColor="#428bca" TextColor="White"></Button>
+                    <Button Grid.Column="0" Text="Save" BackgroundColor="#428bca" TextColor="White" Command="{Binding SaveCallReportCommand}"></Button>
                     <Button Grid.Column="1" Text="Delete" BackgroundColor="#f44242" TextColor="White"></Button>
                 </Grid>
+                <ActivityIndicator IsVisible="{Binding IsBusy}"/>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

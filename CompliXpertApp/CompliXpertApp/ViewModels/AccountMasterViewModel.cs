@@ -2,8 +2,6 @@
 using CompliXpertApp.Models;
 using CompliXpertApp.Views;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -34,10 +32,13 @@ namespace CompliXpertApp.ViewModels
         //constructor
         public AccountMasterViewModel()
         {
+            //this message is for the incoming
             MessagingCenter.Subscribe<AccountListScreenViewModel, Account>(this, Message.CustomerLoaded, (sender, args) =>
             {
                 Customer = args;
             });
+            //this message is for the return
+            MessagingCenter.Subscribe<CreateCallReportViewModel, Account>(this, Message.CallReportCreated, (sender, account)=> { Customer = account; });
             ViewCallReportsCommand = new Command(async () => await ViewCallReportsAsync(), () => canTap);
             GoToCreateCallReportCommand = new Command(async () => await GoToCreateCallReportAsync());
         }
@@ -55,7 +56,8 @@ namespace CompliXpertApp.ViewModels
         }
         async Task GoToCreateCallReportAsync()
         {
-            await App.Current.MainPage.Navigation.PushAsync(new CreateCallReportScreen(Customer));
+            await App.Current.MainPage.Navigation.PushAsync(new CreateCallReportScreen());
+            MessagingCenter.Send<AccountMasterViewModel, Account>(this, Message.CustomerLoaded, Customer);
         }
         
     }

@@ -5,9 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -94,12 +92,28 @@ namespace CompliXpertApp.ViewModels
             {
                 CanAttemptLogin(false);
                 IsBusy = true;
-                List<Account> accounts = await Task.Run(()=> GetJsonAsync());
-                accounts = await Task.Run(() => AddandGetAccounts(accounts));
-                IsBusy = false;                
-                await App.Current.MainPage.Navigation.PushAsync(new AccountListScreen());
-                MessagingCenter.Send<LoginViewModel, List<Account>>(this, Message.AccountListLoaded, accounts);
-                CanAttemptLogin(true);
+                //will only run if the DB has records
+                if (await Task.Run(() => DBContainsRecords()))
+                {
+                    //get everything from DB
+                    List<Account> accounts = await Task.Run(() => GetAccountsAsync());
+                    IsBusy = false;
+                    await App.Current.MainPage.Navigation.PushAsync(new AccountListScreen());
+                    MessagingCenter.Send<LoginViewModel, List<Account>>(this, Message.AccountListLoaded, accounts);
+                    CanAttemptLogin(true);
+                }
+                else
+                {
+                    //grab accounts from file
+                    List<Account> accounts = await Task.Run(() => GetJsonAsync());
+                    //add to the database
+                    await Task.Run(() => AddAccountsAsync(accounts));
+                    IsBusy = false;
+                    await App.Current.MainPage.Navigation.PushAsync(new AccountListScreen());
+                    //pass our list
+                    MessagingCenter.Send<LoginViewModel, List<Account>>(this, Message.AccountListLoaded, accounts);
+                    CanAttemptLogin(true);
+                }                
             }
             else
             {
@@ -110,10 +124,19 @@ namespace CompliXpertApp.ViewModels
                     PasswordPlaceholderColor = Color.Red;
             }
         }
-
-        public async Task<List<Account>> GetAccountsAsync(CompliXperAppContext context)
+        public bool DBContainsRecords()
         {
-            using (context)
+            using (var context = new CompliXperAppContext())
+            {
+                if (context.Account.Any())
+                    return true;
+                else
+                    return false;
+            }
+        }
+        public async Task<List<Account>> GetAccountsAsync()
+        {
+            using (var context = new CompliXperAppContext())
             {
                 //get all accounts 
                 var accounts = context.Account;
@@ -158,25 +181,21 @@ namespace CompliXpertApp.ViewModels
                 return await accounts.ToListAsync();
             }
         }
-
-        public async Task<List<Account>> AddandGetAccounts(List<Account> accounts)
+        public async Task AddAccountsAsync(List<Account> accounts)
         {
             using (var context = new CompliXperAppContext())
             {
-                //add accounts that do not exist in the database
-                var newAccounts = accounts.Where(account => context.Account.Any(dbAccount => dbAccount.AccountNumber == account.AccountNumber) == false);
-                //means there are new accounts to be added to DB
-                if(newAccounts.Count() > 0)
+                context.Account.AddRange(accounts);
+                List<CallReport> callreports = new List<CallReport>();
+                List<FatcaQuestionnaire> fatcaQuestionnaires = new List<FatcaQuestionnaire>();
+                foreach (Account account in accounts)
                 {
-                    await context.Account.AddRangeAsync(newAccounts);
-                    await context.SaveChangesAsync();
-                    return await GetAccountsAsync(context);
+                    callreports = account.CallReport.ToList();
+                    fatcaQuestionnaires = account.FatcaQuestionnaire.ToList();
                 }
-                else
-                {
-                    //no new accounts
-                    return accounts;
-                }
+                context.CallReport.AddRange(callreports);
+                context.FatcaQuestionnaire.AddRange(fatcaQuestionnaires);
+                await context.SaveChangesAsync();
             }
         }
         public async Task<List<Account>> GetJsonAsync()

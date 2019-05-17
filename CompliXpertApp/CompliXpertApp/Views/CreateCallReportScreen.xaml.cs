@@ -8,10 +8,10 @@ namespace CompliXpertApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class CreateCallReportScreen : ContentPage
 	{
-		public CreateCallReportScreen (Account account)
+		public CreateCallReportScreen ()
 		{
-			InitializeComponent ();
-            BindingContext = new CreateCallReportViewModel(account);
+			InitializeComponent();
+            BindingContext = new CreateCallReportViewModel();
 		}
 	}
 }

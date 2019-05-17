@@ -1,44 +1,86 @@
 ﻿using CompliXpertApp.Models;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using Xamarin.Forms;
+using CompliXpertApp.Helpers;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CompliXpertApp.ViewModels
 {
-    class CreateCallReportViewModel : INotifyPropertyChanged
+    class CreateCallReportViewModel : AbstractNotifyPropertyChanged
     {
         //attributes
+        private bool isBusy = false;
         private bool customerVisitSelected = false;
         private bool fatcaQuestionnaireSelected = false;
-        private int selection = -1;
-        public CreateCallReportViewModel(Account account)
+        private int index = -1;
+        private Account _account;
+        
+        //constructor
+        public CreateCallReportViewModel()
         {
-            Account = account;
+            MessagingCenter.Subscribe<AccountMasterViewModel, Account>(this, Message.CustomerLoaded, (sender, account)=> 
+            {
+                Account = account;
+            });
+            SaveCallReportCommand = new Command(async () => await SaveNewCallReportAsync());
+            //must instantiate new call report to take in the new data
+            NewCallReport = new CallReport
+            {
+                CallDate = DateTime.Today
+            };
+            Fatca = new FatcaQuestionnaire();
         }
-
+        #region Properties
         //properties
-        public Account Account { get; set; }
-        public int SelectedReason
+        public ICommand SaveCallReportCommand { get; set; }
+        public bool IsBusy
+        {
+            get { return isBusy; }
+            set
+            {
+                isBusy = value;
+                OnPropertyChanged();
+            }
+        }
+        public FatcaQuestionnaire Fatca { get; set; }
+        public CallReport NewCallReport { get; set; }
+        public Account Account
         {
             get
             {
-                return selection;
+                return _account;
             }
             set
             {
-                selection = value;
-                if(selection == 0)
+                _account = value;
+                OnPropertyChanged();
+            }
+        }
+        public string SelectedReason { get; set; }
+        public int SelectedIndex
+        {
+            get
+            {
+                return index;
+            }
+            set
+            {
+                index = value;
+                if(index == 0)
                 {
                     FatcaSelected = false;
                     CustomerVisitSelected = true;
                 }
-                else if(selection == 1)
+                else if(index == 1)
                 {
                     CustomerVisitSelected = false;
                     FatcaSelected = true;
                 }
             }
         }
-        public int AccountNumber { get { return Account.AccountNumber; } }
         public bool CustomerVisitSelected
         {
             get
@@ -64,13 +106,55 @@ namespace CompliXpertApp.ViewModels
                 OnPropertyChanged();
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        //methods
-        void OnPropertyChanged([CallerMemberName] string name = "")
+        #endregion
+        #region Methods
+        async Task SaveNewCallReportAsync()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            if (SelectedReason == "FATCA Questionnaire")
+            {
+                //fatca questionnaire has been filled out
+                Fatca.AccountNumber = Account.AccountNumber;
+                IsBusy = true;
+                await SaveFatcaAsync();
+                IsBusy = false;
+                //go back to the previous page
+            }
+            else
+            {
+                //means normal CallReport has been filled out
+                NewCallReport.AccountNumber = Account.AccountNumber;
+                NewCallReport.Officer = "Tester";
+                //add the new report to t
+                List<CallReport> cr = Account.CallReport.ToList();
+                cr.Add(NewCallReport);
+                Account.CallReport = cr;
+                IsBusy = true;
+                //save to the DB
+                await SaveCallReportAsync();
+                IsBusy = false;
+                //go back to the previous page
+                await App.Current.MainPage.Navigation.PopAsync();
+                MessagingCenter.Send<CreateCallReportViewModel, Account>(this, Message.CallReportCreated, Account);
+            }
         }
+        //adding the callreport to the table
+        public async Task SaveCallReportAsync()
+        {
+            using (var context = new CompliXperAppContext())
+            {
+                context.Add<CallReport>(NewCallReport);
+                await context.SaveChangesAsync();
+            }
+        }
+        //adding a FATCA
+        public async Task SaveFatcaAsync()
+        {
+            using (var context = new CompliXperAppContext())
+            {
+                context.Add<FatcaQuestionnaire>(Fatca);
+                await context.SaveChangesAsync();
+            }
+        }
+        #endregion
     }
 }
