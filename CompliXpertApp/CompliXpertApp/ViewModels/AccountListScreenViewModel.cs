@@ -2,8 +2,6 @@
 using CompliXpertApp.Models;
 using CompliXpertApp.Views;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
 namespace CompliXpertApp.ViewModels
@@ -62,16 +60,17 @@ namespace CompliXpertApp.ViewModels
                 Customer = value;
                 if (Customer == null)
                     return;
-                GetAccountMaster(CustomerSelected);
+                GetAccountMaster(Customer);
+                OnPropertyChanged();
             }
         }
         //methods
         async void GetAccountMaster(Account account)
         {
+            CustomerSelected = null;
             IsBusy = true;
             await App.Current.MainPage.Navigation.PushAsync(new AccountMaster());
             MessagingCenter.Send<AccountListScreenViewModel, Account>(this, Message.CustomerLoaded, account);
-            IsBusy = false;
         }
     }
 }

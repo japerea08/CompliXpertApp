@@ -66,15 +66,15 @@ namespace CompliXpertApp.ViewModels
             set
             {
                 index = value;
-                if(index == 0)
-                {
-                    FatcaSelected = false;
-                    CustomerVisitSelected = true;
-                }
-                else if(index == 1)
+                if(index == 1)
                 {
                     CustomerVisitSelected = false;
                     FatcaSelected = true;
+                }
+                else
+                {
+                    FatcaSelected = false;
+                    CustomerVisitSelected = true;
                 }
             }
         }

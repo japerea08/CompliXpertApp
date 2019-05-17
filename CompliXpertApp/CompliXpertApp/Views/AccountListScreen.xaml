@@ -17,7 +17,7 @@
     <ContentPage.Content>
         <StackLayout Margin="15">
                 <ListView ItemsSource="{Binding Accounts}"
-                      SelectedItem="{Binding CustomerSelected}">
+                      SelectedItem="{Binding CustomerSelected, Mode=TwoWay}">
                     <ListView.Header>
                         <Grid BackgroundColor="#ddd">
                             <Grid.ColumnDefinitions>
