@@ -19,7 +19,7 @@
                    FontSize="Small"/>
                 <Label Text="{Binding Account.CustomerName}"/>
                 <Picker Title="Select a Reason"
-                        SelectedItem="{Binding SelectedReason}"
+                        SelectedItem="{Binding NewCallReport.Reason}"
                         SelectedIndex="{Binding SelectedIndex}">
                     <Picker.Items>
                         <x:String>Customer Visit</x:String>
@@ -82,7 +82,7 @@
                     <Button Grid.Column="0" Text="Save" BackgroundColor="#428bca" TextColor="White" Command="{Binding SaveCallReportCommand}"></Button>
                     <Button Grid.Column="1" Text="Delete" BackgroundColor="#f44242" TextColor="White"></Button>
                 </Grid>
-                <ActivityIndicator IsVisible="{Binding IsBusy}"/>
+                <ActivityIndicator IsRunning="{Binding IsBusy}"/>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

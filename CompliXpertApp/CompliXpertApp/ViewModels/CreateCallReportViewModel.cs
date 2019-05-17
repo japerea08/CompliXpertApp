@@ -57,7 +57,6 @@ namespace CompliXpertApp.ViewModels
                 OnPropertyChanged();
             }
         }
-        public string SelectedReason { get; set; }
         public int SelectedIndex
         {
             get
@@ -106,33 +105,21 @@ namespace CompliXpertApp.ViewModels
         }
         #endregion
         #region Methods
+        //save the new call report to local db for persistance
         async Task SaveNewCallReportAsync()
         {
-            if (SelectedReason == "FATCA Questionnaire")
-            {
-                //fatca questionnaire has been filled out
-                IsBusy = true;
-                await SaveFatcaAsync();
-                IsBusy = false;
-                //go back to the previous page
-            }
-            else
-            {
-                //means normal CallReport has been filled out
-                NewCallReport.AccountNumber = Account.AccountNumber;
-                NewCallReport.Officer = "Tester";
-                //add the new report to t
-                List<CallReport> cr = Account.CallReport.ToList();
-                cr.Add(NewCallReport);
-                Account.CallReport = cr;
-                IsBusy = true;
-                //save to the DB
-                await SaveCallReportAsync();
-                IsBusy = false;
-                //go back to the previous page
-                await App.Current.MainPage.Navigation.PopAsync();
-                MessagingCenter.Send<CreateCallReportViewModel, Account>(this, Message.CallReportCreated, Account);
-            }
+            NewCallReport.AccountNumber = Account.AccountNumber;
+            NewCallReport.Officer = "Tester";
+            List<CallReport> cr = Account.CallReport.ToList();
+            cr.Add(NewCallReport);
+            Account.CallReport = cr;
+            IsBusy = true;
+            //save to the DB
+            await SaveCallReportAsync();
+            IsBusy = false;
+            //go back to the previous page
+            await App.Current.MainPage.Navigation.PopAsync();
+            MessagingCenter.Send<CreateCallReportViewModel, Account>(this, Message.CallReportCreated, Account);
         }
         //adding the callreport to the table
         public async Task SaveCallReportAsync()
@@ -141,13 +128,6 @@ namespace CompliXpertApp.ViewModels
             {
                 context.Add<CallReport>(NewCallReport);
                 await context.SaveChangesAsync();
-            }
-        }
-        //adding a FATCA
-        public async Task SaveFatcaAsync()
-        {
-            using (var context = new CompliXperAppContext())
-            {
             }
         }
         #endregion
