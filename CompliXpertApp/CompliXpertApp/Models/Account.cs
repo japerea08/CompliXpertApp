@@ -7,7 +7,6 @@ namespace CompliXpertApp.Models
         public Account()
         {
             CallReport = new HashSet<CallReport>();
-            FatcaQuestionnaire = new HashSet<FatcaQuestionnaire>();
         }
 
         public int AccountNumber { get; set; }
@@ -19,7 +18,6 @@ namespace CompliXpertApp.Models
         public string AccountStatus { get; set; }
 
         public ICollection<CallReport> CallReport { get; set; }
-        public ICollection<FatcaQuestionnaire> FatcaQuestionnaire { get; set; }
         public override string ToString()
         {
             return AccountNumber.ToString();

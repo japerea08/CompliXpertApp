@@ -142,7 +142,7 @@ namespace CompliXpertApp.ViewModels
                 var accounts = context.Account;
                 foreach (var account in accounts)
                 {
-                    account.CallReport = await (
+                    account.CallReport = (
                             from _report in context.CallReport
                             where _report.AccountNumber == account.AccountNumber
                             select new CallReport
@@ -161,22 +161,12 @@ namespace CompliXpertApp.ViewModels
                                 Reference = _report.Reference,
                                 ApprovedBy = _report.ApprovedBy,
                                 ApprovedDate = _report.ApprovedDate,
-                                LastUpdated = _report.LastUpdated,
+                                Nationality = _report.Nationality,
+                                ReasonforAlert = _report.ReasonforAlert,
+                                CustomerResponse = _report.CustomerResponse,
+                                LastUpdated = _report.LastUpdated
                             }
-                        ).ToArrayAsync();
-
-                    account.FatcaQuestionnaire = await (
-                            from _fatca in context.FatcaQuestionnaire
-                            where _fatca.AccountNumber == account.AccountNumber
-                            select new FatcaQuestionnaire
-                            {
-                                QuestionnaireId = _fatca.QuestionnaireId,
-                                Nationality = _fatca.Nationality,
-                                ReasonforAlert = _fatca.ReasonforAlert,
-                                CustomerResponse = _fatca.CustomerResponse,
-                                AccountNumber = _fatca.AccountNumber,
-                            }
-                        ).ToArrayAsync();
+                        ).ToArray();
                 }
                 return await accounts.ToListAsync();
             }
@@ -187,14 +177,11 @@ namespace CompliXpertApp.ViewModels
             {
                 context.Account.AddRange(accounts);
                 List<CallReport> callreports = new List<CallReport>();
-                List<FatcaQuestionnaire> fatcaQuestionnaires = new List<FatcaQuestionnaire>();
                 foreach (Account account in accounts)
                 {
                     callreports = account.CallReport.ToList();
-                    fatcaQuestionnaires = account.FatcaQuestionnaire.ToList();
                 }
                 context.CallReport.AddRange(callreports);
-                context.FatcaQuestionnaire.AddRange(fatcaQuestionnaires);
                 await context.SaveChangesAsync();
             }
         }

@@ -20,7 +20,6 @@ namespace CompliXpertApp.Models
 
         public virtual DbSet<Account> Account { get; set; }
         public virtual DbSet<CallReport> CallReport { get; set; }
-        public virtual DbSet<FatcaQuestionnaire> FatcaQuestionnaire { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -50,17 +49,6 @@ namespace CompliXpertApp.Models
                     .HasConstraintName("FK__CallRepor__Accou__59063A47");
             });
 
-            modelBuilder.Entity<FatcaQuestionnaire>(entity =>
-            {
-                entity.HasKey(e => e.QuestionnaireId);
-
-                entity.Property(e => e.QuestionnaireId).ValueGeneratedNever();
-
-                entity.HasOne(d => d.AccountNumberNavigation)
-                    .WithMany(p => p.FatcaQuestionnaire)
-                    .HasForeignKey(d => d.AccountNumber)
-                    .HasConstraintName("FK__FatcaQues__Accou__59FA5E80");
-            });
         }
     }
 }

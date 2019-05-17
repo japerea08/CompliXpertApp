@@ -31,7 +31,6 @@ namespace CompliXpertApp.ViewModels
             {
                 CallDate = DateTime.Today
             };
-            Fatca = new FatcaQuestionnaire();
         }
         #region Properties
         //properties
@@ -45,7 +44,6 @@ namespace CompliXpertApp.ViewModels
                 OnPropertyChanged();
             }
         }
-        public FatcaQuestionnaire Fatca { get; set; }
         public CallReport NewCallReport { get; set; }
         public Account Account
         {
@@ -113,7 +111,6 @@ namespace CompliXpertApp.ViewModels
             if (SelectedReason == "FATCA Questionnaire")
             {
                 //fatca questionnaire has been filled out
-                Fatca.AccountNumber = Account.AccountNumber;
                 IsBusy = true;
                 await SaveFatcaAsync();
                 IsBusy = false;
@@ -151,8 +148,6 @@ namespace CompliXpertApp.ViewModels
         {
             using (var context = new CompliXperAppContext())
             {
-                context.Add<FatcaQuestionnaire>(Fatca);
-                await context.SaveChangesAsync();
             }
         }
         #endregion
