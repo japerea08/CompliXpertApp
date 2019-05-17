@@ -31,10 +31,12 @@ namespace CompliXpertApp.ViewModels
             {
                 CallDate = DateTime.Today
             };
+            DeleteCallReportCommand = new Command(async ()=> await DeleteCallReportAsync());
         }
         #region Properties
         //properties
         public ICommand SaveCallReportCommand { get; set; }
+        public ICommand DeleteCallReportCommand { get; set; }
         public bool IsBusy
         {
             get { return isBusy; }
@@ -110,6 +112,7 @@ namespace CompliXpertApp.ViewModels
         {
             NewCallReport.AccountNumber = Account.AccountNumber;
             NewCallReport.Officer = "Tester";
+            NewCallReport.CreatedOnMobile = true;
             List<CallReport> cr = Account.CallReport.ToList();
             cr.Add(NewCallReport);
             Account.CallReport = cr;
@@ -129,6 +132,10 @@ namespace CompliXpertApp.ViewModels
                 context.Add<CallReport>(NewCallReport);
                 await context.SaveChangesAsync();
             }
+        }
+        public async Task DeleteCallReportAsync()
+        {
+            await App.Current.MainPage.Navigation.PopAsync();
         }
         #endregion
     }

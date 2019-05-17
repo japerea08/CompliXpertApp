@@ -4,6 +4,7 @@ namespace CompliXpertApp.Models
 {
     public partial class CallReport
     {
+        public bool CreatedOnMobile { get; set; }
         public string Nationality { get; set; }
         public string ReasonforAlert { get; set; }
         public string CustomerResponse { get; set; }

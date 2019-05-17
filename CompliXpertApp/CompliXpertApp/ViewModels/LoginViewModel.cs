@@ -164,6 +164,7 @@ namespace CompliXpertApp.ViewModels
                                 Nationality = _report.Nationality,
                                 ReasonforAlert = _report.ReasonforAlert,
                                 CustomerResponse = _report.CustomerResponse,
+                                CreatedOnMobile = _report.CreatedOnMobile,
                                 LastUpdated = _report.LastUpdated
                             }
                         ).ToArray();
