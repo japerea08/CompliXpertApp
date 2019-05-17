@@ -41,7 +41,7 @@ namespace CompliXpertApp.Models
 
             modelBuilder.Entity<CallReport>(entity =>
             {
-                entity.Property(e => e.CallReportId).ValueGeneratedNever();
+                entity.Property(e => e.CallReportId).ValueGeneratedOnAdd();
 
                 entity.HasOne(d => d.AccountNumberNavigation)
                     .WithMany(p => p.CallReport)
