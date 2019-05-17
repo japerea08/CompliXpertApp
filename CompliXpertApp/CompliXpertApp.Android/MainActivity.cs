@@ -4,6 +4,7 @@ using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Support.V4.App;
+using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 
 namespace CompliXpertApp.Droid
 {
@@ -18,6 +19,8 @@ namespace CompliXpertApp.Droid
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
+            //Code to make window scrollable when keyboard is present
+            Xamarin.Forms.Application.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
         }
     }
 }
