@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CompliXpertApp.Views.CallReportDetailsScreen"
+             Title="CompliXpert">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Margin="15">
+                <Label Text="Call Report Details"
+                   FontAttributes="Bold"
+                   FontSize="Medium"
+                   Margin="0,0,0,10"/>
+                <Label Text="Call Report"
+                   FontAttributes="Bold"
+                   FontSize="Small"/>
+                <Label Text="{Binding Report.CallReportId}"/>
+                <Label Text="Account"
+                   FontAttributes="Bold"
+                   FontSize="Small"/>
+                <Label Text="{Binding Report.AccountNumber}"/>
+                <Label Text="Call Reason"
+                   FontAttributes="Bold"
+                   FontSize="Small"/>
+                <Label Text="{Binding Report.Reason}"/>
+                <StackLayout>
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout"
+                                     Binding="{Binding CreatedOnMobile}"
+                                     Value="True">
+                            <Setter Property="IsVisible" Value="True"></Setter>
+                        </DataTrigger>
+                        <DataTrigger TargetType="StackLayout"
+                                     Binding="{Binding CreatedOnMobile}"
+                                     Value="False">
+                            <Setter Property="IsVisible" Value="False"></Setter>
+                        </DataTrigger>
+                    </StackLayout.Triggers>
+                    <Label Text="Call Date"
+                       FontAttributes="Bold"
+                       FontSize="Small"/>
+                    <DatePicker Date="{Binding Report.CallDate}"></DatePicker>
+                    <Label Text="Reference"
+                       FontAttributes="Bold"
+                       FontSize="Small"/>
+                    <Entry Text="{Binding Report.Reference}"/>
+                    <StackLayout IsVisible="{Binding CustomerVisitSelected}">
+                        <Label Text="Purpose of Visit or Phone Call"
+                       FontAttributes="Bold"
+                       FontSize="Small"/>
+                        <Entry Text="{Binding Report.Purpose}"/>
+                        <Label Text="Officer's Observations or Comments"
+                       FontAttributes="Bold"
+                       FontSize="Small"/>
+                        <Entry Text="{Binding Report.OfficerComments}"/>
+                        <Label Text="Other Comments"
+                       FontAttributes="Bold"
+                       FontSize="Small"/>
+                        <Entry Text="{Binding Report.OtherComments}"/>
+                        <Label Text="Customer Comments"
+                       FontAttributes="Bold"
+                       FontSize="Small"/>
+                        <Entry Text="{Binding Report.CustomerComments}"/>
+                    </StackLayout>
+                    <StackLayout IsVisible="{Binding FatcaSelected}">
+                        <Label Text="Nationality"
+                       FontAttributes="Bold"
+                       FontSize="Small"/>
+                        <Entry Text="{Binding Report.Nationality}"/>
+                        <Label Text="Reason for Alert"
+                       FontAttributes="Bold"
+                       FontSize="Small"/>
+                        <Entry Text="{Binding Report.ReasonforAlert}"/>
+                        <Label Text="Customer Response"
+                       FontAttributes="Bold"
+                       FontSize="Small"/>
+                        <Entry Text="{Binding Report.CustomerResponse}"/>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout>
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout"
+                                     Binding="{Binding CreatedOnMobile}"
+                                     Value="True">
+                            <Setter Property="IsVisible" Value="False"></Setter>
+                        </DataTrigger>
+                        <DataTrigger TargetType="StackLayout"
+                                     Binding="{Binding CreatedOnMobile}"
+                                     Value="False">
+                            <Setter Property="IsVisible" Value="True"></Setter>
+                        </DataTrigger>
+                    </StackLayout.Triggers>
+                    <Label Text="Call Date"
+                       FontAttributes="Bold"
+                       FontSize="Small"/>
+                    <DatePicker Date="{Binding Report.CallDate}" IsEnabled="False"></DatePicker>
+                    <Label Text="Reference"
+                       FontAttributes="Bold"
+                       FontSize="Small"/>
+                    <Label Text="{Binding Report.Reference}"/>
+                    <StackLayout IsVisible="{Binding CustomerVisitSelected}">
+                        <Label Text="Purpose of Visit or Phone Call"
+                       FontAttributes="Bold"
+                       FontSize="Small"/>
+                        <Label Text="{Binding Report.Purpose}"/>
+                        <Label Text="Officer's Observations or Comments"
+                       FontAttributes="Bold"
+                       FontSize="Small"/>
+                        <Label Text="{Binding Report.OfficerComments}"/>
+                        <Label Text="Other Comments"
+                       FontAttributes="Bold"
+                       FontSize="Small"/>
+                        <Label Text="{Binding Report.OtherComments}"/>
+                        <Label Text="Customer Comments"
+                       FontAttributes="Bold"
+                       FontSize="Small"/>
+                        <Label Text="{Binding Report.CustomerComments}"/>
+                    </StackLayout>
+                    <StackLayout IsVisible="{Binding FatcaSelected}">
+                        <Label Text="Nationality"
+                       FontAttributes="Bold"
+                       FontSize="Small"/>
+                        <Label Text="{Binding Report.Nationality}"/>
+                        <Label Text="Reason for Alert"
+                       FontAttributes="Bold"
+                       FontSize="Small"/>
+                        <Label Text="{Binding Report.ReasonforAlert}"/>
+                        <Label Text="Customer Response"
+                       FontAttributes="Bold"
+                       FontSize="Small"/>
+                        <Label Text="{Binding Report.CustomerResponse}"/>
+                    </StackLayout>
+                </StackLayout>
+                <Grid Padding="0,0,0,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Text="Save" BackgroundColor="#428bca" TextColor="White" Command="{Binding SaveCallReportCommand}">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button"
+                                         Binding="{Binding CreatedOnMobile}"
+                                         Value="True">
+                                <Setter Property="IsVisible" Value="True"></Setter>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Button"
+                                         Binding="{Binding CreatedOnMobile}"
+                                         Value="False">
+                                <Setter Property="IsVisible" Value="False"></Setter>
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                    <Button Grid.Column="1" Text="Delete" BackgroundColor="#f44242" TextColor="White" Command="{Binding DeleteCallReportCommand}">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button"
+                                         Binding="{Binding CreatedOnMobile}"
+                                         Value="True">
+                                <Setter Property="IsVisible" Value="True"></Setter>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Button"
+                                         Binding="{Binding CreatedOnMobile}"
+                                         Value="False">
+                                <Setter Property="IsVisible" Value="False"></Setter>
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                    <Button Grid.Column="0" Text="Close" BackgroundColor="#428bca" TextColor="White" Command="{Binding SaveCallReportCommand}">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button"
+                                         Binding="{Binding CreatedOnMobile}"
+                                         Value="True">
+                                <Setter Property="IsVisible" Value="False"></Setter>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Button"
+                                         Binding="{Binding CreatedOnMobile}"
+                                         Value="False">
+                                <Setter Property="IsVisible" Value="True"></Setter>
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </Grid>
+                <ActivityIndicator IsRunning="{Binding IsBusy}"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

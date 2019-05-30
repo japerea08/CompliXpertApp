@@ -37,5 +37,12 @@
                 return "fatcacreated";
             }
         }
+        public static string CallReportLoaded
+        {
+            get
+            {
+                return "callreportloaded";
+            }
+        }
     }
 }

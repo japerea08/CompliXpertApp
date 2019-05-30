@@ -61,15 +61,15 @@
                     <Label Text="Nationality"
                        FontAttributes="Bold"
                        FontSize="Small"/>
-                    <Entry Text="{Binding Fatca.Nationality}"/>
+                    <Entry Text="{Binding NewCallReport.Nationality}"/>
                     <Label Text="Reason for Alert"
                        FontAttributes="Bold"
                        FontSize="Small"/>
-                    <Entry Text="{Binding Fatca.ReasonforAlert}"/>
+                    <Entry Text="{Binding NewCallReport.ReasonforAlert}"/>
                     <Label Text="Customer Response"
                        FontAttributes="Bold"
                        FontSize="Small"/>
-                    <Entry Text="{Binding Fatca.CustomerResponse}"/>
+                    <Entry Text="{Binding NewCallReport.CustomerResponse}"/>
                 </StackLayout>
                 <Grid Padding="0,0,0,10">
                     <Grid.RowDefinitions>

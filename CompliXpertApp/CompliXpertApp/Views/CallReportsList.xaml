@@ -5,7 +5,8 @@
              Title="CompliXpert">
     <ContentPage.Content>
         <StackLayout Margin="15">
-            <ListView ItemsSource="{Binding CallReports}">
+            <ListView ItemsSource="{Binding CallReports}"
+                      SelectedItem="{Binding CallReportSelected, Mode=TwoWay}">
                 <ListView.Header>
                     <Grid BackgroundColor="#ddd">
                         <Grid.ColumnDefinitions>
