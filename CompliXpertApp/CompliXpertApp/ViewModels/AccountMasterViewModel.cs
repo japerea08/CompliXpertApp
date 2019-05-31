@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace CompliXpertApp.ViewModels
 {
@@ -13,8 +15,21 @@ namespace CompliXpertApp.ViewModels
         //attributes
         private bool canTap = true;
         private Account _customer;
+        private bool _isBusy = false;
 
         //properties
+        public bool IsBusy
+        {
+            get
+            {
+                return _isBusy;
+            }
+            set
+            {
+                _isBusy = value;
+                OnPropertyChanged();
+            }
+        }
         public ICommand ViewCallReportsCommand { get; private set; }
         public ICommand GoToCreateCallReportCommand { get; private set; }
         public Account Customer
@@ -46,13 +61,15 @@ namespace CompliXpertApp.ViewModels
         //methods
         async Task ViewCallReportsAsync()
         {
-            List<CallReport> callReportList = new List<CallReport>();
-            //get all the Callreport
-            foreach (var callReport in Customer.CallReport)
-                callReportList.Add(callReport);
-
-            await App.Current.MainPage.Navigation.PushAsync(new CallReportsList());
-            MessagingCenter.Send<AccountMasterViewModel, List<CallReport>>(this, Message.CallReportListLoaded, callReportList);
+            IsBusy = true;
+            //get the call report list
+            using (var context = new CompliXperAppContext())
+            {
+                //var reports = await context.CallReport.Where(report => report.AccountNumber == Customer.AccountNumber).ToListAsync();
+                await App.Current.MainPage.Navigation.PushAsync(new CallReportsList());
+                IsBusy = false;
+                MessagingCenter.Send<AccountMasterViewModel, int>(this, Message.AccountNumber, Customer.AccountNumber);
+            }
         }
         async Task GoToCreateCallReportAsync()
         {

@@ -13,6 +13,17 @@ namespace CompliXpertApp.Views
 		{
 			InitializeComponent ();
             BindingContext = new CallReportListViewModel();
-		}
-	}
+        }
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            BindingContext = null;
+        }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            if (BindingContext == null)
+                BindingContext = new CallReportListViewModel();
+        }
+    }
 }

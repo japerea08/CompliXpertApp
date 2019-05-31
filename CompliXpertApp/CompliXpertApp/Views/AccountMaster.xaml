@@ -50,6 +50,7 @@
                     <Button Text="View Call Reports" BackgroundColor="#428bca" TextColor="White" Command="{Binding ViewCallReportsCommand}"/>
                     <Button Text="New Call Report" BackgroundColor="#428bca" TextColor="White" Command="{Binding GoToCreateCallReportCommand}"/>
                 </StackLayout>
+                <ActivityIndicator IsRunning="{Binding IsBusy}"/>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

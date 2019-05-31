@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CompliXpertApp.Helpers;
 using Xamarin.Forms;
 using CompliXpertApp.Views;
+using System.Linq;
 
 namespace CompliXpertApp.ViewModels
 {
@@ -14,9 +15,19 @@ namespace CompliXpertApp.ViewModels
         //constructor
         public CallReportListViewModel()
         {
-            MessagingCenter.Subscribe<AccountMasterViewModel, List<CallReport>>(this, Message.CallReportListLoaded, (sender, callreportList) => 
+            MessagingCenter.Subscribe<AccountMasterViewModel, int>(this, Message.AccountNumber, (sender, acctNumber) =>
             {
-                CallReports = callreportList;   
+                using (var context = new CompliXperAppContext())
+                {
+                    CallReports = context.CallReport.Where(report => report.AccountNumber == acctNumber).ToList();
+                }
+            });
+            MessagingCenter.Subscribe<CallReportDetailsViewModel, int?>(this, Message.AccountNumber, (sender, acctNumber) =>
+            {
+                using (var context = new CompliXperAppContext())
+                {
+                    CallReports = context.CallReport.Where(report => report.AccountNumber == acctNumber).ToList();
+                }
             });
         }
         //properties

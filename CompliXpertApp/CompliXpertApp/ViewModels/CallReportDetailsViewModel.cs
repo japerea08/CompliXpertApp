@@ -1,6 +1,8 @@
 ﻿using CompliXpertApp.Helpers;
 using CompliXpertApp.Models;
+using CompliXpertApp.Views;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -14,6 +16,9 @@ namespace CompliXpertApp.ViewModels
         private bool _customerVisitSelected = false;
         private bool _fatcaSelected = false;
         private bool _createdOnMobile = false;
+        private bool _isBusy = false;
+
+        
         //constructor
         public CallReportDetailsViewModel()
         {
@@ -21,17 +26,37 @@ namespace CompliXpertApp.ViewModels
             {
                 Report = _report;
                 CreatedOnMobile = Report.CreatedOnMobile;
+                //manipulate the stack
+                List<Page> stackPages = new List<Page>();
+                foreach(Page page in App.Current.MainPage.Navigation.NavigationStack)
+                {
+                    stackPages.Add(page);
+                }
+                App.Current.MainPage.Navigation.RemovePage(App.Current.MainPage.Navigation.NavigationStack[App.Current.MainPage.Navigation.NavigationStack.Count - 2]);
+                //place the new page into stack
+                App.Current.MainPage.Navigation.InsertPageBefore(new CallReportsList(), App.Current.MainPage.Navigation.NavigationStack[App.Current.MainPage.Navigation.NavigationStack.Count - 1]);
+                MessagingCenter.Send<CallReportDetailsViewModel, int?>(this, Message.AccountNumber, Report.AccountNumber);
             });
             SaveCallReportCommand = new Command(async () => await SaveCallReportAsync());
             DeleteCallReportCommand = new Command(async () => await DeleteCallReportAsync());
             CloseCallReportCommand = new Command(async () => await CloseCallReportAsync());
-            IsBusy = false;
         }
         #region Properties
         public ICommand SaveCallReportCommand { get; set; }
         public ICommand DeleteCallReportCommand { get; set; }
         public ICommand CloseCallReportCommand { get; set; }
-        public bool IsBusy { get; set;}
+        public bool IsBusy
+        {
+            get
+            {
+                return _isBusy;
+            }
+            set
+            {
+                _isBusy = value;
+                OnPropertyChanged();
+            }
+        }
         public CallReport Report {
             get
             {
@@ -116,16 +141,29 @@ namespace CompliXpertApp.ViewModels
                 await context.SaveChangesAsync();
                 IsBusy = false;
                 await App.Current.MainPage.Navigation.PopAsync();
+                MessagingCenter.Send<CallReportDetailsViewModel, int?>(this, Message.AccountNumber, Report.AccountNumber);
             }
         }
         //remove Call Report from local DB
         public async Task DeleteCallReportAsync()
         {
+            using (var context = new CompliXperAppContext())
+            {
+                IsBusy = true;
+                var entity = await context.CallReport.FirstOrDefaultAsync(x => x.CallReportId == Report.CallReportId);
+                context.CallReport.Remove(entity);
+                await context.SaveChangesAsync();
+                IsBusy = false;
+                await App.Current.MainPage.Navigation.PopAsync();
+                MessagingCenter.Send<CallReportDetailsViewModel, int?>(this, Message.AccountNumber, Report.AccountNumber);
+            }
 
         }
         public async Task CloseCallReportAsync()
         {
             await App.Current.MainPage.Navigation.PopAsync();
+            //send back the current call Reports
+            MessagingCenter.Send<CallReportDetailsViewModel, int?>(this, Message.AccountNumber, Report.AccountNumber);
         }
         #endregion
     }

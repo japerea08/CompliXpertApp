@@ -44,5 +44,12 @@
                 return "callreportloaded";
             }
         }
+        public static string AccountNumber
+        {
+            get
+            {
+                return "accountnumber";
+            }
+        }
     }
 }
