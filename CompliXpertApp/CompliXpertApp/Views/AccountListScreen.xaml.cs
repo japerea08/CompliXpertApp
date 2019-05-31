@@ -1,4 +1,5 @@
-﻿using CompliXpertApp.Models;
+﻿using CompliXpertApp.Helpers;
+using CompliXpertApp.Models;
 using CompliXpertApp.ViewModels;
 using System.Collections.Generic;
 using Xamarin.Forms;
@@ -9,15 +10,17 @@ namespace CompliXpertApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AccountListScreen : ContentPage
 	{
+        AccountListScreenViewModel listScreenViewModel;
 		public AccountListScreen ()
 		{
-			InitializeComponent ();
-            BindingContext = new AccountListScreenViewModel();
+            listScreenViewModel = new AccountListScreenViewModel();
+            InitializeComponent ();
+            BindingContext = listScreenViewModel;
         }
-        protected override void OnAppearing()
+        protected override void OnDisappearing()
         {
-            base.OnAppearing();
-            
+            base.OnDisappearing();
+            MessagingCenter.Unsubscribe<LoginViewModel, List<Account>>(listScreenViewModel, Message.AccountListLoaded);
         }
     }
 }

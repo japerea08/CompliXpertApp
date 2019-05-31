@@ -9,7 +9,7 @@ namespace CompliXpertApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class CallReportDetailsScreen : ContentPage
 	{
-        CallReportDetailsViewModel viewModel;
+        private CallReportDetailsViewModel viewModel;
         public CallReportDetailsScreen()
         {
             InitializeComponent();
@@ -19,6 +19,7 @@ namespace CompliXpertApp.Views
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
+            MessagingCenter.Unsubscribe<CallReportListViewModel>(viewModel, Message.CallReportLoaded);
         }
     }
 }
