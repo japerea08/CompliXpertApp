@@ -4,8 +4,8 @@
              x:Class="CompliXpertApp.Views.AccountListScreen"
              Title="CompliXpert">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="+ Add Customer"
-                     Command="{Binding AddCustomerCommand}"/>
+        <ToolbarItem Text="+ Add Prospect"
+                     Command="{Binding AddProspectCommand}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Resources>
         <Style x:Key="rowStyle" TargetType="Button">

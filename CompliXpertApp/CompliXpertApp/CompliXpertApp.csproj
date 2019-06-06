@@ -30,7 +30,7 @@
     <EmbeddedResource Update="Views\AccountMaster.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\AddCustomerScreen.xaml">
+    <EmbeddedResource Update="Views\AddProspectScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\CallReportDetailsScreen.xaml">
@@ -49,5 +49,11 @@
 
   <ItemGroup>
     <Folder Include="Behaviors\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\AddProspectScreen.xaml.cs">
+      <DependentUpon>AddProspectScreen.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

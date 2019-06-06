@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CompliXpertApp.Views.AddCustomerScreen"
+             x:Class="CompliXpertApp.Views.AddProspectScreen"
              Title="CompliXpert">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Margin="20,5">
-                <Label Text="Add a Customer"
+                <Label Text="Add a Prospect"
                        Margin="0,0,0,20"
                    FontAttributes="Bold"
                    FontSize="Large"
@@ -43,7 +43,7 @@
                         <x:String>Money Market</x:String>
                     </Picker.Items>
                 </Picker>
-                <Button Text="Add Customer" BackgroundColor="#428bca" TextColor="White"></Button>
+                <Button Text="Add Prospect" BackgroundColor="#428bca" TextColor="White"></Button>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

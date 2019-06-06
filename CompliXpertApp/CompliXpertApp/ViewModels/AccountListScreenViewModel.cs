@@ -17,17 +17,16 @@ namespace CompliXpertApp.ViewModels
             {
                 Accounts = args;
             });
-            AddCustomerCommand = new Command(AddCustomer);
+            AddProspectCommand = new Command(AddProspect);
         }
-        //to be used for future development
-        public async void AddCustomer()
+        public async void AddProspect()
         {
-            await App.Current.MainPage.Navigation.PushAsync(new AddCustomerScreen());
+            await App.Current.MainPage.Navigation.PushAsync(new AddProspectScreen());
         }
 
         //properties
         private Account Customer { get; set; }
-        public Command AddCustomerCommand { get; }
+        public Command AddProspectCommand { get; }
         public bool IsBusy
         {
             get { return isBusy; }
