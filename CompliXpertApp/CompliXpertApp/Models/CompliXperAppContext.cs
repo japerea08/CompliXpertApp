@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace CompliXpertApp.Models
 {
@@ -11,15 +9,14 @@ namespace CompliXpertApp.Models
         private string databaseName = "CompliXpertDB.db";
         public CompliXperAppContext()
         {
-            Database.EnsureCreated();
+            //run this to when updating the database; working with migrations tedious
+            //Database.EnsureDeleted();
+            Database.Migrate();
         }
         
-        public CompliXperAppContext(DbContextOptions<CompliXperAppContext> options): base(options)
-        {
-        }
-
         public virtual DbSet<Account> Account { get; set; }
         public virtual DbSet<CallReport> CallReport { get; set; }
+        public virtual DbSet<Customer> Customer { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -37,6 +34,10 @@ namespace CompliXpertApp.Models
                 entity.HasKey(e => e.AccountNumber);
 
                 entity.Property(e => e.AccountNumber).ValueGeneratedNever();
+
+                entity.HasOne(d => d.CustomerNumberNavigation)
+                .WithMany(p => p.Account)
+                .HasForeignKey(d => d.CustomerNumber);
             });
 
             modelBuilder.Entity<CallReport>(entity =>
@@ -47,6 +48,14 @@ namespace CompliXpertApp.Models
                     .WithMany(p => p.CallReport)
                     .HasForeignKey(d => d.AccountNumber)
                     .HasConstraintName("FK__CallRepor__Accou__59063A47");
+            });
+
+            modelBuilder.Entity<Customer>(entity => 
+            {
+                entity.HasKey(e => e.CustomerNumber);
+
+                entity.Property(e => e.CustomerNumber).ValueGeneratedNever();
+
             });
 
         }

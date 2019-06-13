@@ -8,12 +8,12 @@ using Xamarin.Forms.Xaml;
 namespace CompliXpertApp.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AccountListScreen : ContentPage
+	public partial class CustomerListScreen : ContentPage
 	{
-        AccountListScreenViewModel listScreenViewModel;
-		public AccountListScreen ()
+        CustomerListScreenViewModel listScreenViewModel;
+		public CustomerListScreen ()
 		{
-            listScreenViewModel = new AccountListScreenViewModel();
+            listScreenViewModel = new CustomerListScreenViewModel();
             InitializeComponent ();
             BindingContext = listScreenViewModel;
         }

@@ -10,14 +10,11 @@ namespace CompliXpertApp.Models
         }
 
         public int AccountNumber { get; set; }
-        public int CustomerNumber { get; set; }
-        public string CustomerName { get; set; }
-        public string Country { get; set; }
         public string AccountType { get; set; }
         public string AccountClass { get; set; }
-        public string AccountStatus { get; set; }
-
+        public int? CustomerNumber { get; set; }
         public ICollection<CallReport> CallReport { get; set; }
+        public Customer CustomerNumberNavigation { get; set; }
         public override string ToString()
         {
             return AccountNumber.ToString();

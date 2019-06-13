@@ -96,22 +96,23 @@ namespace CompliXpertApp.ViewModels
                 if (await Task.Run(() => DBContainsRecords()))
                 {
                     //get everything from DB
-                    List<Account> accounts = await Task.Run(() => GetAccountsAsync());
+                    List<Customer> customers = await Task.Run(() => GetCustomersAsync());
                     IsBusy = false;
-                    await App.Current.MainPage.Navigation.PushAsync(new AccountListScreen());
-                    MessagingCenter.Send<LoginViewModel, List<Account>>(this, Message.AccountListLoaded, accounts);
+                    await App.Current.MainPage.Navigation.PushAsync(new CustomerListScreen());
+                    MessagingCenter.Send<LoginViewModel, List<Customer>>(this, Message.AccountListLoaded, customers);
                     CanAttemptLogin(true);
                 }
                 else
                 {
                     //grab accounts from file
-                    List<Account> accounts = await Task.Run(() => GetJsonAsync());
+                    List<Customer> customers = await Task.Run(() => GetJsonAsync());
                     //add to the database
-                    await Task.Run(() => AddAccountsAsync(accounts));
+                    await Task.Run(() => AddCustomersAsync(customers));
+                    customers = await Task.Run(() => GetCustomersAsync());
                     IsBusy = false;
-                    await App.Current.MainPage.Navigation.PushAsync(new AccountListScreen());
+                    await App.Current.MainPage.Navigation.PushAsync(new CustomerListScreen());
                     //pass our list
-                    MessagingCenter.Send<LoginViewModel, List<Account>>(this, Message.AccountListLoaded, accounts);
+                    MessagingCenter.Send<LoginViewModel, List<Customer>>(this, Message.AccountListLoaded, customers);
                     CanAttemptLogin(true);
                 }                
             }
@@ -128,21 +129,38 @@ namespace CompliXpertApp.ViewModels
         {
             using (var context = new CompliXperAppContext())
             {
-                if (context.Account.Any())
+                if (context.Customer.Any())
                     return true;
                 else
+                {
+                    //context.Database.EnsureDeleted();
                     return false;
+                }
             }
         }
-        public async Task<List<Account>> GetAccountsAsync()
+        public async Task<List<Customer>> GetCustomersAsync()
         {
             using (var context = new CompliXperAppContext())
             {
-                //get all accounts 
-                var accounts = context.Account;
-                foreach (var account in accounts)
+                //get all customers 
+                var customers = context.Customer;
+                foreach (Customer customer in customers)
                 {
-                    account.CallReport = (
+                    customer.Account = await
+                        (
+                            from _account in context.Account
+                            where _account.CustomerNumber == customer.CustomerNumber
+                            select new Account
+                            {
+                                AccountNumber = _account.AccountNumber,
+                                AccountType = _account.AccountType,
+                                AccountClass = _account.AccountClass,
+                                CustomerNumber = _account.CustomerNumber,
+                            }
+                        ).ToArrayAsync();
+                    foreach (Account account in customer.Account)
+                    {
+                        account.CallReport = await (
                             from _report in context.CallReport
                             where _report.AccountNumber == account.AccountNumber
                             select new CallReport
@@ -167,28 +185,35 @@ namespace CompliXpertApp.ViewModels
                                 CreatedOnMobile = _report.CreatedOnMobile,
                                 LastUpdated = _report.LastUpdated
                             }
-                        ).ToArray();
+                        ).ToArrayAsync();
+                    }  
                 }
-                return await accounts.ToListAsync();
+                return await customers.ToListAsync();
             }
         }
-        public async Task AddAccountsAsync(List<Account> accounts)
+        public async Task AddCustomersAsync(List<Customer> customers)
         {
             using (var context = new CompliXperAppContext())
             {
-                context.Account.AddRange(accounts);
+                context.Customer.AddRange(customers);
+                List<Account> accounts = new List<Account>();
                 List<CallReport> callreports = new List<CallReport>();
-                foreach (Account account in accounts)
+                foreach (Customer customer in customers)
                 {
-                    callreports = account.CallReport.ToList();
+                    accounts = customer.Account.ToList();
+                    foreach(Account account in customer.Account)
+                    {
+                        callreports = account.CallReport.ToList();
+                    }
                 }
+                context.Account.AddRange(accounts);
                 context.CallReport.AddRange(callreports);
                 await context.SaveChangesAsync();
             }
         }
-        public async Task<List<Account>> GetJsonAsync()
+        public async Task<List<Customer>> GetJsonAsync()
         {
-            return JsonConvert.DeserializeObject<List<Account>>(await DependencyService.Get<IRWExternalStorage>().ReadFileAsync());
+            return JsonConvert.DeserializeObject<List<Customer>>(await DependencyService.Get<IRWExternalStorage>().ReadFileAsync());
         }
     }
 }

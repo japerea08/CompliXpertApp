@@ -48,7 +48,7 @@ namespace CompliXpertApp.ViewModels
         public AccountMasterViewModel()
         {
             //this message is for the incoming
-            MessagingCenter.Subscribe<AccountListScreenViewModel, Account>(this, Message.CustomerLoaded, (sender, args) =>
+            MessagingCenter.Subscribe<CustomerListScreenViewModel, Account>(this, Message.CustomerLoaded, (sender, args) =>
             {
                 Customer = args;
             });

@@ -6,14 +6,14 @@ using Xamarin.Forms;
 
 namespace CompliXpertApp.ViewModels
 {
-    class AccountListScreenViewModel : AbstractNotifyPropertyChanged
+    class CustomerListScreenViewModel : AbstractNotifyPropertyChanged
     {
         private bool isBusy = false;
-        private List<Account> _accountList;
+        private List<Customer> _accountList;
 
-        public AccountListScreenViewModel()
+        public CustomerListScreenViewModel()
         {
-            MessagingCenter.Subscribe<LoginViewModel, List<Account>>(this, Message.AccountListLoaded, (sender, args) => 
+            MessagingCenter.Subscribe<LoginViewModel, List<Customer>>(this, Message.AccountListLoaded, (sender, args) => 
             {
                 Accounts = args;
             });
@@ -36,7 +36,7 @@ namespace CompliXpertApp.ViewModels
                 OnPropertyChanged();
             }
         }
-        public List<Account> Accounts
+        public List<Customer> Accounts
         {
             get
             {
@@ -69,7 +69,7 @@ namespace CompliXpertApp.ViewModels
             CustomerSelected = null;
             IsBusy = true;
             await App.Current.MainPage.Navigation.PushAsync(new AccountMaster());
-            MessagingCenter.Send<AccountListScreenViewModel, Account>(this, Message.CustomerLoaded, account);
+            MessagingCenter.Send<CustomerListScreenViewModel, Account>(this, Message.CustomerLoaded, account);
         }
     }
 }
