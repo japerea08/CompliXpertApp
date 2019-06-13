@@ -15,7 +15,7 @@ namespace CompliXpertApp.ViewModels
         {
             MessagingCenter.Subscribe<LoginViewModel, List<Customer>>(this, Message.AccountListLoaded, (sender, args) => 
             {
-                Accounts = args;
+                Customers = args;
             });
             AddProspectCommand = new Command(AddProspect);
         }
@@ -25,7 +25,7 @@ namespace CompliXpertApp.ViewModels
         }
 
         //properties
-        private Account Customer { get; set; }
+        private Customer Customer { get; set; }
         public Command AddProspectCommand { get; }
         public bool IsBusy
         {
@@ -36,7 +36,7 @@ namespace CompliXpertApp.ViewModels
                 OnPropertyChanged();
             }
         }
-        public List<Customer> Accounts
+        public List<Customer> Customers
         {
             get
             {
@@ -48,7 +48,7 @@ namespace CompliXpertApp.ViewModels
                 OnPropertyChanged();
             }
         }
-        public Account CustomerSelected
+        public Customer CustomerSelected
         {
             get
             {
@@ -59,17 +59,17 @@ namespace CompliXpertApp.ViewModels
                 Customer = value;
                 if (Customer == null)
                     return;
-                GetAccountMaster(Customer);
+                GetCustomerMaster(Customer);
                 OnPropertyChanged();
             }
         }
         //methods
-        async void GetAccountMaster(Account account)
+        async void GetCustomerMaster(Customer customer)
         {
             CustomerSelected = null;
             IsBusy = true;
             await App.Current.MainPage.Navigation.PushAsync(new AccountMaster());
-            MessagingCenter.Send<CustomerListScreenViewModel, Account>(this, Message.CustomerLoaded, account);
+            MessagingCenter.Send<CustomerListScreenViewModel, Customer>(this, Message.CustomerLoaded, customer);
         }
     }
 }

@@ -48,10 +48,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Behaviors\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Views\CustomerListScreen.xaml.cs">
       <DependentUpon>CustomerListScreen.xaml</DependentUpon>
     </Compile>

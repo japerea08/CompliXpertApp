@@ -16,7 +16,7 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout Margin="15">
-                <ListView ItemsSource="{Binding Accounts}"
+                <ListView ItemsSource="{Binding Customers}"
                       SelectedItem="{Binding CustomerSelected, Mode=TwoWay}">
                     <ListView.Header>
                         <Grid BackgroundColor="#ddd">
@@ -29,11 +29,11 @@
                                Style="{StaticResource rowStyle}"
                                HorizontalOptions="Fill"
                                HorizontalTextAlignment="Center"
-                               Text="Account Number"/>
+                               Text="Customer Number"/>
                             <Label Grid.Column="1"
                                Grid.Row="0"
                                HorizontalOptions="Fill"
-                               Text="Account Title"
+                               Text="Customer Name"
                                HorizontalTextAlignment="Center"
                                Style="{StaticResource rowStyle}"/>
                         </Grid>
@@ -52,7 +52,7 @@
                                     </Grid.ColumnDefinitions>
                                     <Label Grid.Column="0"
                                        Grid.Row="0"
-                                       Text="{Binding AccountNumber}"
+                                       Text="{Binding CustomerNumber}"
                                        HorizontalTextAlignment="Center"
                                        HorizontalOptions="Fill"
                                        />
