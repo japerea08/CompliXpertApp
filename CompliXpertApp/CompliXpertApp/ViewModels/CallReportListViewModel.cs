@@ -15,7 +15,7 @@ namespace CompliXpertApp.ViewModels
         //constructor
         public CallReportListViewModel()
         {
-            MessagingCenter.Subscribe<CustomerMasterViewModel, int>(this, Message.AccountNumber, (sender, acctNumber) =>
+            MessagingCenter.Subscribe<AccountMasterViewModel, int>(this, Message.AccountNumber, (sender, acctNumber) =>
             {
                 using (var context = new CompliXperAppContext())
                 {
