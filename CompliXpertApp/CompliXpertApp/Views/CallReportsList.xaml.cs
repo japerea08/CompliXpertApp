@@ -21,7 +21,7 @@ namespace CompliXpertApp.Views
         {
             base.OnDisappearing();
             BindingContext = null;
-            MessagingCenter.Unsubscribe<AccountMasterViewModel, int>(callReportListViewModel, Message.AccountNumber);
+            MessagingCenter.Unsubscribe<CustomerMasterViewModel, int>(callReportListViewModel, Message.AccountNumber);
         }
         protected override void OnAppearing()
         {

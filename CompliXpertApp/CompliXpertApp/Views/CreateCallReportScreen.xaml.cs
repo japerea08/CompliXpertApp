@@ -19,7 +19,7 @@ namespace CompliXpertApp.Views
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            MessagingCenter.Unsubscribe<AccountMasterViewModel>(createCallReportViewModel, Message.CustomerLoaded);
+            MessagingCenter.Unsubscribe<CustomerMasterViewModel>(createCallReportViewModel, Message.CustomerLoaded);
         }
 
     }

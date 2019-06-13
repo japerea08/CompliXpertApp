@@ -157,7 +157,7 @@ namespace CompliXpertApp.ViewModels
                                 AccountClass = _account.AccountClass,
                                 CustomerNumber = _account.CustomerNumber,
                             }
-                        ).ToArrayAsync();
+                        ).ToListAsync();
                     foreach (Account account in customer.Account)
                     {
                         account.CallReport = await (
@@ -185,7 +185,7 @@ namespace CompliXpertApp.ViewModels
                                 CreatedOnMobile = _report.CreatedOnMobile,
                                 LastUpdated = _report.LastUpdated
                             }
-                        ).ToArrayAsync();
+                        ).ToListAsync();
                     }  
                 }
                 return await customers.ToListAsync();

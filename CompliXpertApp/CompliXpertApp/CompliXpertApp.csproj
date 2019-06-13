@@ -24,10 +24,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Views\AccountMasterScreen.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\CustomerListScreen.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\AccountMaster.xaml">
+    <EmbeddedResource Update="Views\CustomerMaster.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\AddProspectScreen.xaml">
@@ -48,6 +51,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\CustomerMaster.xaml.cs">
+      <DependentUpon>CustomerMaster.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\CustomerListScreen.xaml.cs">
       <DependentUpon>CustomerListScreen.xaml</DependentUpon>
     </Compile>

@@ -7,10 +7,10 @@ using Xamarin.Forms.Xaml;
 namespace CompliXpertApp.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AccountMaster : ContentPage
+	public partial class AccountMasterScreen : ContentPage
 	{
-        AccountMasterViewModel accountMasterViewModel;
-		public AccountMaster ()
+        private AccountMasterViewModel accountMasterViewModel;
+		public AccountMasterScreen ()
 		{
             accountMasterViewModel = new AccountMasterViewModel();
 			InitializeComponent ();
@@ -19,7 +19,7 @@ namespace CompliXpertApp.Views
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            MessagingCenter.Unsubscribe<CustomerListScreenViewModel, Account>(accountMasterViewModel, Message.CustomerLoaded);
+            MessagingCenter.Unsubscribe<CustomerMasterViewModel, Account>(accountMasterViewModel, Message.AccountLoaded);
         }
     }
 }

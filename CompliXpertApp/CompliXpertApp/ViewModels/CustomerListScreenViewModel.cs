@@ -68,7 +68,7 @@ namespace CompliXpertApp.ViewModels
         {
             CustomerSelected = null;
             IsBusy = true;
-            await App.Current.MainPage.Navigation.PushAsync(new AccountMaster());
+            await App.Current.MainPage.Navigation.PushAsync(new CustomerMaster());
             MessagingCenter.Send<CustomerListScreenViewModel, Customer>(this, Message.CustomerLoaded, customer);
         }
     }

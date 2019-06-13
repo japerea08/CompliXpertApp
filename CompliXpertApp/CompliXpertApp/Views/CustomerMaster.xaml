@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CompliXpertApp.Views.CustomerMaster"
+             Title="CompliXpert">
+    <ContentPage.Content>
+
+        <StackLayout Margin="20">
+            <Label Text="{Binding CustomerMaster}"
+                       FontAttributes="Bold"
+                       FontSize="Large"
+                       Margin="0,0,0,15"/>
+            <Label Text="Customer Number"
+                       FontAttributes="Bold"
+                       FontSize="Medium"/>
+            <Label Text="{Binding Customer.CustomerNumber}"
+                       TextDecorations="Underline"
+                       FontSize="Small"/>
+            <Label Text="Customer ID"
+                       FontAttributes="Bold"
+                       FontSize="Medium"/>
+            <Label Text="{Binding Customer.CustomerId}"
+                       TextDecorations="Underline"
+                       FontSize="Small"/>
+            <Label Text="Legal Type"
+                       FontAttributes="Bold"
+                       FontSize="Medium"/>
+            <Label Text="{Binding Customer.LegalType}"
+                       TextDecorations="Underline"
+                       FontSize="Small"/>
+            <Label Text="Accounts"
+                       FontAttributes="Bold"
+                       FontSize="Medium"/>
+            <ListView ItemsSource="{Binding Customer.Account}"
+                          SelectedItem="{Binding AccountSelected, Mode=TwoWay}">
+                <ListView.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Text="Account Number"
+                               FontAttributes="Bold"
+                               Grid.Column="0"
+                               Grid.Row="0"/>
+                        <Label Text="Account Type"
+                               FontAttributes="Bold"
+                               Grid.Column="1"
+                               Grid.Row="0"/>
+                        <Label Text="Account Class"
+                               FontAttributes="Bold"
+                               Grid.Column="2"
+                               Grid.Row="0"/>
+                    </Grid>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Label Text="{Binding AccountNumber}"
+                                   Grid.Column="0"
+                                   Grid.Row="1"
+                                       HorizontalTextAlignment="Center"/>
+                                <Label Text="{Binding AccountType}"
+                                   Grid.Column="1"
+                                   Grid.Row="1"
+                                       HorizontalTextAlignment="Center"/>
+                                <Label Text="{Binding AccountClass}"
+                                   Grid.Column="2"
+                                   Grid.Row="1"
+                                       HorizontalTextAlignment="Center"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <!--<StackLayout Orientation="Horizontal" Padding="0,10,0,0">
+                    <Button Text="View Call Reports" BackgroundColor="#428bca" TextColor="White" Command="{Binding ViewCallReportsCommand}"/>
+                    <Button Text="New Call Report" BackgroundColor="#428bca" TextColor="White" Command="{Binding GoToCreateCallReportCommand}"/>
+                </StackLayout>-->
+            <ActivityIndicator IsRunning="{Binding IsBusy}"/>
+        </StackLayout>
+
+    </ContentPage.Content>
+</ContentPage>

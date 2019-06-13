@@ -21,7 +21,7 @@ namespace CompliXpertApp.ViewModels
         //constructor
         public CreateCallReportViewModel()
         {
-            MessagingCenter.Subscribe<AccountMasterViewModel, Account>(this, Message.CustomerLoaded, (sender, account)=> 
+            MessagingCenter.Subscribe<CustomerMasterViewModel, Account>(this, Message.CustomerLoaded, (sender, account)=> 
             {
                 Account = account;
             });

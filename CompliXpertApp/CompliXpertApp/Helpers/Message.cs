@@ -2,6 +2,13 @@
 {
     static class Message
     {
+        public static string AccountLoaded
+        {
+            get
+            {
+                return "accountLoaded";
+            }
+        }
         public static string AccountListLoaded
         {
             get
