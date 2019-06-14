@@ -15,24 +15,29 @@
         </Style>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout Margin="15">
+        <StackLayout BackgroundColor="#efefef">
+            <Label Text="Customer List"
+                   FontAttributes="Bold"
+                   TextColor="#305d82"
+                   FontSize="Large"
+                   HorizontalTextAlignment="Center"
+                   Margin="0,5,0,5"/>
+            <Frame Margin="5,0,5,0">
                 <ListView ItemsSource="{Binding Customers}"
                       SelectedItem="{Binding CustomerSelected, Mode=TwoWay}">
                     <ListView.Header>
                         <Grid BackgroundColor="#ddd">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Grid.Column="0"
                                Grid.Row="0"
                                Style="{StaticResource rowStyle}"
-                               HorizontalOptions="Fill"
                                HorizontalTextAlignment="Center"
                                Text="Customer Number"/>
                             <Label Grid.Column="1"
                                Grid.Row="0"
-                               HorizontalOptions="Fill"
                                Text="Customer Name"
                                HorizontalTextAlignment="Center"
                                Style="{StaticResource rowStyle}"/>
@@ -44,29 +49,30 @@
                                 <Grid Padding="10">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <Label Grid.Column="0"
                                        Grid.Row="0"
                                        Text="{Binding CustomerNumber}"
-                                       HorizontalTextAlignment="Center"
-                                       HorizontalOptions="Fill"
-                                       />
+                                       FontSize="Medium"
+                                       HorizontalTextAlignment="Center">
+                                    </Label>
                                     <Label Grid.Column="1"
                                        Grid.Row="0"
-                                       HorizontalOptions="Fill"
-                                       HorizontalTextAlignment="End"
-                                       Text="{Binding CustomerName}"/>
+                                       HorizontalTextAlignment="Center"
+                                       Text="{Binding CustomerName}"
+                                       FontSize="Medium">
+                                    </Label>
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-            <Button Text="Download Accounts" BackgroundColor="#428bca" TextColor="White"/>
+            </Frame>
+            <Button Text="Download Accounts" BackgroundColor="#428bca" TextColor="White" Margin="15"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
