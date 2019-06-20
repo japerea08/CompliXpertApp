@@ -7,71 +7,43 @@
         <ToolbarItem Text="+ Add Prospect"
                      Command="{Binding AddProspectCommand}"/>
     </ContentPage.ToolbarItems>
-    <ContentPage.Resources>
-        <Style x:Key="rowStyle" TargetType="Button">
-            <Setter Property="TextColor" Value="Black" />
-            <Setter Property="FontSize" Value="Default" />
-            <Setter Property="FontAttributes" Value="Bold"/>
-        </Style>
-    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout BackgroundColor="#efefef">
+        <StackLayout>
             <Label Text="Customer List"
-                   FontAttributes="Bold"
-                   TextColor="#305d82"
                    FontSize="Large"
                    HorizontalTextAlignment="Center"
-                   Margin="0,5,0,5"/>
-            <Frame Margin="5,0,5,0">
-                <ListView ItemsSource="{Binding Customers}"
-                      SelectedItem="{Binding CustomerSelected, Mode=TwoWay}">
-                    <ListView.Header>
-                        <Grid BackgroundColor="#ddd">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0"
-                               Grid.Row="0"
-                               Style="{StaticResource rowStyle}"
-                               HorizontalTextAlignment="Center"
-                               Text="Customer Number"/>
-                            <Label Grid.Column="1"
-                               Grid.Row="0"
-                               Text="Customer Name"
-                               HorizontalTextAlignment="Center"
-                               Style="{StaticResource rowStyle}"/>
-                        </Grid>
-                    </ListView.Header>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Grid Padding="10">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="0"
+                   Margin="0,10"/>
+            <ListView ItemsSource="{Binding Customers}" 
+                      SelectedItem="{Binding CustomerSelected, Mode=TwoWay}" 
+                      HasUnevenRows="True"
+                      SeparatorColor="#ffffff">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid BackgroundColor="#eff4f9">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Text="{Binding CustomerName}" 
+                                       FontSize="Large" 
                                        Grid.Row="0"
-                                       Text="{Binding CustomerNumber}"
-                                       FontSize="Medium"
-                                       HorizontalTextAlignment="Center">
-                                    </Label>
-                                    <Label Grid.Column="1"
-                                       Grid.Row="0"
-                                       HorizontalTextAlignment="Center"
-                                       Text="{Binding CustomerName}"
-                                       FontSize="Medium">
-                                    </Label>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Frame>
+                                       Grid.Column="0"
+                                       TextColor="#305d82"
+                                       Margin="10,2,0,0"/>
+                                <Label Text="{Binding CustomerNumber}"
+                                       FontSize="Small"
+                                       Grid.Row="1"
+                                       Grid.Column="0"
+                                       Margin="10,0,0,2"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
             <Button Text="Download Accounts" BackgroundColor="#428bca" TextColor="White" Margin="15"/>
         </StackLayout>
     </ContentPage.Content>
