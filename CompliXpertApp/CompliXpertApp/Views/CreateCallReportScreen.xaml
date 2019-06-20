@@ -7,16 +7,16 @@
         <ScrollView>
             <StackLayout Margin="15">
                 <Label Text="Call Report Details"
-                   FontAttributes="Bold"
-                   FontSize="Medium"
-                   Margin="0,0,0,10"/>
+                       FontSize="Large"
+                       HorizontalTextAlignment="Center"
+                       Margin="0,0,0,10"/>
                 <Label Text="Account"
-                   FontAttributes="Bold"
-                   FontSize="Small"/>
+                   TextColor="#305d82"
+                   FontSize="Large"/>
                 <Label Text="{Binding Account.AccountNumber}"/>
                 <Label Text="Customer Name"
-                   FontAttributes="Bold"
-                   FontSize="Small"/>
+                   TextColor="#305d82"
+                   FontSize="Large"/>
                 <Label Text="{Binding Account.CustomerName}"/>
                 <Picker Title="Select a Reason"
                         SelectedItem="{Binding NewCallReport.Reason}"
@@ -31,44 +31,44 @@
                 </Picker>
                 <StackLayout>
                     <Label Text="Call Date"
-                       FontAttributes="Bold"
-                       FontSize="Small"/>
+                       TextColor="#305d82"
+                   FontSize="Large"/>
                     <DatePicker Date="{Binding NewCallReport.CallDate}"></DatePicker>
                     <Label Text="Reference"
-                       FontAttributes="Bold"
-                       FontSize="Small"/>
+                       TextColor="#305d82"
+                   FontSize="Large"/>
                     <Entry Text="{Binding NewCallReport.Reference}"/>
                 </StackLayout>
                 <StackLayout IsVisible="{Binding CustomerVisitSelected}">
                     <Label Text="Purpose of Visit or Phone Call"
-                       FontAttributes="Bold"
-                       FontSize="Small"/>
+                       TextColor="#305d82"
+                   FontSize="Large"/>
                     <Entry Text="{Binding NewCallReport.Purpose}"/>
                     <Label Text="Officer's Observations or Comments"
-                       FontAttributes="Bold"
-                       FontSize="Small"/>
+                       TextColor="#305d82"
+                   FontSize="Large"/>
                     <Entry Text="{Binding NewCallReport.OfficerComments}"/>
                     <Label Text="Other Comments"
-                       FontAttributes="Bold"
-                       FontSize="Small"/>
+                       TextColor="#305d82"
+                   FontSize="Large"/>
                     <Entry Text="{Binding NewCallReport.OtherComments}"/>
                     <Label Text="Customer Comments"
-                       FontAttributes="Bold"
-                       FontSize="Small"/>
+                       TextColor="#305d82"
+                   FontSize="Large"/>
                     <Entry Text="{Binding NewCallReport.CustomerComments}"/>
                 </StackLayout>
                 <StackLayout IsVisible="{Binding FatcaSelected}">
                     <Label Text="Nationality"
-                       FontAttributes="Bold"
-                       FontSize="Small"/>
+                       TextColor="#305d82"
+                   FontSize="Large"/>
                     <Entry Text="{Binding NewCallReport.Nationality}"/>
                     <Label Text="Reason for Alert"
-                       FontAttributes="Bold"
-                       FontSize="Small"/>
+                        TextColor="#305d82"
+                        FontSize="Large"/>
                     <Entry Text="{Binding NewCallReport.ReasonforAlert}"/>
                     <Label Text="Customer Response"
-                       FontAttributes="Bold"
-                       FontSize="Small"/>
+                        TextColor="#305d82"
+                        FontSize="Large"/>
                     <Entry Text="{Binding NewCallReport.CustomerResponse}"/>
                 </StackLayout>
                 <Grid Padding="0,0,0,10">
