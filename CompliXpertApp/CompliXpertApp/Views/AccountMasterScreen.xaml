@@ -7,33 +7,33 @@
         <ScrollView>
             <StackLayout Margin="20">
                 <Label Text="Account Master"
-                       FontAttributes="Bold"
+                       HorizontalTextAlignment="Center"
                        FontSize="Large"
                        Margin="0,0,0,15"/>
                 <Label Text="Account Number"
-                       FontAttributes="Bold"
-                       FontSize="Medium"/>
+                       FontSize="Large"
+                       TextColor="#305d82"/>
                 <Label Text="{Binding Account.AccountNumber}"
                        TextDecorations="Underline"
-                       FontSize="Small"/>
-                <Label Text="Customer Number"
-                       FontAttributes="Bold"
                        FontSize="Medium"/>
+                <Label Text="Customer Number"
+                       FontSize="Large"
+                       TextColor="#305d82"/>
                 <Label Text="{Binding Account.CustomerNumber}"
                        TextDecorations="Underline"
-                       FontSize="Small"/>
-                <Label Text="Legal Type"
-                       FontAttributes="Bold"
                        FontSize="Medium"/>
+                <Label Text="Legal Type"
+                       FontSize="Large"
+                       TextColor="#305d82"/>
                 <Label Text="{Binding Account.AccountType}"
                        TextDecorations="Underline"
-                       FontSize="Small"/>
-                <Label Text="Account Class"
-                       FontAttributes="Bold"
                        FontSize="Medium"/>
+                <Label Text="Account Class"
+                       FontSize="Large"
+                       TextColor="#305d82"/>
                 <Label Text="{Binding Account.AccountClass}"
                        TextDecorations="Underline"
-                       FontSize="Small"/>
+                       FontSize="Medium"/>
                 <StackLayout Orientation="Horizontal" Padding="0,10,0,0">
                     <Button Text="View Call Reports" BackgroundColor="#428bca" TextColor="White" Command="{Binding ViewCallReportsCommand}"/>
                     <Button Text="New Call Report" BackgroundColor="#428bca" TextColor="White" Command="{Binding GoToCreateCallReportCommand}"/>
