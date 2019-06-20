@@ -8,16 +8,15 @@
             <StackLayout Margin="20,5">
                 <Label Text="Add a Prospect"
                        Margin="0,0,0,20"
-                   FontAttributes="Bold"
                    FontSize="Large"
-                   HorizontalTextAlignment="Start"/>
+                   HorizontalTextAlignment="Center"/>
                 <Label Text="Enter Customer Name"
-                   FontAttributes="Bold"
-                   FontSize="Medium"/>
+                   FontSize="Large"
+                       TextColor="#305d82"/>
                 <Entry/>
                 <Label Text="Account Status"
-                   FontAttributes="Bold"
-                   FontSize="Medium"/>
+                   FontSize="Large"
+                       TextColor="#305d82"/>
                 <Picker Title="Select Status">
                     <Picker.Items>
                         <x:String>Active Account</x:String>
@@ -25,8 +24,8 @@
                     </Picker.Items>
                 </Picker>
                 <Label Text="Account Type"
-                   FontAttributes="Bold"
-                   FontSize="Medium"/>
+                   FontSize="Large"
+                       TextColor="#305d82"/>
                 <Picker Title="Select Type">
                     <Picker.Items>
                         <x:String>Corporation</x:String>
@@ -34,8 +33,8 @@
                     </Picker.Items>
                 </Picker>
                 <Label Text="Account Class"
-                   FontAttributes="Bold"
-                   FontSize="Medium"/>
+                   FontSize="Large"
+                       TextColor="#305d82"/>
                 <Picker Title="Select Class">
                     <Picker.Items>
                         <x:String>None</x:String>
