@@ -22,5 +22,10 @@ namespace CompliXpertApp.Views
             base.OnDisappearing();
             MessagingCenter.Unsubscribe<LoginViewModel, List<Account>>(listScreenViewModel, Message.AccountListLoaded);
         }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            listScreenViewModel.CheckForNewReports();
+        }
     }
 }

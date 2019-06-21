@@ -3,6 +3,7 @@ using CompliXpertApp.Models;
 using CompliXpertApp.Views;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -213,6 +214,7 @@ namespace CompliXpertApp.ViewModels
         }
         public async Task<List<Customer>> GetJsonAsync()
         {
+            Object jsonObject = JsonConvert.DeserializeObject<Object>(await DependencyService.Get<IRWExternalStorage>().ReadFileAsync());
             return JsonConvert.DeserializeObject<List<Customer>>(await DependencyService.Get<IRWExternalStorage>().ReadFileAsync());
         }
     }

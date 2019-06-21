@@ -5,6 +5,6 @@ namespace CompliXpertApp.Helpers
     public interface IRWExternalStorage
     {
         Task<string> ReadFileAsync();
-        Task<string> WriteFileAsync(string filePath, string jsonString);
+        Task WriteFileAsync(string jsonString);
     }
 }

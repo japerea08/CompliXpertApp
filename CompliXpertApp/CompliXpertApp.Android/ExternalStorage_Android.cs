@@ -38,8 +38,9 @@ namespace CompliXpertApp
                 return null;
             } 
         }
-        public string WriteFile(string filePath, string jsonString)
+        public string WriteFile(string jsonString)
         {
+            string filePath = "/compliXpertCallReports.text";
             var backingFile = Path.Combine(GetExternalPath(), filePath);
             using (var writer = File.CreateText(backingFile))
             {
@@ -79,9 +80,14 @@ namespace CompliXpertApp
             }
         }
 
-        public Task<string> WriteFileAsync(string filePath, string jsonString)
+        public async Task WriteFileAsync(string jsonString)
         {
-            throw new System.NotImplementedException();
+            string filePath = "/compliXpertCallReports.text";
+            var backingFile = Path.Combine(GetExternalPath(), filePath);
+            using (var writer = File.CreateText(backingFile))
+            {
+                await writer.WriteLineAsync(jsonString);
+            }
         }
     }
 }

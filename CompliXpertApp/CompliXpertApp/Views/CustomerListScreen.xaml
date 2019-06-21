@@ -44,7 +44,12 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button Text="Download Accounts" BackgroundColor="#428bca" TextColor="White" Margin="15"/>
+            <ActivityIndicator IsRunning="{Binding IsBusy}"/>
+            <Button Text="Download Call Reports" 
+                    BackgroundColor="#428bca" 
+                    TextColor="White" 
+                    Margin="15" 
+                    Command="{Binding DownloadCallReportsCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
