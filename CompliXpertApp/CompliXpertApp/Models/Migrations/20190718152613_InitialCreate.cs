@@ -1,12 +1,39 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace CompliXpertApp.Migrations
+namespace MigrationsApp.Migrations
 {
     public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "CallReportQuestions",
+                columns: table => new
+                {
+                    QuestionId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    QuestionHeader = table.Column<string>(nullable: true),
+                    Status = table.Column<bool>(nullable: false),
+                    Type = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CallReportQuestions", x => x.QuestionId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CallReportType",
+                columns: table => new
+                {
+                    Type = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CallReportType", x => x.Type);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Customer",
                 columns: table => new
@@ -48,24 +75,16 @@ namespace CompliXpertApp.Migrations
                     CallReportId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     CreatedOnMobile = table.Column<bool>(nullable: false),
-                    Nationality = table.Column<string>(nullable: true),
-                    ReasonforAlert = table.Column<string>(nullable: true),
-                    CustomerResponse = table.Column<string>(nullable: true),
                     Officer = table.Column<string>(nullable: true),
                     Position = table.Column<string>(nullable: true),
-                    Reason = table.Column<string>(nullable: true),
                     CallDate = table.Column<DateTime>(nullable: false),
-                    Status = table.Column<string>(nullable: true),
                     Reference = table.Column<string>(nullable: true),
                     ApprovedBy = table.Column<string>(nullable: true),
                     ApprovedDate = table.Column<DateTime>(nullable: false),
                     LastUpdated = table.Column<string>(nullable: true),
                     LastUpdatedDate = table.Column<DateTime>(nullable: false),
-                    Purpose = table.Column<string>(nullable: true),
-                    OfficerComments = table.Column<string>(nullable: true),
-                    OtherComments = table.Column<string>(nullable: true),
-                    CustomerComments = table.Column<string>(nullable: true),
-                    AccountNumber = table.Column<int>(nullable: true)
+                    AccountNumber = table.Column<int>(nullable: true),
+                    CallReportType = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -78,6 +97,27 @@ namespace CompliXpertApp.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "CallReportResponse",
+                columns: table => new
+                {
+                    ResponseId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Response = table.Column<string>(nullable: true),
+                    QuestionId = table.Column<int>(nullable: false),
+                    CallReportId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CallReportResponse", x => x.ResponseId);
+                    table.ForeignKey(
+                        name: "FK_CallReportResponse_CallReport_CallReportId",
+                        column: x => x.CallReportId,
+                        principalTable: "CallReport",
+                        principalColumn: "CallReportId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Account_CustomerNumber",
                 table: "Account",
@@ -87,10 +127,24 @@ namespace CompliXpertApp.Migrations
                 name: "IX_CallReport_AccountNumber",
                 table: "CallReport",
                 column: "AccountNumber");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CallReportResponse_CallReportId",
+                table: "CallReportResponse",
+                column: "CallReportId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "CallReportQuestions");
+
+            migrationBuilder.DropTable(
+                name: "CallReportResponse");
+
+            migrationBuilder.DropTable(
+                name: "CallReportType");
+
             migrationBuilder.DropTable(
                 name: "CallReport");
 

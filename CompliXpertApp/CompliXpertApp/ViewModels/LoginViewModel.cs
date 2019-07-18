@@ -21,9 +21,11 @@ namespace CompliXpertApp.ViewModels
         private bool canLogin = true;
         private Color usernamePlaceholderColor = Color.Default;
         private Color passwordPlaceholderColor = Color.Default;
+        private CompliXperAppContext context;
 
         public LoginViewModel()
         {
+            context = new CompliXperAppContext();
             //object for sigining in
             User = new User();
             CheckLoginCredentialsCommand = new Command(async () => await CheckLoginCredentialsAsync(), () => canLogin);
@@ -93,6 +95,15 @@ namespace CompliXpertApp.ViewModels
             {
                 CanAttemptLogin(false);
                 IsBusy = true;
+                //check CallReportType table and Question tables
+                if(await Task.Run(() => DBContainsCallReportTypeandQuestions()) == false)
+                {
+                    //get the json for call report questions
+                    List<CallReportType> callReportTypes = await Task.Run(() => GetCallReportTypeJsonAsync());
+                    List<CallReportQuestions> callReportQuestions = await Task.Run(()=> GetCallReportQuestionsJsonAsync());
+                    //add to DB
+                    await Task.Run(() => AddTypeandQuestionsAsync(callReportTypes, callReportQuestions));
+                }
                 //will only run if the DB has records
                 if (await Task.Run(() => DBContainsRecords()))
                 {
@@ -126,25 +137,29 @@ namespace CompliXpertApp.ViewModels
                     PasswordPlaceholderColor = Color.Red;
             }
         }
+        public bool DBContainsCallReportTypeandQuestions()
+        {
+            if (context.CallReportQuestions.Any() || context.CallReportType.Any())
+                return true;
+            else
+                return false;
+        }
         public bool DBContainsRecords()
         {
-            using (var context = new CompliXperAppContext())
+            if (context.Customer.Any())
+                return true;
+            else
             {
-                if (context.Customer.Any())
-                    return true;
-                else
-                {
-                    //context.Database.EnsureDeleted();
-                    return false;
-                }
+                return false;
             }
         }
         public async Task<List<Customer>> GetCustomersAsync()
         {
-            using (var context = new CompliXperAppContext())
+            using (context)
             {
                 //get all customers 
                 var customers = context.Customer;
+                //populate the customer's account
                 foreach (Customer customer in customers)
                 {
                     customer.Account = await
@@ -159,6 +174,7 @@ namespace CompliXpertApp.ViewModels
                                 CustomerNumber = _account.CustomerNumber,
                             }
                         ).ToListAsync();
+                    //populate each CallReport associated with an Account
                     foreach (Account account in customer.Account)
                     {
                         account.CallReport = await (
@@ -167,23 +183,15 @@ namespace CompliXpertApp.ViewModels
                             select new CallReport
                             {
                                 CallReportId = _report.CallReportId,
-                                Purpose = _report.Purpose,
-                                OfficerComments = _report.OfficerComments,
-                                OtherComments = _report.OtherComments,
-                                CustomerComments = _report.CustomerComments,
                                 AccountNumber = _report.AccountNumber,
                                 Officer = _report.Officer,
                                 Position = _report.Position,
-                                Reason = _report.Reason,
                                 CallDate = _report.CallDate.Date,
-                                Status = _report.Status,
                                 Reference = _report.Reference,
                                 ApprovedBy = _report.ApprovedBy,
                                 ApprovedDate = _report.ApprovedDate,
-                                Nationality = _report.Nationality,
-                                ReasonforAlert = _report.ReasonforAlert,
-                                CustomerResponse = _report.CustomerResponse,
                                 CreatedOnMobile = _report.CreatedOnMobile,
+                                CallReportType = _report.CallReportType,
                                 LastUpdated = _report.LastUpdated
                             }
                         ).ToListAsync();
@@ -192,30 +200,58 @@ namespace CompliXpertApp.ViewModels
                 return await customers.ToListAsync();
             }
         }
+        public async Task AddTypeandQuestionsAsync(List<CallReportType> types, List<CallReportQuestions> questions)
+        {
+            context.CallReportType.AddRange(types);
+            context.CallReportQuestions.AddRange(questions);
+            await context.SaveChangesAsync();
+        }
         public async Task AddCustomersAsync(List<Customer> customers)
         {
-            using (var context = new CompliXperAppContext())
-            {
                 context.Customer.AddRange(customers);
                 List<Account> accounts = new List<Account>();
                 List<CallReport> callreports = new List<CallReport>();
+                List<CallReportResponse> responses = new List<CallReportResponse>();
                 foreach (Customer customer in customers)
                 {
-                    accounts = customer.Account.ToList();
+                    accounts.AddRange(customer.Account);
                     foreach(Account account in customer.Account)
                     {
-                        callreports = account.CallReport.ToList();
+                        callreports.AddRange(account.CallReport);
+                        foreach (CallReport report in account.CallReport)
+                        {
+                            responses.AddRange(report.Responses);
+                        }
                     }
                 }
                 context.Account.AddRange(accounts);
                 context.CallReport.AddRange(callreports);
-                await context.SaveChangesAsync();
-            }
+                context.CallReportResponse.AddRange(responses);
+                try
+                {
+                    await context.SaveChangesAsync();
+                }
+                catch (DbUpdateException e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine(e.InnerException);
+                }
         }
+        //returns a list of customers
         public async Task<List<Customer>> GetJsonAsync()
         {
-            Object jsonObject = JsonConvert.DeserializeObject<Object>(await DependencyService.Get<IRWExternalStorage>().ReadFileAsync());
             return JsonConvert.DeserializeObject<List<Customer>>(await DependencyService.Get<IRWExternalStorage>().ReadFileAsync());
+        }
+        //get call report types
+        public async Task<List<CallReportType>> GetCallReportTypeJsonAsync()
+        {
+            return JsonConvert.DeserializeObject<List<CallReportType>>(await DependencyService.Get<IRWExternalStorage>().GetCallReportTypeAsync());
+        }
+        //get call report questions
+        public async Task<List<CallReportQuestions>> GetCallReportQuestionsJsonAsync()
+        {
+            return JsonConvert.DeserializeObject<List<CallReportQuestions>>(await DependencyService.Get<IRWExternalStorage>().GetCallReportQuestionsAsync());
         }
     }
 }

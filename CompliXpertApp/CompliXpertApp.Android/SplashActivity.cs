@@ -62,7 +62,7 @@ namespace CompliXpertApp.Droid
         private async Task CheckFolder()
         {
             string path = Android.OS.Environment.ExternalStorageDirectory.AbsolutePath + "/CompliXpert";
-            //check to see if the folder exists
+            //check to see if the folder exists; if it doesn't create it!
             if (Directory.Exists(path) == false)
             {
                 var directory = await Task.Run(() => Directory.CreateDirectory(path));

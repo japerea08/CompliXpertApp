@@ -2,7 +2,6 @@
 using CompliXpertApp.Models;
 using CompliXpertApp.Views;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -67,7 +66,7 @@ namespace CompliXpertApp.ViewModels
             set
             {
                 _callReport = value;
-                if (_callReport.Reason == "FATCA Questionnaire")
+                if (false)
                 {
                     FatcaSelected = true;
                     CustomerVisitSelected = false;
@@ -128,18 +127,9 @@ namespace CompliXpertApp.ViewModels
                 var entity = await context.CallReport.FirstOrDefaultAsync(x => x.CallReportId == Report.CallReportId);
                 context.Entry(entity).State = EntityState.Modified;
                 entity.CallDate = Report.CallDate;
-                entity.CustomerComments = Report.CustomerComments;
-                entity.CustomerResponse = Report.CustomerResponse;
                 entity.CallDate = Report.CallDate;
-                entity.Nationality = Report.Nationality;
-                entity.OfficerComments = Report.OfficerComments;
-                entity.OtherComments = Report.OtherComments;
                 entity.Position = Report.Position;
-                entity.Purpose = Report.Purpose;
-                entity.Reason = Report.Reason;
-                entity.ReasonforAlert = Report.ReasonforAlert;
                 entity.Reference = Report.Reference;
-                entity.Status = Report.Status;
                 await context.SaveChangesAsync();
                 IsBusy = false;
                 await App.Current.MainPage.Navigation.PopAsync();

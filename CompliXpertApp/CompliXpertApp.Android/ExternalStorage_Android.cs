@@ -4,10 +4,6 @@ using Android.OS;
 using Android.Widget;
 using CompliXpertApp;
 using System.IO;
-using Android.Support.V4.App;
-using Android.Content.PM;
-using Android;
-using Android.App;
 using System.Threading.Tasks;
 
 [assembly: Dependency(typeof(ExternalStorage_Android))]
@@ -59,7 +55,44 @@ namespace CompliXpertApp
             }
             return path;
         }
-
+        //read CallReportType
+        public async Task<string> GetCallReportTypeAsync()
+        {
+            string filePath = GetExternalPath() + "/callreporttype.txt";
+            try
+            {
+                using (StreamReader reader = new StreamReader(filePath))
+                {
+                    return await reader.ReadToEndAsync(); 
+                }
+            }
+            catch (IOException)
+            {
+                var context = Android.App.Application.Context;
+                string message = " Call Report Type file not accessible";
+                Toast.MakeText(context, message, ToastLength.Long).Show();
+                return null;
+            }
+        }
+        //read CallReport Questions
+        public async Task<string> GetCallReportQuestionsAsync()
+        {
+            string filePath = GetExternalPath() + "/questionjson.txt";
+            try
+            {
+                using (StreamReader reader = new StreamReader(filePath))
+                {
+                    return await reader.ReadToEndAsync();
+                }
+            }
+            catch (IOException)
+            {
+                var context = Android.App.Application.Context;
+                string message = " Call Report Questions file not accessible";
+                Toast.MakeText(context, message, ToastLength.Long).Show();
+                return null;
+            }
+        }
         public async Task<string> ReadFileAsync()
         {
             string filePath = GetExternalPath() + "/compliXpertcustomers.txt";
@@ -67,8 +100,7 @@ namespace CompliXpertApp
             {
                 using (StreamReader reader = new StreamReader(filePath))
                 {
-                    var json = await reader.ReadToEndAsync();
-                    return json;
+                    return await reader.ReadToEndAsync();
                 }
             }
             catch (IOException)

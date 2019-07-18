@@ -4,11 +4,12 @@ using CompliXpertApp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace CompliXpertApp.Migrations
+namespace MigrationsApp.Migrations
 {
     [DbContext(typeof(CompliXperAppContext))]
-    [Migration("20190613162757_InitialCreate")]
+    [Migration("20190718152613_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,41 +48,71 @@ namespace CompliXpertApp.Migrations
 
                     b.Property<DateTime>("CallDate");
 
+                    b.Property<string>("CallReportType");
+
                     b.Property<bool>("CreatedOnMobile");
-
-                    b.Property<string>("CustomerComments");
-
-                    b.Property<string>("CustomerResponse");
 
                     b.Property<string>("LastUpdated");
 
                     b.Property<DateTime>("LastUpdatedDate");
 
-                    b.Property<string>("Nationality");
-
                     b.Property<string>("Officer");
-
-                    b.Property<string>("OfficerComments");
-
-                    b.Property<string>("OtherComments");
 
                     b.Property<string>("Position");
 
-                    b.Property<string>("Purpose");
-
-                    b.Property<string>("Reason");
-
-                    b.Property<string>("ReasonforAlert");
-
                     b.Property<string>("Reference");
-
-                    b.Property<string>("Status");
 
                     b.HasKey("CallReportId");
 
                     b.HasIndex("AccountNumber");
 
                     b.ToTable("CallReport");
+                });
+
+            modelBuilder.Entity("CompliXpertApp.Models.CallReportQuestions", b =>
+                {
+                    b.Property<int>("QuestionId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("QuestionHeader");
+
+                    b.Property<bool>("Status");
+
+                    b.Property<string>("Type");
+
+                    b.HasKey("QuestionId");
+
+                    b.ToTable("CallReportQuestions");
+                });
+
+            modelBuilder.Entity("CompliXpertApp.Models.CallReportResponse", b =>
+                {
+                    b.Property<int>("ResponseId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("CallReportId");
+
+                    b.Property<int>("QuestionId");
+
+                    b.Property<string>("Response");
+
+                    b.HasKey("ResponseId");
+
+                    b.HasIndex("CallReportId");
+
+                    b.ToTable("CallReportResponse");
+                });
+
+            modelBuilder.Entity("CompliXpertApp.Models.CallReportType", b =>
+                {
+                    b.Property<string>("Type")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.HasKey("Type");
+
+                    b.ToTable("CallReportType");
                 });
 
             modelBuilder.Entity("CompliXpertApp.Models.Customer", b =>
@@ -112,6 +143,14 @@ namespace CompliXpertApp.Migrations
                         .WithMany("CallReport")
                         .HasForeignKey("AccountNumber")
                         .HasConstraintName("FK__CallRepor__Accou__59063A47");
+                });
+
+            modelBuilder.Entity("CompliXpertApp.Models.CallReportResponse", b =>
+                {
+                    b.HasOne("CompliXpertApp.Models.CallReport")
+                        .WithMany("Responses")
+                        .HasForeignKey("CallReportId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
