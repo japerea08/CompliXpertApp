@@ -173,38 +173,7 @@ namespace CompliXpertApp.ViewModels
                                 AccountClass = _account.AccountClass,
                                 CustomerNumber = _account.CustomerNumber,
                             }
-                        ).ToListAsync();
-                    //populate each CallReport associated with an Account
-                    foreach (Account account in customer.Account)
-                    {
-                        account.CallReport = await (
-                            from _report in context.CallReport
-                            where _report.AccountNumber == account.AccountNumber
-                            select new CallReport
-                            {
-                                CallReportId = _report.CallReportId,
-                                AccountNumber = _report.AccountNumber,
-                                Officer = _report.Officer,
-                                Position = _report.Position,
-                                CallDate = _report.CallDate.Date,
-                                Reference = _report.Reference,
-                                ApprovedBy = _report.ApprovedBy,
-                                ApprovedDate = _report.ApprovedDate,
-                                CreatedOnMobile = _report.CreatedOnMobile,
-                                CallReportType = _report.CallReportType,
-                                Responses = (from _responses in context.CallReportResponse
-                                             where _responses.CallReportId == _report.CallReportId
-                                             select new CallReportResponse
-                                             {
-                                                 ResponseId = _responses.ResponseId,
-                                                 Response = _responses.Response,
-                                                 QuestionId = _responses.QuestionId,
-                                                 CallReportId = _responses.CallReportId
-                                             }).ToList(),
-                                LastUpdated = _report.LastUpdated
-                            }
-                        ).ToListAsync();
-                    }  
+                        ).ToListAsync(); 
                 }
                 return await customers.ToListAsync();
             }
