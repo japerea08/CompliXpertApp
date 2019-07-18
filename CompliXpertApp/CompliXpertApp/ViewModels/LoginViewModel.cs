@@ -192,6 +192,15 @@ namespace CompliXpertApp.ViewModels
                                 ApprovedDate = _report.ApprovedDate,
                                 CreatedOnMobile = _report.CreatedOnMobile,
                                 CallReportType = _report.CallReportType,
+                                Responses = (from _responses in context.CallReportResponse
+                                             where _responses.CallReportId == _report.CallReportId
+                                             select new CallReportResponse
+                                             {
+                                                 ResponseId = _responses.ResponseId,
+                                                 Response = _responses.Response,
+                                                 QuestionId = _responses.QuestionId,
+                                                 CallReportId = _responses.CallReportId
+                                             }).ToList(),
                                 LastUpdated = _report.LastUpdated
                             }
                         ).ToListAsync();
