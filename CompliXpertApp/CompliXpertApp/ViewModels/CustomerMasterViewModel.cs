@@ -14,7 +14,7 @@ namespace CompliXpertApp.ViewModels
         private string _customerMaster = "Customer Master- ";
         private Customer _customer;
         private bool _isBusy = false;
-        //private List<Account> _accounts;
+
         //constructor
         public CustomerMasterViewModel()
         {
@@ -28,24 +28,10 @@ namespace CompliXpertApp.ViewModels
             {
                 Customer = account;
             });
-            ViewCallReportsCommand = new Command(async () => await ViewCallReportsAsync(), () => canTap);
-            GoToCreateCallReportCommand = new Command(async () => await GoToCreateCallReportAsync());
         }
 
         //properties
         public Account Account { get; set; }
-        //public List<Account> Accounts
-        //{
-        //    get
-        //    {
-        //        return _accounts;
-        //    }
-        //    set
-        //    {
-        //        _accounts = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
         public string CustomerMaster
         {
             get
@@ -98,7 +84,6 @@ namespace CompliXpertApp.ViewModels
             {
                 _customer = value;
                 CustomerMaster = _customer.CustomerName;
-                //Accounts = _customer.Account.ToList();
                 OnPropertyChanged();
             }
         }
@@ -110,24 +95,6 @@ namespace CompliXpertApp.ViewModels
             await App.Current.MainPage.Navigation.PushAsync(new AccountMasterScreen());
             IsBusy = false;
             MessagingCenter.Send<CustomerMasterViewModel, Account>(this, Message.AccountLoaded, account);
-        }
-        async Task ViewCallReportsAsync()
-        {
-            IsBusy = true;
-            //get the call report list
-            using (var context = new CompliXperAppContext())
-            {
-                //var reports = await context.CallReport.Where(report => report.AccountNumber == Customer.AccountNumber).ToListAsync();
-                await App.Current.MainPage.Navigation.PushAsync(new CallReportsList());
-                IsBusy = false;
-                //MessagingCenter.Send<AccountMasterViewModel, int>(this, Message.AccountNumber, Customer.AccountNumber);
-            }
-        }
-        async Task GoToCreateCallReportAsync()
-        {
-            await App.Current.MainPage.Navigation.PushAsync(new CreateCallReportScreen());
-            MessagingCenter.Send<CustomerMasterViewModel, Customer>(this, Message.CustomerLoaded, Customer);
-        }
-        
+        }        
     }
 }
