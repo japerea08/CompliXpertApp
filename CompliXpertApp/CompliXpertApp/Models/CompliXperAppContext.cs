@@ -32,6 +32,9 @@ namespace CompliXpertApp.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder
+                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
+
             modelBuilder.Entity("CompliXpertApp.Models.Account", b =>
             {
                 b.Property<int>("AccountNumber");

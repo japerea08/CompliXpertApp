@@ -3,7 +3,6 @@ using CompliXpertApp.Models;
 using CompliXpertApp.Views;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,11 +20,9 @@ namespace CompliXpertApp.ViewModels
         private bool canLogin = true;
         private Color usernamePlaceholderColor = Color.Default;
         private Color passwordPlaceholderColor = Color.Default;
-        private CompliXperAppContext context;
 
         public LoginViewModel()
         {
-            context = new CompliXperAppContext();
             //object for sigining in
             User = new User();
             CheckLoginCredentialsCommand = new Command(async () => await CheckLoginCredentialsAsync(), () => canLogin);
@@ -139,23 +136,29 @@ namespace CompliXpertApp.ViewModels
         }
         public bool DBContainsCallReportTypeandQuestions()
         {
-            if (context.CallReportQuestions.Any() || context.CallReportType.Any())
-                return true;
-            else
-                return false;
+            using (var context = new CompliXperAppContext())
+            {
+                if (context.CallReportQuestions.Any() || context.CallReportType.Any())
+                    return true;
+                else
+                    return false;
+            }        
         }
         public bool DBContainsRecords()
         {
-            if (context.Customer.Any())
-                return true;
-            else
+            using (var context = new CompliXperAppContext())
             {
-                return false;
-            }
+                if (context.Customer.Any())
+                    return true;
+                else
+                {
+                    return false;
+                }
+            }       
         }
         public async Task<List<Customer>> GetCustomersAsync()
         {
-            using (context)
+            using (var context = new CompliXperAppContext())
             {
                 //get all customers 
                 var customers = context.Customer;
@@ -180,12 +183,26 @@ namespace CompliXpertApp.ViewModels
         }
         public async Task AddTypeandQuestionsAsync(List<CallReportType> types, List<CallReportQuestions> questions)
         {
-            context.CallReportType.AddRange(types);
-            context.CallReportQuestions.AddRange(questions);
-            await context.SaveChangesAsync();
+            using (var context = new CompliXperAppContext())
+            {
+                context.CallReportType.AddRange(types);
+                context.CallReportQuestions.AddRange(questions); 
+                try
+                {
+                    await context.SaveChangesAsync();
+                }
+                catch (DbUpdateException e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine(e.InnerException);
+                }
+            }           
         }
         public async Task AddCustomersAsync(List<Customer> customers)
         {
+            using (var context = new CompliXperAppContext())
+            {
                 context.Customer.AddRange(customers);
                 List<Account> accounts = new List<Account>();
                 List<CallReport> callreports = new List<CallReport>();
@@ -193,7 +210,7 @@ namespace CompliXpertApp.ViewModels
                 foreach (Customer customer in customers)
                 {
                     accounts.AddRange(customer.Account);
-                    foreach(Account account in customer.Account)
+                    foreach (Account account in customer.Account)
                     {
                         callreports.AddRange(account.CallReport);
                         foreach (CallReport report in account.CallReport)
@@ -215,6 +232,7 @@ namespace CompliXpertApp.ViewModels
                     Console.WriteLine(e.Message);
                     Console.WriteLine(e.InnerException);
                 }
+            }
         }
         //returns a list of customers
         public async Task<List<Customer>> GetJsonAsync()
