@@ -23,8 +23,6 @@
                 <Label Text="Call Reason"
                    TextColor="#305d82"
                    FontSize="Large"/>
-                <Label Text="{Binding Report.Reason}"
-                       FontSize="Medium"/>
                 <StackLayout>
                     <StackLayout.Triggers>
                         <DataTrigger TargetType="StackLayout"
@@ -48,45 +46,10 @@
                     <Entry Text="{Binding Report.Reference}"
                            FontSize="Medium"/>
                     <StackLayout IsVisible="{Binding CustomerVisitSelected}">
-                        <Label Text="Purpose of Visit or Phone Call"
-                        TextColor="#305d82"
-                        FontSize="Large"/>
-                        <Entry Text="{Binding Report.Purpose}"
-                               FontSize="Medium"/>
-                        <Label Text="Officer's Observations or Comments"
-                            TextColor="#305d82"
-                            FontSize="Large"/>
-                        <Entry Text="{Binding Report.OfficerComments}"
-                               FontSize="Medium"/>
-                        <Label Text="Other Comments"
-                            TextColor="#305d82"
-                            FontSize="Large"/>
-                        <Entry Text="{Binding Report.OtherComments}"
-                               FontSize="Medium"/>
-                        <Label Text="Customer Comments"
-                            TextColor="#305d82"
-                            FontSize="Large"/>
-                        <Entry Text="{Binding Report.CustomerComments}"
-                               FontSize="Medium"/>
-                    </StackLayout>
-                    <StackLayout IsVisible="{Binding FatcaSelected}">
-                        <Label Text="Nationality"
-                            TextColor="#305d82"
-                            FontSize="Large"/>
-                        <Entry Text="{Binding Report.Nationality}"
-                               FontSize="Medium"/>
-                        <Label Text="Reason for Alert"
-                            TextColor="#305d82"
-                            FontSize="Large"/>
-                        <Entry Text="{Binding Report.ReasonforAlert}"
-                               FontSize="Medium"/>
-                        <Label Text="Customer Response"
-                            TextColor="#305d82"
-                            FontSize="Large"/>
-                        <Entry Text="{Binding Report.CustomerResponse}"
-                               FontSize="Medium"/>
+
                     </StackLayout>
                 </StackLayout>
+                <!--this will display if not created on the mobile device-->
                 <StackLayout>
                     <StackLayout.Triggers>
                         <DataTrigger TargetType="StackLayout"
@@ -109,45 +72,18 @@
                         FontSize="Large"/>
                     <Label Text="{Binding Report.Reference}"
                            FontSize="Medium"/>
-                    <StackLayout IsVisible="{Binding CustomerVisitSelected}">
-                        <Label Text="Purpose of Visit or Phone Call"
-                            TextColor="#305d82"
-                            FontSize="Large"/>
-                        <Label Text="{Binding Report.Purpose}"
-                               FontSize="Medium"/>
-                        <Label Text="Officer's Observations or Comments"
-                            TextColor="#305d82"
-                            FontSize="Large"/>
-                        <Label Text="{Binding Report.OfficerComments}"
-                               FontSize="Medium"/>
-                        <Label Text="Other Comments"
-                            TextColor="#305d82"
-                            FontSize="Large"/>
-                        <Label Text="{Binding Report.OtherComments}"
-                               FontSize="Medium"/>
-                        <Label Text="Customer Comments"
-                            TextColor="#305d82"
-                            FontSize="Large"/>
-                        <Label Text="{Binding Report.CustomerComments}"
-                               FontSize="Medium"/>
-                    </StackLayout>
-                    <StackLayout IsVisible="{Binding FatcaSelected}">
-                        <Label Text="Nationality"
-                            TextColor="#305d82"
-                            FontSize="Large"/>
-                        <Label Text="{Binding Report.Nationality}"
-                               FontSize="Medium"/>
-                        <Label Text="Reason for Alert"
-                            TextColor="#305d82"
-                            FontSize="Large"/>
-                        <Label Text="{Binding Report.ReasonforAlert}"
-                               FontSize="Medium"/>
-                        <Label Text="Customer Response"
-                            TextColor="#305d82"
-                            FontSize="Large"/>
-                        <Label Text="{Binding Report.CustomerResponse}"
-                               FontSize="Medium"/>
-                    </StackLayout>
+                    <ListView ItemsSource="{Binding Questions}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Label Text="{Binding QuestionHeader}"
+                                           FontSize="Large"
+                                           TextColor="#305d82"/>
+                                    
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </StackLayout>
                 <Grid Padding="0,0,0,10">
                     <Grid.RowDefinitions>

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 namespace CompliXpertApp.ViewModels
 {
@@ -20,7 +19,7 @@ namespace CompliXpertApp.ViewModels
         private bool _createdOnMobile = false;
         private bool _isBusy = false;
         private List<CallReportQuestions> _questions;
-        private List<CallReportResponse> _responses;
+        private List<CallReportResponse> _responses = new List<CallReportResponse>();
 
 
         //constructor
@@ -45,6 +44,15 @@ namespace CompliXpertApp.ViewModels
                             Type = _q.Type
                         }
                     ).ToListAsync();
+
+                    foreach (var question in Questions)
+                    {
+                       foreach(var response in Report.Responses)
+                        {
+                            if (question.QuestionId == response.QuestionId)
+                                Responses.Add(response);
+                        }
+                    }
                 }
                 //manipulate the stack
                 List<Page> stackPages = new List<Page>();
@@ -65,6 +73,18 @@ namespace CompliXpertApp.ViewModels
         public ICommand SaveCallReportCommand { get; set; }
         public ICommand DeleteCallReportCommand { get; set; }
         public ICommand CloseCallReportCommand { get; set; }
+        public List<CallReportResponse> Responses
+        {
+            get
+            {
+                return _responses;
+            }
+            set
+            {
+                _responses = value;
+                OnPropertyChanged();
+            }
+        }
         public List<CallReportQuestions> Questions
         {
             get
