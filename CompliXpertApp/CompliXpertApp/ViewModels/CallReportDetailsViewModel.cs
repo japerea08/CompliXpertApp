@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace CompliXpertApp.ViewModels
 {
@@ -17,15 +19,33 @@ namespace CompliXpertApp.ViewModels
         private bool _fatcaSelected = false;
         private bool _createdOnMobile = false;
         private bool _isBusy = false;
+        private List<CallReportQuestions> _questions;
+        private List<CallReportResponse> _responses;
 
 
         //constructor
         public CallReportDetailsViewModel()
         {
-            MessagingCenter.Subscribe<CallReportListViewModel, CallReport>(this, Message.CallReportLoaded, (sender, _report) =>
+            MessagingCenter.Subscribe<CallReportListViewModel, CallReport>(this, Message.CallReportLoaded, async (sender, _report) =>
             {
                 Report = _report;
                 CreatedOnMobile = Report.CreatedOnMobile;
+
+                //get the questions
+                using (var context = new CompliXperAppContext())
+                {
+                    Questions = await (
+                        from _q in context.CallReportQuestions
+                        where _q.Type == Report.CallReportType
+                        select new CallReportQuestions
+                        {
+                            QuestionId = _q.QuestionId,
+                            QuestionHeader = _q.QuestionHeader,
+                            Status = _q.Status,
+                            Type = _q.Type
+                        }
+                    ).ToListAsync();
+                }
                 //manipulate the stack
                 List<Page> stackPages = new List<Page>();
                 foreach (Page page in App.Current.MainPage.Navigation.NavigationStack)
@@ -45,6 +65,18 @@ namespace CompliXpertApp.ViewModels
         public ICommand SaveCallReportCommand { get; set; }
         public ICommand DeleteCallReportCommand { get; set; }
         public ICommand CloseCallReportCommand { get; set; }
+        public List<CallReportQuestions> Questions
+        {
+            get
+            {
+                return _questions;
+            }
+            set
+            {
+                _questions = value;
+                OnPropertyChanged();
+            }
+        }
         public bool IsBusy
         {
             get

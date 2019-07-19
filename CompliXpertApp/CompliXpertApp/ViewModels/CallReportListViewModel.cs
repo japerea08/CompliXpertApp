@@ -4,6 +4,7 @@ using CompliXpertApp.Helpers;
 using Xamarin.Forms;
 using CompliXpertApp.Views;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace CompliXpertApp.ViewModels
 {
@@ -15,18 +16,42 @@ namespace CompliXpertApp.ViewModels
         //constructor
         public CallReportListViewModel()
         {
-            MessagingCenter.Subscribe<AccountMasterViewModel, int>(this, Message.AccountNumber, (sender, acctNumber) =>
+            MessagingCenter.Subscribe<AccountMasterViewModel, int>(this, Message.AccountNumber, async (sender, acctNumber) =>
             {
                 using (var context = new CompliXperAppContext())
                 {
                     CallReports = context.CallReport.Where(report => report.AccountNumber == acctNumber).ToList();
+                    foreach (CallReport report in _callReportsList)
+                    {
+                        report.Responses = await (from _responses in context.CallReportResponse
+                                                 where _responses.CallReportId == report.CallReportId
+                                                 select new CallReportResponse
+                                                 {
+                                                     ResponseId = _responses.ResponseId,
+                                                     Response = _responses.Response,
+                                                     QuestionId = _responses.QuestionId,
+                                                     CallReportId = _responses.CallReportId
+                                                 }).ToListAsync();
+                    }
                 }
             });
-            MessagingCenter.Subscribe<CallReportDetailsViewModel, int?>(this, Message.AccountNumber, (sender, acctNumber) =>
+            MessagingCenter.Subscribe<CallReportDetailsViewModel, int?>(this, Message.AccountNumber, async (sender, acctNumber) =>
             {
                 using (var context = new CompliXperAppContext())
                 {
                     CallReports = context.CallReport.Where(report => report.AccountNumber == acctNumber).ToList();
+                    foreach (CallReport report in _callReportsList)
+                    {
+                        report.Responses = await(from _responses in context.CallReportResponse
+                                                 where _responses.CallReportId == report.CallReportId
+                                                 select new CallReportResponse
+                                                 {
+                                                     ResponseId = _responses.ResponseId,
+                                                     Response = _responses.Response,
+                                                     QuestionId = _responses.QuestionId,
+                                                     CallReportId = _responses.CallReportId
+                                                 }).ToListAsync();
+                    }
                 }
             });
         }
