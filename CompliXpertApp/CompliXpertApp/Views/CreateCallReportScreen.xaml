@@ -13,11 +13,13 @@
                 <Label Text="Account"
                    TextColor="#305d82"
                    FontSize="Large"/>
-                <Label Text="{Binding Account.AccountNumber}"/>
+                <Label Text="{Binding Account.AccountNumber}"
+                       FontSize="Medium"/>
                 <Label Text="Customer Name"
                    TextColor="#305d82"
                    FontSize="Large"/>
-                <Label Text="{Binding Account.CustomerName}"/>
+                <Label Text="{Binding CustomerName}"
+                       FontSize="Medium"/>
                 <Picker Title="Select a Reason"
                         SelectedItem="{Binding NewCallReport.Reason}"
                         SelectedIndex="{Binding SelectedIndex}">

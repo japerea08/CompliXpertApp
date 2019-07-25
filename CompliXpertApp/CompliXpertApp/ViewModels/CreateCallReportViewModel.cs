@@ -17,6 +17,7 @@ namespace CompliXpertApp.ViewModels
         private bool fatcaQuestionnaireSelected = false;
         private int index = -1;
         private Account _account;
+        private string _customerName;
         
         //constructor
         public CreateCallReportViewModel()
@@ -24,6 +25,14 @@ namespace CompliXpertApp.ViewModels
             MessagingCenter.Subscribe<AccountMasterViewModel, Account>(this, Message.CustomerLoaded, (sender, account)=> 
             {
                 Account = account;
+                using (var context = new CompliXperAppContext())
+                {
+                    CustomerName = (
+                        from c in context.Customer
+                        where c.CustomerNumber == Account.CustomerNumber
+                        select c.CustomerName
+                    ).FirstOrDefault();
+                }
             });
             SaveCallReportCommand = new Command(async () => await SaveNewCallReportAsync());
             //must instantiate new call report to take in the new data
@@ -37,6 +46,18 @@ namespace CompliXpertApp.ViewModels
         //properties
         public ICommand SaveCallReportCommand { get; set; }
         public ICommand DeleteCallReportCommand { get; set; }
+        public string CustomerName
+        {
+            get
+            {
+                return _customerName;
+            }
+            set
+            {
+                _customerName = value;
+                OnPropertyChanged();
+            }
+        }
         public bool IsBusy
         {
             get { return isBusy; }
