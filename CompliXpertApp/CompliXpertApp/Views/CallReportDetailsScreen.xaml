@@ -25,6 +25,7 @@
                    FontSize="Large"/>
                 <Label Text="{Binding ReportType}"
                        FontSize="Medium"/>
+                <!--Will display if created on the mobile device-->
                 <StackLayout>
                     <StackLayout.Triggers>
                         <DataTrigger TargetType="StackLayout"
@@ -41,15 +42,27 @@
                     <Label Text="Call Date"
                         TextColor="#305d82"
                         FontSize="Large"/>
-                    <DatePicker Date="{Binding Report.CallDate}" FontSize="Medium"></DatePicker>
+                    <DatePicker Date="{Binding Report.CallDate}" IsEnabled="False" FontSize="Medium"></DatePicker>
                     <Label Text="Reference"
                         TextColor="#305d82"
                         FontSize="Large"/>
-                    <Entry Text="{Binding Report.Reference, TargetNullValue='Reference Not Given'}"
+                    <Label Text="{Binding Report.Reference, TargetNullValue='Reference Not Given'}"
                            FontSize="Medium"/>
-                    <StackLayout IsVisible="{Binding CustomerVisitSelected}">
-
-                    </StackLayout>
+                    <ListView ItemsSource="{Binding QuestionandResponses}" HasUnevenRows="True" SeparatorVisibility="None">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout>
+                                        <Label Text="{Binding QuestionHeader}"
+                                           FontSize="Large"
+                                           TextColor="#305d82"/>
+                                        <Label Text="{Binding Response}"
+                                               FontSize="Medium"/>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </StackLayout>
                 <!--this will display if not created on the mobile device-->
                 <StackLayout>

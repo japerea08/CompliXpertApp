@@ -60,14 +60,10 @@ namespace CompliXpertApp.ViewModels
         async Task ViewCallReportsAsync()
         {
             IsBusy = true;
-            //get the call report list
-            using (var context = new CompliXperAppContext())
-            {
-                //var reports = await context.CallReport.Where(report => report.AccountNumber == Customer.AccountNumber).ToListAsync();
-                await App.Current.MainPage.Navigation.PushAsync(new CallReportsList());
-                IsBusy = false;
-                MessagingCenter.Send<AccountMasterViewModel, int>(this, Message.AccountNumber, Account.AccountNumber);
-            }
+            await App.Current.MainPage.Navigation.PushAsync(new CallReportsList());
+            IsBusy = false;
+            MessagingCenter.Send<AccountMasterViewModel, int>(this, Message.AccountNumber, Account.AccountNumber);
+           
         }
         async Task GoToCreateCallReportAsync()
         {
