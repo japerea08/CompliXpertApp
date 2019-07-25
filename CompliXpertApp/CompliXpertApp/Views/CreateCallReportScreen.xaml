@@ -21,15 +21,8 @@
                 <Label Text="{Binding CustomerName}"
                        FontSize="Medium"/>
                 <Picker Title="Select a Reason"
-                        SelectedItem="{Binding NewCallReport.Reason}"
-                        SelectedIndex="{Binding SelectedIndex}">
-                    <Picker.Items>
-                        <x:String>Customer Visit</x:String>
-                        <x:String>FATCA Questionnaire</x:String>
-                        <x:String>Internet Conference</x:String>
-                        <x:String>Phone Call</x:String>
-                        <x:String>Visit to Customer Site or Office</x:String>
-                    </Picker.Items>
+                        ItemsSource="{Binding Type}"
+                        ItemDisplayBinding="{Binding Description}">
                 </Picker>
                 <StackLayout>
                     <Label Text="Call Date"

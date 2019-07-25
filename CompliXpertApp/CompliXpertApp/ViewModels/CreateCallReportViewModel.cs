@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace CompliXpertApp.ViewModels
 {
@@ -18,11 +19,12 @@ namespace CompliXpertApp.ViewModels
         private int index = -1;
         private Account _account;
         private string _customerName;
+        private List<CallReportType> _types;
         
         //constructor
         public CreateCallReportViewModel()
         {
-            MessagingCenter.Subscribe<AccountMasterViewModel, Account>(this, Message.CustomerLoaded, (sender, account)=> 
+            MessagingCenter.Subscribe<AccountMasterViewModel, Account>(this, Message.CustomerLoaded, async (sender, account)=> 
             {
                 Account = account;
                 using (var context = new CompliXperAppContext())
@@ -32,6 +34,9 @@ namespace CompliXpertApp.ViewModels
                         where c.CustomerNumber == Account.CustomerNumber
                         select c.CustomerName
                     ).FirstOrDefault();
+
+                    //get all the types
+                    Type = await context.CallReportType.ToListAsync();
                 }
             });
             SaveCallReportCommand = new Command(async () => await SaveNewCallReportAsync());
@@ -46,6 +51,18 @@ namespace CompliXpertApp.ViewModels
         //properties
         public ICommand SaveCallReportCommand { get; set; }
         public ICommand DeleteCallReportCommand { get; set; }
+        public List<CallReportType> Type
+        {
+            get
+            {
+                return _types;
+            }
+            set
+            {
+                _types = value;
+                OnPropertyChanged();
+            }
+        }
         public string CustomerName
         {
             get
