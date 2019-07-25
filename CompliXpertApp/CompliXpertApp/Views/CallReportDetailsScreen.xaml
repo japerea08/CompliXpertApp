@@ -20,9 +20,11 @@
                    FontSize="Large"/>
                 <Label Text="{Binding Report.AccountNumber}"
                        FontSize="Medium"/>
-                <Label Text="Call Reason"
+                <Label Text="Reason"
                    TextColor="#305d82"
                    FontSize="Large"/>
+                <Label Text="{Binding ReportType}"
+                       FontSize="Medium"/>
                 <StackLayout>
                     <StackLayout.Triggers>
                         <DataTrigger TargetType="StackLayout"
@@ -43,7 +45,7 @@
                     <Label Text="Reference"
                         TextColor="#305d82"
                         FontSize="Large"/>
-                    <Entry Text="{Binding Report.Reference}"
+                    <Entry Text="{Binding Report.Reference, TargetNullValue='Reference Not Given'}"
                            FontSize="Medium"/>
                     <StackLayout IsVisible="{Binding CustomerVisitSelected}">
 
@@ -70,16 +72,19 @@
                     <Label Text="Reference"
                         TextColor="#305d82"
                         FontSize="Large"/>
-                    <Label Text="{Binding Report.Reference}"
+                    <Label Text="{Binding Report.Reference, TargetNullValue='Reference Not Given'}"
                            FontSize="Medium"/>
-                    <ListView ItemsSource="{Binding Questions}">
+                    <ListView ItemsSource="{Binding QuestionandResponses}" HasUnevenRows="True" SeparatorVisibility="None">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <Label Text="{Binding QuestionHeader}"
+                                    <StackLayout>
+                                        <Label Text="{Binding QuestionHeader}"
                                            FontSize="Large"
                                            TextColor="#305d82"/>
-                                    
+                                        <Label Text="{Binding Response}"
+                                               FontSize="Medium"/>
+                                    </StackLayout>
                                 </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>

@@ -18,8 +18,8 @@ namespace CompliXpertApp.ViewModels
         private bool _fatcaSelected = false;
         private bool _createdOnMobile = false;
         private bool _isBusy = false;
-        private List<CallReportQuestions> _questions;
-        private List<CallReportResponse> _responses = new List<CallReportResponse>();
+        private List<QuestionandResponse> _questionandResponses = new List<QuestionandResponse>();
+        private string _callReportType;
 
 
         //constructor
@@ -33,7 +33,11 @@ namespace CompliXpertApp.ViewModels
                 //get the questions
                 using (var context = new CompliXperAppContext())
                 {
-                    Questions = await (
+                    ReportType = (from r in context.CallReportType
+                                 where r.Type == Report.CallReportType
+                                 select r.Description).SingleOrDefault();
+
+                    List<CallReportQuestions> Questions = await (
                         from _q in context.CallReportQuestions
                         where _q.Type == Report.CallReportType
                         select new CallReportQuestions
@@ -44,15 +48,23 @@ namespace CompliXpertApp.ViewModels
                             Type = _q.Type
                         }
                     ).ToListAsync();
-
+                    List<QuestionandResponse> _qr = new List<QuestionandResponse>();
                     foreach (var question in Questions)
                     {
                        foreach(var response in Report.Responses)
                         {
                             if (question.QuestionId == response.QuestionId)
-                                Responses.Add(response);
+                            {
+                                //instantiate new object
+                                QuestionandResponse questionandResponse = new QuestionandResponse();
+                                questionandResponse.QuestionHeader = question.QuestionHeader;
+                                questionandResponse.Response = response.Response;
+                                _qr.Add(questionandResponse);
+                                break;
+                            }
                         }
                     }
+                    QuestionandResponses = _qr;
                 }
                 //manipulate the stack
                 List<Page> stackPages = new List<Page>();
@@ -73,27 +85,27 @@ namespace CompliXpertApp.ViewModels
         public ICommand SaveCallReportCommand { get; set; }
         public ICommand DeleteCallReportCommand { get; set; }
         public ICommand CloseCallReportCommand { get; set; }
-        public List<CallReportResponse> Responses
+        public string ReportType
         {
             get
             {
-                return _responses;
+                return _callReportType;
             }
             set
             {
-                _responses = value;
+                _callReportType = value;
                 OnPropertyChanged();
             }
         }
-        public List<CallReportQuestions> Questions
+        public List<QuestionandResponse> QuestionandResponses
         {
             get
             {
-                return _questions;
+                return _questionandResponses;
             }
             set
             {
-                _questions = value;
+                _questionandResponses = value;
                 OnPropertyChanged();
             }
         }
