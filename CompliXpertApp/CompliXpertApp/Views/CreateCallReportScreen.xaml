@@ -20,61 +20,49 @@
                    FontSize="Large"/>
                 <Label Text="{Binding CustomerName}"
                        FontSize="Medium"/>
+                <Label Text="Call Reason"
+                       FontSize="Large"
+                       TextColor="#305d82"/>
                 <Picker Title="Select a Reason"
-                        ItemsSource="{Binding Type}"
-                        ItemDisplayBinding="{Binding Description}">
+                        SelectedItem="{Binding Type}"
+                        ItemsSource="{Binding Types}"
+                        ItemDisplayBinding="{Binding Description}"
+                        >
                 </Picker>
+                <Label Text="Call Date"
+                       TextColor="#305d82"
+                       FontSize="Large"/>
+                <DatePicker Date="{Binding NewCallReport.CallDate}"/>
+                <Label Text="Reference"
+                       TextColor="#305d82"
+                       FontSize="Large"/>
+                <Entry Text="{Binding NewCallReport.Reference}"/>
                 <StackLayout>
-                    <Label Text="Call Date"
-                       TextColor="#305d82"
-                   FontSize="Large"/>
-                    <DatePicker Date="{Binding NewCallReport.CallDate}"></DatePicker>
-                    <Label Text="Reference"
-                       TextColor="#305d82"
-                   FontSize="Large"/>
-                    <Entry Text="{Binding NewCallReport.Reference}"/>
+                    <ListView ItemsSource="{Binding Questions}"
+                              SeparatorVisibility="None"
+                              SelectionMode="None"
+                              IsVisible="{Binding ReasonSelected}"
+                              HasUnevenRows="True"
+                              HorizontalScrollBarVisibility="Never"
+                              HeightRequest="{Binding Height}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout>
+                                        <Label Text="{Binding QuestionHeader}"
+                                           FontSize="Large"
+                                           TextColor="#305d82"/>
+                                        <Entry Text="Enter Here"/>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </StackLayout>
-                <StackLayout IsVisible="{Binding CustomerVisitSelected}">
-                    <Label Text="Purpose of Visit or Phone Call"
-                       TextColor="#305d82"
-                   FontSize="Large"/>
-                    <Entry Text="{Binding NewCallReport.Purpose}"/>
-                    <Label Text="Officer's Observations or Comments"
-                       TextColor="#305d82"
-                   FontSize="Large"/>
-                    <Entry Text="{Binding NewCallReport.OfficerComments}"/>
-                    <Label Text="Other Comments"
-                       TextColor="#305d82"
-                   FontSize="Large"/>
-                    <Entry Text="{Binding NewCallReport.OtherComments}"/>
-                    <Label Text="Customer Comments"
-                       TextColor="#305d82"
-                   FontSize="Large"/>
-                    <Entry Text="{Binding NewCallReport.CustomerComments}"/>
-                </StackLayout>
-                <StackLayout IsVisible="{Binding FatcaSelected}">
-                    <Label Text="Nationality"
-                       TextColor="#305d82"
-                   FontSize="Large"/>
-                    <Entry Text="{Binding NewCallReport.Nationality}"/>
-                    <Label Text="Reason for Alert"
-                        TextColor="#305d82"
-                        FontSize="Large"/>
-                    <Entry Text="{Binding NewCallReport.ReasonforAlert}"/>
-                    <Label Text="Customer Response"
-                        TextColor="#305d82"
-                        FontSize="Large"/>
-                    <Entry Text="{Binding NewCallReport.CustomerResponse}"/>
-                </StackLayout>
-                <Grid Padding="0,0,0,10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Text="Save" BackgroundColor="#428bca" TextColor="White" Command="{Binding SaveCallReportCommand}"></Button>
-                </Grid>
+                <Button Text="Save" 
+                            BackgroundColor="#428bca" 
+                            TextColor="White" 
+                            Command="{Binding SaveCallReportCommand}"></Button>
                 <ActivityIndicator IsRunning="{Binding IsBusy}"/>
             </StackLayout>
         </ScrollView>

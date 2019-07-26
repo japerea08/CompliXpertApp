@@ -15,12 +15,13 @@ namespace CompliXpertApp.ViewModels
         //attributes
         private bool isBusy = false;
         private bool customerVisitSelected = false;
-        private bool fatcaQuestionnaireSelected = false;
-        private int index = -1;
         private Account _account;
         private string _customerName;
         private List<CallReportType> _types;
-        
+        private List<CallReportQuestions> _callReportQuestions;
+        private CallReportType _type;
+        private int _height = 0;
+
         //constructor
         public CreateCallReportViewModel()
         {
@@ -36,7 +37,7 @@ namespace CompliXpertApp.ViewModels
                     ).FirstOrDefault();
 
                     //get all the types
-                    Type = await context.CallReportType.ToListAsync();
+                    Types = await context.CallReportType.ToListAsync();
                 }
             });
             SaveCallReportCommand = new Command(async () => await SaveNewCallReportAsync());
@@ -51,7 +52,19 @@ namespace CompliXpertApp.ViewModels
         //properties
         public ICommand SaveCallReportCommand { get; set; }
         public ICommand DeleteCallReportCommand { get; set; }
-        public List<CallReportType> Type
+        public int Height
+        {
+            get
+            {
+                return _height;
+            }
+            set
+            {
+                _height = value;
+                OnPropertyChanged();
+            }
+        }
+        public List<CallReportType> Types
         {
             get
             {
@@ -97,28 +110,48 @@ namespace CompliXpertApp.ViewModels
                 OnPropertyChanged();
             }
         }
-        public int SelectedIndex
+
+        public CallReportType Type
         {
             get
             {
-                return index;
+                return _type;
             }
             set
             {
-                index = value;
-                if(index == 1)
+                _type = value;
+                using (var context = new CompliXperAppContext())
                 {
-                    CustomerVisitSelected = false;
-                    FatcaSelected = true;
-                }
-                else
-                {
-                    FatcaSelected = false;
-                    CustomerVisitSelected = true;
+                    Questions = (
+                        from q in context.CallReportQuestions
+                        where q.Type == Type.Type
+                        select new CallReportQuestions
+                        {
+                            QuestionId = q.QuestionId,
+                            QuestionHeader = q.QuestionHeader,
+                            Status = q.Status,
+                            Type = q.Type
+                        }
+                    ).ToList();
                 }
             }
         }
-        public bool CustomerVisitSelected
+        //binding for questions
+        public List<CallReportQuestions> Questions
+        {
+            get
+            {
+                return _callReportQuestions;
+            }
+            set
+            {
+                _callReportQuestions = value;
+                Height = 90 * _callReportQuestions.Count();
+                ReasonSelected = true;
+                OnPropertyChanged();
+            }
+        }
+        public bool ReasonSelected
         {
             get
             {
@@ -131,18 +164,6 @@ namespace CompliXpertApp.ViewModels
             }
         }
 
-        public bool FatcaSelected
-        {
-            get
-            {
-                return fatcaQuestionnaireSelected;
-            }
-            set
-            {
-                fatcaQuestionnaireSelected = value;
-                OnPropertyChanged();
-            }
-        }
         #endregion
         #region Methods
         //save the new call report to local db for persistance
