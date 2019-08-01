@@ -24,7 +24,7 @@
                        FontSize="Large"
                        TextColor="#305d82"/>
                 <Picker Title="Select a Reason"
-                        SelectedItem="{Binding Type}"
+                        SelectedItem="{Binding Type, Mode=TwoWay}"
                         ItemsSource="{Binding Types}"
                         ItemDisplayBinding="{Binding Description}"
                         >
@@ -38,7 +38,7 @@
                        FontSize="Large"/>
                 <Entry Text="{Binding NewCallReport.Reference}"/>
                 <StackLayout>
-                    <ListView ItemsSource="{Binding Questions}"
+                    <ListView ItemsSource="{Binding QR}"
                               SeparatorVisibility="None"
                               SelectionMode="None"
                               IsVisible="{Binding ReasonSelected}"
@@ -52,7 +52,7 @@
                                         <Label Text="{Binding QuestionHeader}"
                                            FontSize="Large"
                                            TextColor="#305d82"/>
-                                        <Entry Text="Enter Here"/>
+                                        <Entry Text="{Binding Response}"/>
                                     </StackLayout>
                                 </ViewCell>
                             </DataTemplate>

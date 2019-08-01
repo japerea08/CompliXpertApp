@@ -19,12 +19,15 @@ namespace CompliXpertApp.ViewModels
         private string _customerName;
         private List<CallReportType> _types;
         private List<CallReportQuestions> _callReportQuestions;
+        private List<QuestionandResponse> _questionsandResponse = new List<QuestionandResponse>();
         private CallReportType _type;
         private int _height = 0;
+        private string strings;
 
         //constructor
         public CreateCallReportViewModel()
         {
+            
             MessagingCenter.Subscribe<AccountMasterViewModel, Account>(this, Message.CustomerLoaded, async (sender, account)=> 
             {
                 Account = account;
@@ -120,20 +123,50 @@ namespace CompliXpertApp.ViewModels
             set
             {
                 _type = value;
-                using (var context = new CompliXperAppContext())
+                if(_type != null)
                 {
-                    Questions = (
-                        from q in context.CallReportQuestions
-                        where q.Type == Type.Type
-                        select new CallReportQuestions
+                    using (var context = new CompliXperAppContext())
+                    {
+                        Questions = (
+                            from q in context.CallReportQuestions
+                            where q.Type == Type.Type
+                            select new CallReportQuestions
+                            {
+                                QuestionId = q.QuestionId,
+                                QuestionHeader = q.QuestionHeader,
+                                Status = q.Status,
+                                Type = q.Type
+                            }
+                        ).ToList();
+
+                        //add to qr
+
+                        List<QuestionandResponse> ques = new List<QuestionandResponse>();
+                        foreach (CallReportQuestions question in Questions)
                         {
-                            QuestionId = q.QuestionId,
-                            QuestionHeader = q.QuestionHeader,
-                            Status = q.Status,
-                            Type = q.Type
+                            QuestionandResponse qr = new QuestionandResponse();
+                            qr.QuestionHeader = question.QuestionHeader;
+                            qr.QuestionId = question.QuestionId;
+                            qr.Response = "";
+                            ques.Add(qr);
                         }
-                    ).ToList();
+                        QR = ques;
+                    }
                 }
+            }
+        }
+        public List<QuestionandResponse> QR
+        {
+            get
+            {
+                return _questionsandResponse;
+            }
+            set
+            {
+                _questionsandResponse = value;
+                Height = 90 * _questionsandResponse.Count();
+                ReasonSelected = true;
+                OnPropertyChanged();
             }
         }
         //binding for questions
@@ -180,15 +213,43 @@ namespace CompliXpertApp.ViewModels
             await SaveCallReportAsync();
             IsBusy = false;
             //go back to the previous page
+            //deselect the type of callreport
+            Type = null;
             await App.Current.MainPage.Navigation.PopAsync();
             MessagingCenter.Send<CreateCallReportViewModel, Account>(this, Message.CallReportCreated, Account);
         }
         //adding the callreport to the table
         public async Task SaveCallReportAsync()
         {
+            //capture good, QR is an object of questions and responses
+            foreach (var s in QR)
+            {
+                string ss = s.Response;
+            } 
             using (var context = new CompliXperAppContext())
             {
                 context.Add<CallReport>(NewCallReport);
+                await context.SaveChangesAsync();
+                //get the latest CallReportId
+                int lastCallReportId = context.CallReport
+                                       .OrderByDescending(r => r.CallReportId)
+                                       .Select(r => r.CallReportId)
+                                       .First();
+
+                List<CallReportResponse> responses = new List<CallReportResponse>();
+                foreach (QuestionandResponse qr in QR)
+                {
+                    responses.Add(
+                        new CallReportResponse
+                            {
+                                Response = qr.Response,
+                                QuestionId = qr.QuestionId,
+                                CallReportId = lastCallReportId
+                            }
+                        );
+                }
+                //add the responses to the DB
+                await context.AddRangeAsync(responses);
                 await context.SaveChangesAsync();
             }
         }
