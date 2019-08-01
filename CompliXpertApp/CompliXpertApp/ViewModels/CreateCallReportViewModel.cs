@@ -205,6 +205,7 @@ namespace CompliXpertApp.ViewModels
             NewCallReport.AccountNumber = Account.AccountNumber;
             NewCallReport.Officer = "Tester";
             NewCallReport.CreatedOnMobile = true;
+            NewCallReport.CallReportType = Type.Type;
             List<CallReport> cr = Account.CallReport.ToList();
             cr.Add(NewCallReport);
             Account.CallReport = cr;
@@ -230,11 +231,12 @@ namespace CompliXpertApp.ViewModels
             {
                 context.Add<CallReport>(NewCallReport);
                 await context.SaveChangesAsync();
-                //get the latest CallReportId
-                int lastCallReportId = context.CallReport
-                                       .OrderByDescending(r => r.CallReportId)
-                                       .Select(r => r.CallReportId)
-                                       .First();
+
+                ////get the lastes call report
+                CallReport lastReport = await context.CallReport
+                                        .OrderByDescending(r => r.CallReportId)
+                                        .FirstAsync();
+                ////get the lastes call report
 
                 List<CallReportResponse> responses = new List<CallReportResponse>();
                 foreach (QuestionandResponse qr in QR)
@@ -244,10 +246,11 @@ namespace CompliXpertApp.ViewModels
                             {
                                 Response = qr.Response,
                                 QuestionId = qr.QuestionId,
-                                CallReportId = lastCallReportId
+                                CallReportId = lastReport.CallReportId
                             }
                         );
                 }
+                lastReport.Responses = responses;
                 //add the responses to the DB
                 await context.AddRangeAsync(responses);
                 await context.SaveChangesAsync();
