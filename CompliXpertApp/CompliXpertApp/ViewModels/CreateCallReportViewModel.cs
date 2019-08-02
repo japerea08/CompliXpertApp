@@ -27,7 +27,6 @@ namespace CompliXpertApp.ViewModels
         //constructor
         public CreateCallReportViewModel()
         {
-            
             MessagingCenter.Subscribe<AccountMasterViewModel, Account>(this, Message.CustomerLoaded, async (sender, account)=> 
             {
                 Account = account;
@@ -52,12 +51,8 @@ namespace CompliXpertApp.ViewModels
         }
         #region Properties
         //properties
+        
         public ICommand SaveCallReportCommand { get; set; }
-        void CanSave(bool value)
-        {
-            canSave = value;
-            ((Command) SaveCallReportCommand).ChangeCanExecute();
-        }
         public int Height
         {
             get
@@ -203,6 +198,11 @@ namespace CompliXpertApp.ViewModels
 
         #endregion
         #region Methods
+        void CanSave(bool value)
+        {
+            canSave = value;
+            ((Command) SaveCallReportCommand).ChangeCanExecute();
+        }
         //save the new call report to local db for persistance
         async Task SaveNewCallReportAsync()
         {
@@ -220,6 +220,7 @@ namespace CompliXpertApp.ViewModels
             //go back to the previous page
             //deselect the type of callreport
             Type = null;
+            ReasonSelected = false;
             await App.Current.MainPage.Navigation.PopAsync();
             MessagingCenter.Send<CreateCallReportViewModel, Account>(this, Message.CallReportCreated, Account);
         }

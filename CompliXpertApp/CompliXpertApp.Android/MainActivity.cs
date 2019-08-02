@@ -1,10 +1,12 @@
-﻿using System;
-using Android;
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using Android.Support.V4.App;
+using Android.Views;
 using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
+using Android.Widget;
+using System.Linq;
+using CompliXpertApp.Views;
+using System;
 
 namespace CompliXpertApp.Droid
 {
@@ -15,12 +17,43 @@ namespace CompliXpertApp.Droid
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
+            Android.Support.V7.Widget.Toolbar toolbar = this.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+            SetSupportActionBar(toolbar);
             //Code to make window scrollable when keyboard is present
             Xamarin.Forms.Application.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
+        }
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            if(item.ItemId == 16908332)
+            {
+                //get the current page
+                try
+                {
+                    var currentpage = Xamarin.Forms.Application.Current.MainPage.Navigation.NavigationStack.LastOrDefault();
+                    if (currentpage.GetType().FullName.Contains("CreateCallReportScreen"))
+                    {
+                        var newcurrentpage = (CreateCallReportScreen) currentpage;
+                        //check to see if we have a backbar action
+                        if (newcurrentpage?.CustomNavBackButton != null)
+                        {
+                            //invoke the action to do
+                            newcurrentpage.CustomNavBackButton.Invoke();
+                            return false;
+                        }
+                    }
+                }
+                catch (InvalidCastException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
+                return base.OnOptionsItemSelected(item);
+            }
+            else
+                return base.OnOptionsItemSelected(item);
         }
     }
 }
