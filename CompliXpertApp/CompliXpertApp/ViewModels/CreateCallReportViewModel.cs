@@ -22,7 +22,7 @@ namespace CompliXpertApp.ViewModels
         private List<QuestionandResponse> _questionsandResponse = new List<QuestionandResponse>();
         private CallReportType _type;
         private int _height = 0;
-        private string strings;
+        private bool canSave = false;
 
         //constructor
         public CreateCallReportViewModel()
@@ -43,18 +43,21 @@ namespace CompliXpertApp.ViewModels
                     Types = await context.CallReportType.ToListAsync();
                 }
             });
-            SaveCallReportCommand = new Command(async () => await SaveNewCallReportAsync());
+            SaveCallReportCommand = new Command(async () => await SaveNewCallReportAsync(), () => canSave);
             //must instantiate new call report to take in the new data
             NewCallReport = new CallReport
             {
                 CallDate = DateTime.Today
             };
-            DeleteCallReportCommand = new Command(async ()=> await DeleteCallReportAsync());
         }
         #region Properties
         //properties
         public ICommand SaveCallReportCommand { get; set; }
-        public ICommand DeleteCallReportCommand { get; set; }
+        void CanSave(bool value)
+        {
+            canSave = value;
+            ((Command) SaveCallReportCommand).ChangeCanExecute();
+        }
         public int Height
         {
             get
@@ -125,6 +128,7 @@ namespace CompliXpertApp.ViewModels
                 _type = value;
                 if(_type != null)
                 {
+                    CanSave(true);
                     using (var context = new CompliXperAppContext())
                     {
                         Questions = (
@@ -222,11 +226,6 @@ namespace CompliXpertApp.ViewModels
         //adding the callreport to the table
         public async Task SaveCallReportAsync()
         {
-            //capture good, QR is an object of questions and responses
-            foreach (var s in QR)
-            {
-                string ss = s.Response;
-            } 
             using (var context = new CompliXperAppContext())
             {
                 context.Add<CallReport>(NewCallReport);

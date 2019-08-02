@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using System.Linq;
+using System;
 
 namespace CompliXpertApp.ViewModels
 {
@@ -14,12 +15,11 @@ namespace CompliXpertApp.ViewModels
     {
         //attributes
         private CallReport _callReport;
-        private bool _customerVisitSelected = false;
-        private bool _fatcaSelected = false;
         private bool _createdOnMobile = false;
         private bool _isBusy = false;
         private List<QuestionandResponse> _questionandResponses = new List<QuestionandResponse>();
         private string _callReportType;
+        private int _height = 0;
 
 
         //constructor
@@ -59,6 +59,8 @@ namespace CompliXpertApp.ViewModels
                                 QuestionandResponse questionandResponse = new QuestionandResponse();
                                 questionandResponse.QuestionHeader = question.QuestionHeader;
                                 questionandResponse.Response = response.Response;
+                                questionandResponse.QuestionId = response.QuestionId;
+                                questionandResponse.ResponseId = response.ResponseId;
                                 _qr.Add(questionandResponse);
                                 break;
                             }
@@ -85,6 +87,18 @@ namespace CompliXpertApp.ViewModels
         public ICommand SaveCallReportCommand { get; set; }
         public ICommand DeleteCallReportCommand { get; set; }
         public ICommand CloseCallReportCommand { get; set; }
+        public int Height
+        {
+            get
+            {
+                return _height;
+            }
+            set
+            {
+                _height = value;
+                OnPropertyChanged();
+            }
+        }
         public string ReportType
         {
             get
@@ -106,6 +120,7 @@ namespace CompliXpertApp.ViewModels
             set
             {
                 _questionandResponses = value;
+                Height = 80 * _questionandResponses.Count();
                 OnPropertyChanged();
             }
         }
@@ -130,16 +145,6 @@ namespace CompliXpertApp.ViewModels
             set
             {
                 _callReport = value;
-                if (false)
-                {
-                    FatcaSelected = true;
-                    CustomerVisitSelected = false;
-                }
-                else
-                {
-                    FatcaSelected = false;
-                    CustomerVisitSelected = true;
-                }
                 OnPropertyChanged();
             }
         }
@@ -155,30 +160,6 @@ namespace CompliXpertApp.ViewModels
                 OnPropertyChanged();
             }
         }
-        public bool CustomerVisitSelected
-        {
-            get
-            {
-                return _customerVisitSelected;
-            }
-            set
-            {
-                _customerVisitSelected = value;
-                OnPropertyChanged();
-            }
-        }
-        public bool FatcaSelected
-        {
-            get
-            {
-                return _fatcaSelected;
-            }
-            set
-            {
-                _fatcaSelected = value;
-                OnPropertyChanged();
-            }
-        }
         #endregion
         #region Methods
         //really an update call report
@@ -188,13 +169,36 @@ namespace CompliXpertApp.ViewModels
             {
                 IsBusy = true;
                 //retrieving entity by id
-                var entity = await context.CallReport.FirstOrDefaultAsync(x => x.CallReportId == Report.CallReportId);
-                context.Entry(entity).State = EntityState.Modified;
-                entity.CallDate = Report.CallDate;
-                entity.CallDate = Report.CallDate;
-                entity.Position = Report.Position;
-                entity.Reference = Report.Reference;
-                await context.SaveChangesAsync();
+                CallReport report = await context.CallReport
+                                    .SingleAsync(r => r.CallReportId == Report.CallReportId);
+                report.CallDate = Report.CallDate;
+                report.Position = Report.Position;
+                report.Reference = Report.Reference;
+                List<CallReportResponse> responses = new List<CallReportResponse>();
+                foreach (var qr in QuestionandResponses)
+                {
+                    responses.Add(
+                        new CallReportResponse
+                            {
+                                
+                                Response = qr.Response,
+                                QuestionId = qr.QuestionId,
+                                CallReportId = report.CallReportId,
+                                ResponseId = qr.ResponseId
+                            }
+                        );
+                }
+                context.CallReportResponse.UpdateRange(responses);
+
+                try
+                {
+                    await context.SaveChangesAsync();
+                }
+                catch (DbUpdateException e)
+                {
+                    Console.WriteLine(e.InnerException);
+                }
+                
                 IsBusy = false;
                 await App.Current.MainPage.Navigation.PopAsync();
                 MessagingCenter.Send<CallReportDetailsViewModel, int?>(this, Message.AccountNumber, Report.AccountNumber);
