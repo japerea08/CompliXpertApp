@@ -41,7 +41,8 @@ namespace MigrationsApp.Migrations
                     CustomerNumber = table.Column<int>(nullable: false),
                     CustomerId = table.Column<int>(nullable: false),
                     CustomerName = table.Column<string>(nullable: true),
-                    LegalType = table.Column<string>(nullable: true)
+                    LegalType = table.Column<string>(nullable: true),
+                    CreatedOnMobile = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

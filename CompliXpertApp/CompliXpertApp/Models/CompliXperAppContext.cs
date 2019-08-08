@@ -136,6 +136,8 @@ namespace CompliXpertApp.Models
             {
                 b.Property<int>("CustomerNumber");
 
+                b.Property<bool>("CreatedOnMobile");
+
                 b.Property<int>("CustomerId");
 
                 b.Property<string>("CustomerName");

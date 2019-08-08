@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MigrationsApp.Migrations
 {
     [DbContext(typeof(CompliXperAppContext))]
-    [Migration("20190719163303_InitialCreate")]
+    [Migration("20190808133650_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -118,6 +118,8 @@ namespace MigrationsApp.Migrations
             modelBuilder.Entity("CompliXpertApp.Models.Customer", b =>
                 {
                     b.Property<int>("CustomerNumber");
+
+                    b.Property<bool>("CreatedOnMobile");
 
                     b.Property<int>("CustomerId");
 
