@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MigrationsApp.Migrations
 {
     [DbContext(typeof(CompliXperAppContext))]
-    [Migration("20190808133650_InitialCreate")]
+    [Migration("20190808165223_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -115,9 +115,25 @@ namespace MigrationsApp.Migrations
                     b.ToTable("CallReportType");
                 });
 
+            modelBuilder.Entity("CompliXpertApp.Models.Country", b =>
+                {
+                    b.Property<int>("CountryCode")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.HasKey("CountryCode");
+
+                    b.ToTable("Countries");
+                });
+
             modelBuilder.Entity("CompliXpertApp.Models.Customer", b =>
                 {
                     b.Property<int>("CustomerNumber");
+
+                    b.Property<int>("Citizenship");
+
+                    b.Property<int>("CountryofResidence");
 
                     b.Property<bool>("CreatedOnMobile");
 
@@ -125,7 +141,13 @@ namespace MigrationsApp.Migrations
 
                     b.Property<string>("CustomerName");
 
+                    b.Property<string>("Email");
+
+                    b.Property<bool>("IsPEP");
+
                     b.Property<string>("LegalType");
+
+                    b.Property<string>("MailAddress");
 
                     b.HasKey("CustomerNumber");
 

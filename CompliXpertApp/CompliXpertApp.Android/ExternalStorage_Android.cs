@@ -74,6 +74,24 @@ namespace CompliXpertApp
                 return null;
             }
         }
+        public async Task<string> GetCountriesAsync()
+        {
+            string filePath = GetExternalPath() + "/countries.txt";
+            try
+            {
+                using (StreamReader reader = new StreamReader(filePath))
+                {
+                    return await reader.ReadToEndAsync();
+                }
+            }
+            catch (IOException)
+            {
+                var context = Android.App.Application.Context;
+                string message = " Call Report Questions file not accessible";
+                Toast.MakeText(context, message, ToastLength.Long).Show();
+                return null;
+            }
+        }
         //read CallReport Questions
         public async Task<string> GetCallReportQuestionsAsync()
         {

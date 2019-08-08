@@ -4,6 +4,7 @@ namespace CompliXpertApp.Helpers
 {
     public interface IRWExternalStorage
     {
+        Task<string> GetCountriesAsync();
         //read CallReportType
         Task<string> GetCallReportTypeAsync();
         //read CallReport Questions

@@ -35,6 +35,19 @@ namespace MigrationsApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Countries",
+                columns: table => new
+                {
+                    Code = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Description = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Countries", x => x.Code);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Customer",
                 columns: table => new
                 {
@@ -42,7 +55,12 @@ namespace MigrationsApp.Migrations
                     CustomerId = table.Column<int>(nullable: false),
                     CustomerName = table.Column<string>(nullable: true),
                     LegalType = table.Column<string>(nullable: true),
-                    CreatedOnMobile = table.Column<bool>(nullable: false)
+                    CreatedOnMobile = table.Column<bool>(nullable: false),
+                    IsPEP = table.Column<bool>(nullable: false),
+                    MailAddress = table.Column<string>(nullable: true),
+                    Citizenship = table.Column<int>(nullable: false),
+                    CountryofResidence = table.Column<int>(nullable: false),
+                    Email = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -145,6 +163,9 @@ namespace MigrationsApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "CallReportType");
+
+            migrationBuilder.DropTable(
+                name: "Countries");
 
             migrationBuilder.DropTable(
                 name: "CallReport");

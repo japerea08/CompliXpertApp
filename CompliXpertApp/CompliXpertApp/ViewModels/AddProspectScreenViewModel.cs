@@ -2,6 +2,7 @@
 using CompliXpertApp.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -14,13 +15,22 @@ namespace CompliXpertApp.ViewModels
         private bool canAdd = false;
         private string customerName = null;
         private string legalType = null;
+        private List<Country> countries;
         //constructor
         public AddProspectScreenViewModel()
         {
             Prospect = new Customer();
             AddProspectCommand = new Command(async () => await AddProspectAsync(), () => canAdd);
+            //get a list of countries
+            using (var context = new CompliXperAppContext())
+            {
+                Countries = context.Countries.ToList();
+            }
         }
         //properties
+        public List<Country> Countries { get; set; }
+        public Country Citizenship { get; set; }
+        public Country CountryofResidence { get; set; }
         public Customer Prospect { get; set; }
         public string CustomerName
         {
@@ -31,10 +41,12 @@ namespace CompliXpertApp.ViewModels
             set
             {
                 customerName = value;
-                if(String.IsNullOrEmpty(customerName) == false && String.IsNullOrEmpty(legalType) == false && String.IsNullOrWhiteSpace(legalType) == false && String.IsNullOrWhiteSpace(customerName) == false)
+                if (String.IsNullOrEmpty(customerName) == false && String.IsNullOrEmpty(legalType) == false && String.IsNullOrWhiteSpace(legalType) == false && String.IsNullOrWhiteSpace(customerName) == false)
                 {
                     CanAdd(true);
                 }
+                else
+                    CanAdd(false);
             }
         }
         public string LegalType
@@ -51,6 +63,8 @@ namespace CompliXpertApp.ViewModels
                 {
                     CanAdd(true);
                 }
+                else
+                    CanAdd(false);
             }
         }
         public ICommand AddProspectCommand { get; private set; }
@@ -64,6 +78,9 @@ namespace CompliXpertApp.ViewModels
         {
             Prospect.CustomerName = CustomerName;
             Prospect.LegalType = LegalType;
+            Prospect.CreatedOnMobile = true;
+            Prospect.Citizenship = Citizenship.Code;
+            Prospect.CountryofResidence = CountryofResidence.Code;
             //add the new propsect to the DB here
             if(Prospect != null)
             {

@@ -113,9 +113,25 @@ namespace MigrationsApp.Migrations
                     b.ToTable("CallReportType");
                 });
 
+            modelBuilder.Entity("CompliXpertApp.Models.Country", b =>
+                {
+                    b.Property<int>("Code")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.HasKey("Code");
+
+                    b.ToTable("Countries");
+                });
+
             modelBuilder.Entity("CompliXpertApp.Models.Customer", b =>
                 {
                     b.Property<int>("CustomerNumber");
+
+                    b.Property<int>("Citizenship");
+
+                    b.Property<int>("CountryofResidence");
 
                     b.Property<bool>("CreatedOnMobile");
 
@@ -123,7 +139,13 @@ namespace MigrationsApp.Migrations
 
                     b.Property<string>("CustomerName");
 
+                    b.Property<string>("Email");
+
+                    b.Property<bool>("IsPEP");
+
                     b.Property<string>("LegalType");
+
+                    b.Property<string>("MailAddress");
 
                     b.HasKey("CustomerNumber");
 

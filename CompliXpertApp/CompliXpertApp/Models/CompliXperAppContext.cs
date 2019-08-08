@@ -20,6 +20,7 @@ namespace CompliXpertApp.Models
         public virtual DbSet<CallReportType> CallReportType { get; set; }
         public virtual DbSet<CallReportQuestions> CallReportQuestions { get; set; }
         public virtual DbSet<CallReportResponse> CallReportResponse { get; set; }
+        public virtual DbSet<Country> Countries { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -33,7 +34,7 @@ namespace CompliXpertApp.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder
-                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
 
             modelBuilder.Entity("CompliXpertApp.Models.Account", b =>
             {
@@ -132,9 +133,25 @@ namespace CompliXpertApp.Models
                 b.ToTable("CallReportType");
             });
 
+            modelBuilder.Entity("CompliXpertApp.Models.Country", b =>
+            {
+                b.Property<int>("Code")
+                    .ValueGeneratedOnAdd();
+
+                b.Property<string>("Description");
+
+                b.HasKey("Code");
+
+                b.ToTable("Countries");
+            });
+
             modelBuilder.Entity("CompliXpertApp.Models.Customer", b =>
             {
                 b.Property<int>("CustomerNumber");
+
+                b.Property<int>("Citizenship");
+
+                b.Property<int>("CountryofResidence");
 
                 b.Property<bool>("CreatedOnMobile");
 
@@ -142,7 +159,13 @@ namespace CompliXpertApp.Models
 
                 b.Property<string>("CustomerName");
 
+                b.Property<string>("Email");
+
+                b.Property<bool>("IsPEP");
+
                 b.Property<string>("LegalType");
+
+                b.Property<string>("MailAddress");
 
                 b.HasKey("CustomerNumber");
 

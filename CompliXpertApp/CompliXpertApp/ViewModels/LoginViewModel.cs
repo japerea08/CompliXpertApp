@@ -14,8 +14,6 @@ namespace CompliXpertApp.ViewModels
 {
     class LoginViewModel : AbstractNotifyPropertyChanged
     {
-        private readonly string userNamePlaceholder = "Enter Username";
-        private readonly string passwordPlaceholder = "Enter Password";
         private bool isBusy = false;
         private bool canLogin = true;
         private Color usernamePlaceholderColor = Color.Default;
@@ -48,14 +46,8 @@ namespace CompliXpertApp.ViewModels
                 OnPropertyChanged();
             }
         }
-        public string UsernamePlaceholder
-        {
-            get { return userNamePlaceholder; }
-        }
-        public string PasswordPlaceholder
-        {
-            get { return passwordPlaceholder; }
-        }
+        public string UsernamePlaceholder { get; } = "Enter Username";
+        public string PasswordPlaceholder { get; } = "Enter Password";
         public bool IsBusy
         {
             get { return isBusy; }
@@ -93,13 +85,14 @@ namespace CompliXpertApp.ViewModels
                 CanAttemptLogin(false);
                 IsBusy = true;
                 //check CallReportType table and Question tables
-                if(await Task.Run(() => DBContainsCallReportTypeandQuestions()) == false)
+                if(await Task.Run(() => DBContainsCallReportTypeQuestionsandCountries()) == false)
                 {
                     //get the json for call report questions
                     List<CallReportType> callReportTypes = await Task.Run(() => GetCallReportTypeJsonAsync());
                     List<CallReportQuestions> callReportQuestions = await Task.Run(()=> GetCallReportQuestionsJsonAsync());
+                    List<Country> countries = await Task.Run(() => GetCountriesAsync());
                     //add to DB
-                    await Task.Run(() => AddTypeandQuestionsAsync(callReportTypes, callReportQuestions));
+                    await Task.Run(() => AddTypeQuestionsandCountriesAsync(callReportTypes, callReportQuestions, countries));
                 }
                 //will only run if the DB has records
                 if (await Task.Run(() => DBContainsRecords()))
@@ -134,11 +127,11 @@ namespace CompliXpertApp.ViewModels
                     PasswordPlaceholderColor = Color.Red;
             }
         }
-        public bool DBContainsCallReportTypeandQuestions()
+        public bool DBContainsCallReportTypeQuestionsandCountries()
         {
             using (var context = new CompliXperAppContext())
             {
-                if (context.CallReportQuestions.Any() || context.CallReportType.Any())
+                if (context.CallReportQuestions.Any() && context.CallReportType.Any() && context.Countries.Any())
                     return true;
                 else
                     return false;
@@ -181,12 +174,13 @@ namespace CompliXpertApp.ViewModels
                 return await customers.ToListAsync();
             }
         }
-        public async Task AddTypeandQuestionsAsync(List<CallReportType> types, List<CallReportQuestions> questions)
+        public async Task AddTypeQuestionsandCountriesAsync(List<CallReportType> types, List<CallReportQuestions> questions, List<Country> countries)
         {
             using (var context = new CompliXperAppContext())
             {
                 context.CallReportType.AddRange(types);
-                context.CallReportQuestions.AddRange(questions); 
+                context.CallReportQuestions.AddRange(questions);
+                context.Countries.AddRange(countries);
                 try
                 {
                     await context.SaveChangesAsync();
@@ -248,6 +242,11 @@ namespace CompliXpertApp.ViewModels
         public async Task<List<CallReportQuestions>> GetCallReportQuestionsJsonAsync()
         {
             return JsonConvert.DeserializeObject<List<CallReportQuestions>>(await DependencyService.Get<IRWExternalStorage>().GetCallReportQuestionsAsync());
+        }
+        //get countries
+        public async Task<List<Country>> GetCountriesAsync()
+        {
+            return JsonConvert.DeserializeObject<List<Country>>(await DependencyService.Get<IRWExternalStorage>().GetCountriesAsync());
         }
     }
 }
