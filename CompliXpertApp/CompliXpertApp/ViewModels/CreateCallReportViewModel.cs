@@ -209,7 +209,7 @@ namespace CompliXpertApp.ViewModels
             NewCallReport.AccountNumber = Account.AccountNumber;
             NewCallReport.Officer = "Tester";
             NewCallReport.CreatedOnMobile = true;
-            //NewCallReport.CallReportType = Type.Type; //now a type object
+            NewCallReport.CallReportType = Type.Type;
             List<CallReport> cr = Account.CallReport.ToList();
             cr.Add(NewCallReport);
             Account.CallReport = cr;
