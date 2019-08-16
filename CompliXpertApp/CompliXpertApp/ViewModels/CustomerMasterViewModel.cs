@@ -25,12 +25,6 @@ namespace CompliXpertApp.ViewModels
             MessagingCenter.Subscribe<CreateCallReportViewModel, Customer>(this, Message.CallReportCreated, (sender, account) =>
             {
                 Customer = account;
-                using (var context = new CompliXperAppContext())
-                {
-                    foreach (Account acct in account.Account)
-                    {
-                    }
-                }
             });
         }
 
