@@ -22,6 +22,16 @@ namespace CompliXpertApp.ViewModels
             {
                 Customers = args;
             });
+            MessagingCenter.Subscribe<AddProspectScreenViewModel, Customer>(this, Message.CustomerLoaded, (sender, _customer) =>
+            {
+                using (CompliXperAppContext context = new CompliXperAppContext())
+                {
+                    Customers = context.Customer.ToList();
+                }
+                //List<Customer> customers = Customers;
+                //customers.Add(_customer);
+                //Customers = customers;
+            });
             AddProspectCommand = new Command(AddProspect);
             DownloadCallReportsCommand = new Command(async () => await DownloadCallReportsAsync(), () => canDownload);
             //CheckForNewReports();

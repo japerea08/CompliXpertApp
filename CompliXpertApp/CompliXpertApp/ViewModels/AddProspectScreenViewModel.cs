@@ -1,5 +1,6 @@
 ﻿using CompliXpertApp.Helpers;
 using CompliXpertApp.Models;
+using CompliXpertApp.Views;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,22 +17,58 @@ namespace CompliXpertApp.ViewModels
         private bool canAdd = false;
         private string customerName = null;
         private string legalType = null;
-        private string accountClass = null;
+        private Account prospectAccount;
+        private AccountClass accountClass;
         //constructor
         public AddProspectScreenViewModel()
         {
+            AddProspectCommand = new Command(async () => await AddProspectAsync(), () => canAdd);
+            AccountClass = new AccountClass();
             Prospect = new Customer();
             ProspectAccount = new Account();
-            CustomerNameEntered = false;
-            AddProspectCommand = new Command(async () => await AddProspectAsync(), () => canAdd);
             //get a list of countries && account class
             using (var context = new CompliXperAppContext())
             {
                 Countries = context.Countries.ToList();
+                AccountClasses = context.AccountClasses.ToList();
             }
         }
         //properties
-        public Account ProspectAccount { get; set; }
+        public AccountClass AccountClass
+        {
+            get
+            {
+                return accountClass;
+            }
+            set
+            {
+                accountClass = value;
+                if (String.IsNullOrEmpty(customerName) == false && String.IsNullOrEmpty(legalType) == false && String.IsNullOrWhiteSpace(legalType) == false && String.IsNullOrWhiteSpace(customerName) == false && AccountClass != null && prospectAccount.AccountType != null)
+                {
+                    CanAdd(true);
+                }
+                else
+                    CanAdd(false);
+            }
+        }
+        public Account ProspectAccount
+        {
+            get
+            {
+                return prospectAccount;
+            }
+            set
+            {
+                prospectAccount = value;
+
+                if (String.IsNullOrEmpty(customerName) == false && String.IsNullOrEmpty(legalType) == false && String.IsNullOrWhiteSpace(legalType) == false && String.IsNullOrWhiteSpace(customerName) == false && AccountClass != null && prospectAccount.AccountType != null)
+                {
+                    CanAdd(true);
+                }
+                else
+                    CanAdd(false);
+            }
+        }
         public bool CustomerNameEntered { get; set; }
         public List<AccountClass> AccountClasses { get; set; }
         public List<Country> Countries { get; set; }
@@ -47,28 +84,7 @@ namespace CompliXpertApp.ViewModels
             set
             {
                 customerName = value;
-                if(String.IsNullOrEmpty(customerName) == false || String.IsNullOrWhiteSpace(customerName) == false)
-                {
-                    CustomerNameEntered = true;
-                }
-                if (String.IsNullOrEmpty(customerName) == false && String.IsNullOrEmpty(legalType) == false && String.IsNullOrWhiteSpace(legalType) == false && String.IsNullOrWhiteSpace(customerName) == false)
-                {
-                    CanAdd(true);
-                }
-                else
-                    CanAdd(false);
-            }
-        }
-        public string AccountClass
-        {
-            get
-            {
-                return accountClass;
-            }
-            set
-            {
-                accountClass = value;
-                if (String.IsNullOrEmpty(accountClass) == false && String.IsNullOrEmpty(legalType) == false && String.IsNullOrWhiteSpace(legalType) == false && String.IsNullOrWhiteSpace(customerName) == false && String.IsNullOrEmpty(customerName))
+                if (String.IsNullOrEmpty(customerName) == false && String.IsNullOrEmpty(legalType) == false && String.IsNullOrWhiteSpace(legalType) == false && String.IsNullOrWhiteSpace(customerName) == false && AccountClass != null && ProspectAccount.AccountType != null)
                 {
                     CanAdd(true);
                 }
@@ -86,9 +102,8 @@ namespace CompliXpertApp.ViewModels
             {
                 legalType = value;
 
-                if (String.IsNullOrEmpty(customerName) == false && String.IsNullOrEmpty(legalType) == false && String.IsNullOrWhiteSpace(legalType) == false && String.IsNullOrWhiteSpace(customerName) == false)
+                if (String.IsNullOrEmpty(customerName) == false && String.IsNullOrEmpty(legalType) == false && String.IsNullOrWhiteSpace(legalType) == false && String.IsNullOrWhiteSpace(customerName) == false && AccountClass != null && prospectAccount.AccountType != null)
                 {
-                    CustomerNameEntered = true;
                     CanAdd(true);
                 }
                 else
@@ -104,11 +119,13 @@ namespace CompliXpertApp.ViewModels
         }
         async Task AddProspectAsync()
         {
+            //generate a prospect account number
+            ProspectAccount.AccountClassCode = AccountClass.AccountClassCode;
             Prospect.CustomerName = CustomerName;
             Prospect.LegalType = LegalType;
             Prospect.CreatedOnMobile = true;
-            //Prospect.Citizenship = Citizenship?.; //now a country object
-            //Prospect.CountryofResidence = CountryofResidence?.Code;
+            Prospect.Citizenship = Citizenship?.CountryCode;
+            Prospect.CountryofResidence = CountryofResidence?.CountryCode;
             //add the new propsect to the DB here
             if(Prospect != null)
             {
@@ -122,11 +139,20 @@ namespace CompliXpertApp.ViewModels
 
                     Prospect.CustomerNumber = random.Next(lastCustomerNumber, 999999999);
                     Prospect.CustomerId = Prospect.CustomerNumber;
+                    ProspectAccount.AccountNumber = Prospect.CustomerNumber;
+                    ProspectAccount.CustomerNumber = Prospect.CustomerNumber;
+                    Prospect.Account = new List<Account>();
+                    Prospect.Account.Add(ProspectAccount);
                     context.Add(Prospect);
                     try
                     {
                         await context.SaveChangesAsync();
+                        ProspectAccount.AccountClass = AccountClass;
+                        Prospect.Account.Clear();
+                        Prospect.Account.Add(ProspectAccount);
+                        //send the new customer back
                         await App.Current.MainPage.Navigation.PopAsync();
+                        MessagingCenter.Send<AddProspectScreenViewModel, Customer>(this, Message.CustomerLoaded, Prospect);
                     }
                     catch (DbUpdateException e)
                     {

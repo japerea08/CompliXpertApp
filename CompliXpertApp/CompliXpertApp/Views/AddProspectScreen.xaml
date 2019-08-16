@@ -71,7 +71,7 @@
                        FontSize="Large"
                        TextColor="#305d82"/>
                 <Picker Title="Select Type"
-                        SelectedItem="{Binding LegalType}">
+                        SelectedItem="{Binding ProspectAccount.AccountType}">
                     <Picker.Items>
                         <x:String>Corporation</x:String>
                         <x:String>Individual</x:String>
@@ -81,11 +81,9 @@
                        FontSize="Large"
                        TextColor="#305d82"/>
                 <Picker Title="Select Type"
-                        SelectedItem="{Binding LegalType}">
-                    <Picker.Items>
-                        <x:String>Corporation</x:String>
-                        <x:String>Individual</x:String>
-                    </Picker.Items>
+                        ItemsSource="{Binding AccountClasses}"
+                        ItemDisplayBinding="{Binding Description}"
+                        SelectedItem="{Binding AccountClass}">
                 </Picker>
                 <Button Text="Add Prospect" 
                         BackgroundColor="#428bca" 

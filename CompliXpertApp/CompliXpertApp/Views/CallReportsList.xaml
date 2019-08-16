@@ -5,7 +5,7 @@
              Title="CompliXpert">
     <ContentPage.Content>
         <StackLayout Margin="15">
-            <Label Text="Customer Master"
+            <Label Text="Call Reports"
                    FontSize="Large"
                    HorizontalTextAlignment="Center"
                    Margin="0,5"/>
