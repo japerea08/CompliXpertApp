@@ -21,6 +21,7 @@ namespace CompliXpertApp.Models
         public virtual DbSet<CallReportQuestions> CallReportQuestions { get; set; }
         public virtual DbSet<CallReportResponse> CallReportResponse { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
+        public virtual DbSet<AccountClass> AccountClasses { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -34,13 +35,13 @@ namespace CompliXpertApp.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
+                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
 
             modelBuilder.Entity("CompliXpertApp.Models.Account", b =>
             {
                 b.Property<int>("AccountNumber");
 
-                b.Property<string>("AccountClass");
+                b.Property<int?>("AccountClassCode");
 
                 b.Property<string>("AccountType");
 
@@ -48,9 +49,23 @@ namespace CompliXpertApp.Models
 
                 b.HasKey("AccountNumber");
 
+                b.HasIndex("AccountClassCode");
+
                 b.HasIndex("CustomerNumber");
 
                 b.ToTable("Account");
+            });
+
+            modelBuilder.Entity("CompliXpertApp.Models.AccountClass", b =>
+            {
+                b.Property<int>("AccountClassCode")
+                    .ValueGeneratedOnAdd();
+
+                b.Property<string>("Description");
+
+                b.HasKey("AccountClassCode");
+
+                b.ToTable("AccountClasses");
             });
 
             modelBuilder.Entity("CompliXpertApp.Models.CallReport", b =>
@@ -135,12 +150,12 @@ namespace CompliXpertApp.Models
 
             modelBuilder.Entity("CompliXpertApp.Models.Country", b =>
             {
-                b.Property<int>("Code")
+                b.Property<int>("CountryCode")
                     .ValueGeneratedOnAdd();
 
                 b.Property<string>("Description");
 
-                b.HasKey("Code");
+                b.HasKey("CountryCode");
 
                 b.ToTable("Countries");
             });
@@ -149,9 +164,9 @@ namespace CompliXpertApp.Models
             {
                 b.Property<int>("CustomerNumber");
 
-                b.Property<int>("Citizenship");
+                b.Property<int?>("Citizenship");
 
-                b.Property<int>("CountryofResidence");
+                b.Property<int?>("CountryofResidence");
 
                 b.Property<bool>("CreatedOnMobile");
 
@@ -174,6 +189,10 @@ namespace CompliXpertApp.Models
 
             modelBuilder.Entity("CompliXpertApp.Models.Account", b =>
             {
+                b.HasOne("CompliXpertApp.Models.AccountClass", "AccountClass")
+                    .WithMany()
+                    .HasForeignKey("AccountClassCode");
+
                 b.HasOne("CompliXpertApp.Models.Customer", "CustomerNumberNavigation")
                     .WithMany("Account")
                     .HasForeignKey("CustomerNumber");

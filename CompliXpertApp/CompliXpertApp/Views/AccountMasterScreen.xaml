@@ -31,7 +31,7 @@
                 <Label Text="Account Class"
                        FontSize="Large"
                        TextColor="#305d82"/>
-                <Label Text="{Binding Account.AccountClass}"
+                <Label Text="{Binding Account.AccountClass.Description}"
                        TextDecorations="Underline"
                        FontSize="Medium"/>
                 <StackLayout Orientation="Horizontal" Padding="0,10,0,0">

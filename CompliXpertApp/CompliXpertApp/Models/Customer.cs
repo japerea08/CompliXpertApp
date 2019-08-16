@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace CompliXpertApp.Models
 {
@@ -8,6 +9,7 @@ namespace CompliXpertApp.Models
         {
             IsPEP = false;
         }
+        [Key]
         public int CustomerNumber { get; set; }
         public int CustomerId { get; set; }
         public string CustomerName { get; set; }
@@ -15,8 +17,8 @@ namespace CompliXpertApp.Models
         public bool CreatedOnMobile { get; set; }
         public bool IsPEP { get; set; }
         public string MailAddress { get; set; }
-        public int Citizenship { get; set; }
-        public int CountryofResidence { get; set; }
+        public int? Citizenship { get; set; }
+        public int? CountryofResidence { get; set; }
         public string Email { get; set; }
         public ICollection<Account> Account { get; set; }
     }

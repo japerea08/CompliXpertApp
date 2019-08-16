@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MigrationsApp.Migrations
 {
     [DbContext(typeof(CompliXperAppContext))]
-    [Migration("20190808165223_InitialCreate")]
+    [Migration("20190816154450_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,7 +22,7 @@ namespace MigrationsApp.Migrations
                 {
                     b.Property<int>("AccountNumber");
 
-                    b.Property<string>("AccountClass");
+                    b.Property<int?>("AccountClassCode");
 
                     b.Property<string>("AccountType");
 
@@ -30,9 +30,23 @@ namespace MigrationsApp.Migrations
 
                     b.HasKey("AccountNumber");
 
+                    b.HasIndex("AccountClassCode");
+
                     b.HasIndex("CustomerNumber");
 
                     b.ToTable("Account");
+                });
+
+            modelBuilder.Entity("CompliXpertApp.Models.AccountClass", b =>
+                {
+                    b.Property<int>("AccountClassCode")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.HasKey("AccountClassCode");
+
+                    b.ToTable("AccountClasses");
                 });
 
             modelBuilder.Entity("CompliXpertApp.Models.CallReport", b =>
@@ -131,9 +145,9 @@ namespace MigrationsApp.Migrations
                 {
                     b.Property<int>("CustomerNumber");
 
-                    b.Property<int>("Citizenship");
+                    b.Property<int?>("Citizenship");
 
-                    b.Property<int>("CountryofResidence");
+                    b.Property<int?>("CountryofResidence");
 
                     b.Property<bool>("CreatedOnMobile");
 
@@ -156,6 +170,10 @@ namespace MigrationsApp.Migrations
 
             modelBuilder.Entity("CompliXpertApp.Models.Account", b =>
                 {
+                    b.HasOne("CompliXpertApp.Models.AccountClass", "AccountClass")
+                        .WithMany()
+                        .HasForeignKey("AccountClassCode");
+
                     b.HasOne("CompliXpertApp.Models.Customer", "CustomerNumberNavigation")
                         .WithMany("Account")
                         .HasForeignKey("CustomerNumber");

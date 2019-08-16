@@ -91,8 +91,9 @@ namespace CompliXpertApp.ViewModels
                     List<CallReportType> callReportTypes = await Task.Run(() => GetCallReportTypeJsonAsync());
                     List<CallReportQuestions> callReportQuestions = await Task.Run(()=> GetCallReportQuestionsJsonAsync());
                     List<Country> countries = await Task.Run(() => GetCountriesAsync());
+                    List<AccountClass> accountClasses = await Task.Run(() => GetAccountClassesAsync());
                     //add to DB
-                    await Task.Run(() => AddTypeQuestionsandCountriesAsync(callReportTypes, callReportQuestions, countries));
+                    await Task.Run(() => InitializeDBAsync(callReportTypes, callReportQuestions, countries, accountClasses));
                 }
                 //will only run if the DB has records
                 if (await Task.Run(() => DBContainsRecords()))
@@ -131,7 +132,7 @@ namespace CompliXpertApp.ViewModels
         {
             using (var context = new CompliXperAppContext())
             {
-                if (context.CallReportQuestions.Any() && context.CallReportType.Any() && context.Countries.Any())
+                if (context.CallReportQuestions.Any() && context.CallReportType.Any() && context.Countries.Any() && context.AccountClasses.Any())
                     return true;
                 else
                     return false;
@@ -149,13 +150,13 @@ namespace CompliXpertApp.ViewModels
                 }
             }       
         }
+        //method that gets all customers from sqlite DB
         public async Task<List<Customer>> GetCustomersAsync()
         {
             using (var context = new CompliXperAppContext())
             {
-                //get all customers 
                 var customers = context.Customer;
-                //populate the customer's account
+
                 foreach (Customer customer in customers)
                 {
                     customer.Account = await
@@ -166,21 +167,29 @@ namespace CompliXpertApp.ViewModels
                             {
                                 AccountNumber = _account.AccountNumber,
                                 AccountType = _account.AccountType,
-                                AccountClass = _account.AccountClass,
                                 CustomerNumber = _account.CustomerNumber,
+                                AccountClassCode = _account.AccountClassCode,
+                                AccountClass = (from _accountClass in context.AccountClasses
+                                                where _accountClass.AccountClassCode == _account.AccountClassCode
+                                                select new AccountClass
+                                                {
+                                                    AccountClassCode = _accountClass.AccountClassCode,
+                                                    Description = _accountClass.Description
+                                                }).FirstOrDefault()
                             }
                         ).ToListAsync(); 
                 }
                 return await customers.ToListAsync();
             }
         }
-        public async Task AddTypeQuestionsandCountriesAsync(List<CallReportType> types, List<CallReportQuestions> questions, List<Country> countries)
+        public async Task InitializeDBAsync(List<CallReportType> types, List<CallReportQuestions> questions, List<Country> countries, List<AccountClass> accountClasses)
         {
             using (var context = new CompliXperAppContext())
             {
                 context.CallReportType.AddRange(types);
                 context.CallReportQuestions.AddRange(questions);
                 context.Countries.AddRange(countries);
+                context.AccountClasses.AddRange(accountClasses);
                 try
                 {
                     await context.SaveChangesAsync();
@@ -203,6 +212,7 @@ namespace CompliXpertApp.ViewModels
                 List<CallReportResponse> responses = new List<CallReportResponse>();
                 foreach (Customer customer in customers)
                 {
+
                     accounts.AddRange(customer.Account);
                     foreach (Account account in customer.Account)
                     {
@@ -247,6 +257,10 @@ namespace CompliXpertApp.ViewModels
         public async Task<List<Country>> GetCountriesAsync()
         {
             return JsonConvert.DeserializeObject<List<Country>>(await DependencyService.Get<IRWExternalStorage>().GetCountriesAsync());
+        }
+        public async Task<List<AccountClass>>GetAccountClassesAsync()
+        {
+            return JsonConvert.DeserializeObject<List<AccountClass>>(await DependencyService.Get<IRWExternalStorage>().GetAccountClassesAsync());
         }
     }
 }

@@ -2,10 +2,10 @@
 
 namespace CompliXpertApp.Models
 {
-    public partial class CallReportType
+    public partial class AccountClass
     {
         [Key]
-        public string Type { get; set; }
+        public int AccountClassCode { get; set; }
         public string Description { get; set; }
     }
 }

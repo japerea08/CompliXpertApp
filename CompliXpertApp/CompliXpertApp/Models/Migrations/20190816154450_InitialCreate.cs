@@ -8,6 +8,19 @@ namespace MigrationsApp.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "AccountClasses",
+                columns: table => new
+                {
+                    AccountClassCode = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Description = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountClasses", x => x.AccountClassCode);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CallReportQuestions",
                 columns: table => new
                 {
@@ -38,13 +51,13 @@ namespace MigrationsApp.Migrations
                 name: "Countries",
                 columns: table => new
                 {
-                    Code = table.Column<int>(nullable: false)
+                    CountryCode = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Countries", x => x.Code);
+                    table.PrimaryKey("PK_Countries", x => x.CountryCode);
                 });
 
             migrationBuilder.CreateTable(
@@ -58,8 +71,8 @@ namespace MigrationsApp.Migrations
                     CreatedOnMobile = table.Column<bool>(nullable: false),
                     IsPEP = table.Column<bool>(nullable: false),
                     MailAddress = table.Column<string>(nullable: true),
-                    Citizenship = table.Column<int>(nullable: false),
-                    CountryofResidence = table.Column<int>(nullable: false),
+                    Citizenship = table.Column<int>(nullable: true),
+                    CountryofResidence = table.Column<int>(nullable: true),
                     Email = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -73,12 +86,18 @@ namespace MigrationsApp.Migrations
                 {
                     AccountNumber = table.Column<int>(nullable: false),
                     AccountType = table.Column<string>(nullable: true),
-                    AccountClass = table.Column<string>(nullable: true),
+                    AccountClassCode = table.Column<int>(nullable: true),
                     CustomerNumber = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Account", x => x.AccountNumber);
+                    table.ForeignKey(
+                        name: "FK_Account_AccountClasses_AccountClassCode",
+                        column: x => x.AccountClassCode,
+                        principalTable: "AccountClasses",
+                        principalColumn: "AccountClassCode",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Account_Customer_CustomerNumber",
                         column: x => x.CustomerNumber,
@@ -138,6 +157,11 @@ namespace MigrationsApp.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Account_AccountClassCode",
+                table: "Account",
+                column: "AccountClassCode");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Account_CustomerNumber",
                 table: "Account",
                 column: "CustomerNumber");
@@ -172,6 +196,9 @@ namespace MigrationsApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "Account");
+
+            migrationBuilder.DropTable(
+                name: "AccountClasses");
 
             migrationBuilder.DropTable(
                 name: "Customer");

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace CompliXpertApp.Models
 {
@@ -8,16 +9,13 @@ namespace CompliXpertApp.Models
         {
             CallReport = new HashSet<CallReport>();
         }
-
+        [Key]
         public int AccountNumber { get; set; }
         public string AccountType { get; set; }
-        public string AccountClass { get; set; }
+        public int? AccountClassCode { get; set; }
         public int? CustomerNumber { get; set; }
         public ICollection<CallReport> CallReport { get; set; }
         public Customer CustomerNumberNavigation { get; set; }
-        public override string ToString()
-        {
-            return AccountNumber.ToString();
-        }
+        public AccountClass AccountClass { get; set; }
     }
 }

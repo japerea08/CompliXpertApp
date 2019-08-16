@@ -74,6 +74,24 @@ namespace CompliXpertApp
                 return null;
             }
         }
+        public async Task<string> GetAccountClassesAsync()
+        {
+            string filePath = GetExternalPath() + "/accountclass.txt";
+            try
+            {
+                using (StreamReader reader = new StreamReader(filePath))
+                {
+                    return await reader.ReadToEndAsync();
+                }
+            }
+            catch (IOException)
+            {
+                var context = Android.App.Application.Context;
+                string message = " Account Class file not accessible";
+                Toast.MakeText(context, message, ToastLength.Long).Show();
+                return null;
+            }
+        }
         public async Task<string> GetCountriesAsync()
         {
             string filePath = GetExternalPath() + "/countries.txt";
@@ -87,7 +105,7 @@ namespace CompliXpertApp
             catch (IOException)
             {
                 var context = Android.App.Application.Context;
-                string message = " Call Report Questions file not accessible";
+                string message = "Countries file not accessible";
                 Toast.MakeText(context, message, ToastLength.Long).Show();
                 return null;
             }

@@ -5,7 +5,7 @@
              Title="CompliXpert">
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout Margin="20,5">
+            <StackLayout Margin="20,10">
                 <Label Text="Add a Prospect"
                        Margin="0,0,0,20"
                    FontSize="Large"
@@ -67,9 +67,30 @@
                 <Entry Text="{Binding Prospect.Email}"
                        FontSize="Medium"
                        Keyboard="Email"/>
+                <Label Text="Account Type"
+                       FontSize="Large"
+                       TextColor="#305d82"/>
+                <Picker Title="Select Type"
+                        SelectedItem="{Binding LegalType}">
+                    <Picker.Items>
+                        <x:String>Corporation</x:String>
+                        <x:String>Individual</x:String>
+                    </Picker.Items>
+                </Picker>
+                <Label Text="Account Class"
+                       FontSize="Large"
+                       TextColor="#305d82"/>
+                <Picker Title="Select Type"
+                        SelectedItem="{Binding LegalType}">
+                    <Picker.Items>
+                        <x:String>Corporation</x:String>
+                        <x:String>Individual</x:String>
+                    </Picker.Items>
+                </Picker>
                 <Button Text="Add Prospect" 
                         BackgroundColor="#428bca" 
                         TextColor="White"
+                        Margin="0,0,0,20"
                         Command="{Binding AddProspectCommand}"></Button>
             </StackLayout>
         </ScrollView>

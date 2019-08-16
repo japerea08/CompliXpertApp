@@ -96,7 +96,7 @@
                                    Grid.Column="1"
                                    Grid.Row="1"
                                        HorizontalTextAlignment="Center"/>
-                                    <Label Text="{Binding AccountClass}"
+                                    <Label Text="{Binding AccountClass.Description}"
                                    Grid.Column="2"
                                    Grid.Row="1"
                                        HorizontalTextAlignment="Center"/>

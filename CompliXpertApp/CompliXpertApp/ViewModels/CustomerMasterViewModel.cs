@@ -1,7 +1,6 @@
 ﻿using CompliXpertApp.Helpers;
 using CompliXpertApp.Models;
 using CompliXpertApp.Views;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -11,7 +10,6 @@ namespace CompliXpertApp.ViewModels
     {
         //attributes
         private bool canTap = true;
-        private string _customerMaster = "Customer Master- ";
         private Customer _customer;
         private bool _isBusy = false;
 
@@ -27,24 +25,17 @@ namespace CompliXpertApp.ViewModels
             MessagingCenter.Subscribe<CreateCallReportViewModel, Customer>(this, Message.CallReportCreated, (sender, account) =>
             {
                 Customer = account;
+                using (var context = new CompliXperAppContext())
+                {
+                    foreach (Account acct in account.Account)
+                    {
+                    }
+                }
             });
         }
 
         //properties
         public Account Account { get; set; }
-        public string CustomerMaster
-        {
-            get
-            {
-                return _customerMaster;
-            }
-            set
-            {
-                if (Customer != null)
-                    _customerMaster += value;
-                OnPropertyChanged();
-            }
-        }
         public Account AccountSelected
         {
             get
@@ -83,7 +74,6 @@ namespace CompliXpertApp.ViewModels
             set
             {
                 _customer = value;
-                CustomerMaster = _customer.CustomerName;
                 OnPropertyChanged();
             }
         }
