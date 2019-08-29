@@ -118,7 +118,7 @@ namespace CompliXpertApp.ViewModels
         public async Task DownloadCallReportsAsync()
         {
             //ask the user if he wants to download
-            if (await App.Current.MainPage.DisplayAlert("Downloading all Call Reports will remove the data from the CompliXpert App.", "This action cannot be undone.", "Yes", "Cancel"))
+            if (await App.Current.MainPage.DisplayAlert("Downloading all New Data will remove the data from the CompliXpert App.", "This action cannot be undone.", "Yes", "Cancel"))
             {
                 IsBusy = true;
                 using (var context = new CompliXperAppContext())
@@ -127,6 +127,29 @@ namespace CompliXpertApp.ViewModels
                     var callReports = await context.CallReport
                         .Where(report => report.CreatedOnMobile == true)
                         .ToListAsync();
+                    
+                    //then get all the accounts formed associated with the newly created Call Reports
+                    List<Account> accounts = new List<Account>();
+                    foreach(CallReport report in callReports)
+                    {
+                        Account account = await (from _account in context.Account
+                                            where _account.AccountNumber == report.AccountNumber
+                                            select new Account
+                                            {
+                                                AccountNumber = _account.AccountNumber,
+                                                AccountType = _account.AccountType,
+                                                AccountClassCode = _account.AccountClassCode,
+                                                CustomerNumber = _account.CustomerNumber,
+                                            }).FirstOrDefaultAsync();
+
+                        account.CallReport.Add(report);
+                        //accounts.Add(await context.Account
+                        //    .Where(account => account.AccountNumber == report.AccountNumber)
+                        //    .FirstOrDefaultAsync());
+                    }
+
+                    //get the customers associated with those accounts
+
 
                     //make into a Json variable
                     string callReportsJson = JsonConvert.SerializeObject(callReports);
