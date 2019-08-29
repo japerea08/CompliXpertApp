@@ -28,13 +28,9 @@ namespace CompliXpertApp.ViewModels
                 {
                     Customers = context.Customer.ToList();
                 }
-                //List<Customer> customers = Customers;
-                //customers.Add(_customer);
-                //Customers = customers;
             });
             AddProspectCommand = new Command(AddProspect);
-            DownloadCallReportsCommand = new Command(async () => await DownloadCallReportsAsync(), () => canDownload);
-            //CheckForNewReports();
+            SendNewDataCommand = new Command(async () => await DownloadCallReportsAsync(), () => canDownload);
         }
         public async void AddProspect()
         {
@@ -46,10 +42,10 @@ namespace CompliXpertApp.ViewModels
         void CanDownload(bool value)
         {
             canDownload = value;
-            ((Command) DownloadCallReportsCommand).ChangeCanExecute();
+            ((Command) SendNewDataCommand).ChangeCanExecute();
         }
         public Command AddProspectCommand { get;}
-        public Command DownloadCallReportsCommand { get; }
+        public Command SendNewDataCommand { get; }
         public bool IsBusy
         {
             get { return isBusy; }
@@ -87,7 +83,8 @@ namespace CompliXpertApp.ViewModels
             }
         }
         //methods
-        public void CheckForNewReports()
+        //will check to see if new call reports were created or a prospect
+        public void CheckForNewData()
         {
             using (var context = new CompliXperAppContext())
             {
@@ -95,7 +92,11 @@ namespace CompliXpertApp.ViewModels
                 var callReports = context.CallReport
                     .Where(report => report.CreatedOnMobile == true)
                     .ToList();
-                if (callReports.Count > 0)
+                //get all Customers that were created on the mobile devices
+                var prospectList = context.Customer
+                    .Where(customer => customer.CreatedOnMobile == true)
+                    .ToList();
+                if (callReports.Count > 0 || prospectList.Count > 0)
                 {
                     CanDownload(true);
                 }

@@ -25,7 +25,7 @@ namespace CompliXpertApp.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            listScreenViewModel.CheckForNewReports();
+            listScreenViewModel.CheckForNewData();
         }
     }
 }

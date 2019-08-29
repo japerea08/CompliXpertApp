@@ -45,11 +45,11 @@
                 </ListView.ItemTemplate>
             </ListView>
             <ActivityIndicator IsRunning="{Binding IsBusy}"/>
-            <Button Text="Download Call Reports" 
+            <Button Text="Send New Data" 
                     BackgroundColor="#428bca" 
                     TextColor="White" 
                     Margin="15" 
-                    Command="{Binding DownloadCallReportsCommand}"/>
+                    Command="{Binding SendNewDataCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
