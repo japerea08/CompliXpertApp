@@ -122,7 +122,8 @@ namespace MigrationsApp.Migrations
                     LastUpdated = table.Column<string>(nullable: true),
                     LastUpdatedDate = table.Column<DateTime>(nullable: false),
                     AccountNumber = table.Column<int>(nullable: true),
-                    CallReportType = table.Column<string>(nullable: true)
+                    CallReportType = table.Column<string>(nullable: true),
+                    Reason = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

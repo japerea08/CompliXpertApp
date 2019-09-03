@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MigrationsApp.Migrations
 {
     [DbContext(typeof(CompliXperAppContext))]
-    [Migration("20190816154450_InitialCreate")]
+    [Migration("20190829174403_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -73,6 +73,8 @@ namespace MigrationsApp.Migrations
                     b.Property<string>("Officer");
 
                     b.Property<string>("Position");
+
+                    b.Property<string>("Reason");
 
                     b.Property<string>("Reference");
 

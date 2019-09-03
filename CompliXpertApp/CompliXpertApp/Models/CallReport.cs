@@ -21,6 +21,7 @@ namespace CompliXpertApp.Models
         [ForeignKey("Account")]
         public int? AccountNumber { get; set; }
         public string CallReportType { get; set; }
+        public string Reason { get; set; }
         public ICollection<CallReportResponse> Responses { get; set; }
         public string Date
         {

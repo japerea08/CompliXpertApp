@@ -72,6 +72,8 @@ namespace MigrationsApp.Migrations
 
                     b.Property<string>("Position");
 
+                    b.Property<string>("Reason");
+
                     b.Property<string>("Reference");
 
                     b.HasKey("CallReportId");
