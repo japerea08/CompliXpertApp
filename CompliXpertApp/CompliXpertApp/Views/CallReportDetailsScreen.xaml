@@ -61,8 +61,9 @@
                                         <Label Text="{Binding QuestionHeader}"
                                            FontSize="Large"
                                            TextColor="#305d82"/>
-                                        <Entry Text="{Binding Response}"
-                                               FontSize="Medium"/>
+                                        <Editor Text="{Binding Response}"
+                                                AutoSize="TextChanges"
+                                                FontSize="Medium"/>
                                     </StackLayout>
                                 </ViewCell>
                             </DataTemplate>

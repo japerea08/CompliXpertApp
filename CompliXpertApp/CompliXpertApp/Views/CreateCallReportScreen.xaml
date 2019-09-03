@@ -5,11 +5,7 @@
              Title="CompliXpert">
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout Margin="15">
-                <Label Text="Call Report Details"
-                       FontSize="Large"
-                       HorizontalTextAlignment="Center"
-                       Margin="0,0,0,10"/>
+            <StackLayout Margin="30,15">
                 <Label Text="Account"
                    TextColor="#305d82"
                    FontSize="Large"/>
@@ -36,15 +32,15 @@
                 <Label Text="Reference"
                        TextColor="#305d82"
                        FontSize="Large"/>
-                <Entry Text="{Binding NewCallReport.Reference}"/>
+                <Entry Text="{Binding NewCallReport.Reference}"
+                       FontSize="Medium"/>
                 <StackLayout>
                     <ListView ItemsSource="{Binding QR}"
                               SeparatorVisibility="None"
                               SelectionMode="None"
                               IsVisible="{Binding ReasonSelected}"
                               HasUnevenRows="True"
-                              HorizontalScrollBarVisibility="Never"
-                              HeightRequest="{Binding Height}">
+                              HorizontalScrollBarVisibility="Never">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
@@ -52,7 +48,9 @@
                                         <Label Text="{Binding QuestionHeader}"
                                            FontSize="Large"
                                            TextColor="#305d82"/>
-                                        <Entry Text="{Binding Response}"/>
+                                        <Editor Text="{Binding Response}"
+                                                AutoSize="TextChanges"
+                                                FontSize="Medium"/>
                                     </StackLayout>
                                 </ViewCell>
                             </DataTemplate>
