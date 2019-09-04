@@ -6,10 +6,6 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Margin="20">
-                <Label Text="Account Master"
-                       HorizontalTextAlignment="Center"
-                       FontSize="Large"
-                       Margin="0,0,0,15"/>
                 <Label Text="Account Number"
                        FontSize="Large"
                        TextColor="#305d82"/>

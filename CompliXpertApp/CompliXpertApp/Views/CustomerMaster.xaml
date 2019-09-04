@@ -6,10 +6,6 @@
     <ContentPage.Content>
 
         <StackLayout>
-            <Label Text="Customer Master"
-                   FontSize="Large"
-                   HorizontalTextAlignment="Center"
-                   Margin="0,5"/>
             <Label Text="Customer Name"
                    FontSize="Large"
                    TextColor="#305d82"

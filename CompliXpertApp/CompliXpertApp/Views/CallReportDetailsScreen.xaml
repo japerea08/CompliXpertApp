@@ -6,10 +6,6 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Margin="15">
-                <Label Text="Call Report Details"
-                   HorizontalTextAlignment="Center"    
-                   FontSize="Large"
-                   Margin="0,0,0,10"/>
                 <Label Text="Call Report"
                    TextColor="#305d82"
                    FontSize="Large"/>
