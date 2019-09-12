@@ -14,6 +14,7 @@ namespace CompliXpertApp.Views
 		public CustomerListScreen ()
 		{
             listScreenViewModel = new CustomerListScreenViewModel();
+            NavigationPage.SetTitleIconImageSource(this, "compli_logo_xsmall.png");
             InitializeComponent ();
             BindingContext = listScreenViewModel;
         }

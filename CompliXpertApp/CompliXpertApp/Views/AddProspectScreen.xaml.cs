@@ -11,6 +11,7 @@ namespace CompliXpertApp.Views
 		public AddProspectScreen ()
 		{
             addProspectScreenViewModel = new AddProspectScreenViewModel();
+            NavigationPage.SetTitleIconImageSource(this, "compli_logo_xsmall.png");
             InitializeComponent ();
             BindingContext = addProspectScreenViewModel;
 		}

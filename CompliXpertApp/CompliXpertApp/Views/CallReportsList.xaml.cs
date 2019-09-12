@@ -1,7 +1,5 @@
 ﻿using CompliXpertApp.Helpers;
-using CompliXpertApp.Models;
 using CompliXpertApp.ViewModels;
-using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,6 +12,7 @@ namespace CompliXpertApp.Views
 		public CallReportsList ()
 		{
             callReportListViewModel = new CallReportListViewModel();
+            NavigationPage.SetTitleIconImageSource(this, "compli_logo_xsmall.png");
             InitializeComponent ();
             BindingContext = callReportListViewModel;
         }

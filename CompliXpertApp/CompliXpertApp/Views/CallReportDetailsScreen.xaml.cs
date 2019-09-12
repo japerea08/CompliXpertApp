@@ -12,6 +12,7 @@ namespace CompliXpertApp.Views
         private CallReportDetailsViewModel viewModel;
         public CallReportDetailsScreen()
         {
+            NavigationPage.SetTitleIconImageSource(this, "compli_logo_xsmall.png");
             InitializeComponent();
             viewModel = new CallReportDetailsViewModel();
             BindingContext = viewModel;

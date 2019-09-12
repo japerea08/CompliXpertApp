@@ -13,7 +13,8 @@ namespace CompliXpertApp.Views
 		public CustomerMaster ()
 		{
             customerMasterViewModel = new CustomerMasterViewModel();
-			InitializeComponent ();
+            NavigationPage.SetTitleIconImageSource(this, "compli_logo_xsmall.png");
+            InitializeComponent ();
             BindingContext = customerMasterViewModel;
 		}
         protected override void OnDisappearing()

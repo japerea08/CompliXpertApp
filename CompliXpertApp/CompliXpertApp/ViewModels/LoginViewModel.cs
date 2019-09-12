@@ -101,6 +101,7 @@ namespace CompliXpertApp.ViewModels
                     //get everything from DB
                     List<Customer> customers = await Task.Run(() => GetCustomersAsync());
                     IsBusy = false;
+                    Page page = new CustomerListScreen();
                     await App.Current.MainPage.Navigation.PushAsync(new CustomerListScreen());
                     MessagingCenter.Send<LoginViewModel, List<Customer>>(this, Message.AccountListLoaded, customers);
                     CanAttemptLogin(true);

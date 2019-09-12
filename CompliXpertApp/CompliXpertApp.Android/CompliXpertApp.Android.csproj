@@ -136,5 +136,8 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\compli_logo_android_mobile.png" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\compli_logo_xsmall.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

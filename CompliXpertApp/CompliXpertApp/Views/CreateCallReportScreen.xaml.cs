@@ -14,26 +14,27 @@ namespace CompliXpertApp.Views
         private CreateCallReportViewModel createCallReportViewModel;
 		public CreateCallReportScreen ()
 		{
-            CustomNavBackButton = () =>
-            {
-                if (createCallReportViewModel.ReasonSelected == true)
-                {
-                    Device.BeginInvokeOnMainThread(async () =>
-                    {
-                        if (await App.Current.MainPage.DisplayAlert("Are you sure you want to go back?", "All unsaved information will be lost.", "Yes", "Cancel"))
-                        {
-                            await App.Current.MainPage.Navigation.PopAsync();
-                        }
-                    });
-                }
-                else
-                {
-                    Device.BeginInvokeOnMainThread(async () => 
-                    {
-                        await App.Current.MainPage.Navigation.PopAsync();
-                    });
-                }
-            };
+            NavigationPage.SetTitleIconImageSource(this, "compli_logo_xsmall.png");
+            //CustomNavBackButton = () =>
+            //{
+            //    if (createCallReportViewModel.ReasonSelected == true)
+            //    {
+            //        Device.BeginInvokeOnMainThread(async () =>
+            //        {
+            //            if (await App.Current.MainPage.DisplayAlert("Are you sure you want to go back?", "All unsaved information will be lost.", "Yes", "Cancel"))
+            //            {
+            //                await App.Current.MainPage.Navigation.PopAsync();
+            //            }
+            //        });
+            //    }
+            //    else
+            //    {
+            //        Device.BeginInvokeOnMainThread(async () => 
+            //        {
+            //            await App.Current.MainPage.Navigation.PopAsync();
+            //        });
+            //    }
+            //};
             createCallReportViewModel = new CreateCallReportViewModel();
 			InitializeComponent();
             BindingContext = createCallReportViewModel;
