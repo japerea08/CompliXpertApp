@@ -1,4 +1,5 @@
-﻿using CompliXpertApp.ViewModels;
+﻿using CompliXpertApp.Helpers;
+using CompliXpertApp.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,6 +16,18 @@ namespace CompliXpertApp.Views
             InitializeComponent ();
             BindingContext = addProspectScreenViewModel;
 		}
+        //let native code know to unlock orientation
+        protected override void OnAppearing()
+        {
+            MessagingCenter.Send(this, Message.AllowLandscapePortrait);
+            base.OnAppearing();
+        }
+        //let native code know to set back to portrait
+        protected override void OnDisappearing()
+        {
+            MessagingCenter.Send(this, Message.PreventLandscape);
+            base.OnDisappearing();
+        }
         //method only works for Android Hard Key
         protected override bool OnBackButtonPressed()
         {

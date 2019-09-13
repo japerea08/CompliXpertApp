@@ -17,8 +17,14 @@ namespace CompliXpertApp.Views
             viewModel = new CallReportDetailsViewModel();
             BindingContext = viewModel;
         }
+        protected override void OnAppearing()
+        {
+            MessagingCenter.Send(this, Message.AllowLandscapePortrait);
+            base.OnAppearing();
+        }
         protected override void OnDisappearing()
         {
+            MessagingCenter.Send(this, Message.PreventLandscape);
             base.OnDisappearing();
             MessagingCenter.Unsubscribe<CallReportListViewModel>(viewModel, Message.CallReportLoaded);
         }

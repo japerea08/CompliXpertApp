@@ -3,6 +3,7 @@ using CompliXpertApp.ViewModels;
 using Xamarin.Forms.Xaml;
 using Xamarin.Forms;
 using System;
+using Android.Content.PM;
 
 namespace CompliXpertApp.Views
 {

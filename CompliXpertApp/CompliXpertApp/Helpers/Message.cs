@@ -1,7 +1,21 @@
 ﻿namespace CompliXpertApp.Helpers
 {
-    static class Message
+    static public class Message
     {
+        public static string AllowLandscapePortrait
+        {
+            get
+            {
+                return "allowLandscapePortrait";
+            }
+        }
+        public static string PreventLandscape
+        {
+            get
+            {
+                return "preventLandscape";
+            }
+        }
         public static string AccountLoaded
         {
             get

@@ -3,10 +3,10 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Views;
 using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
-using Android.Widget;
 using System.Linq;
 using CompliXpertApp.Views;
 using System;
+using Xamarin.Forms;
 
 namespace CompliXpertApp.Droid
 {
@@ -24,7 +24,34 @@ namespace CompliXpertApp.Droid
             SetSupportActionBar(toolbar);
             //Code to make window scrollable when keyboard is present
             Xamarin.Forms.Application.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
+
+            //subscribe to get the orientation for the page
+            MessagingCenter.Subscribe<AddProspectScreen>(this, Helpers.Message.AllowLandscapePortrait, sender => 
+            {
+                RequestedOrientation = ScreenOrientation.Unspecified;
+            });
+            MessagingCenter.Subscribe<AddProspectScreen>(this, Helpers.Message.PreventLandscape, sender =>
+            {
+                RequestedOrientation = ScreenOrientation.Portrait;
+            });
+            MessagingCenter.Subscribe<CreateCallReportScreen>(this, Helpers.Message.AllowLandscapePortrait, sender =>
+            {
+                RequestedOrientation = ScreenOrientation.Unspecified;
+            });
+            MessagingCenter.Subscribe<CreateCallReportScreen>(this, Helpers.Message.PreventLandscape, sender =>
+            {
+                RequestedOrientation = ScreenOrientation.Portrait;
+            });
+            MessagingCenter.Subscribe<CallReportDetailsScreen>(this, Helpers.Message.AllowLandscapePortrait, sender =>
+            {
+                RequestedOrientation = ScreenOrientation.Unspecified;
+            });
+            MessagingCenter.Subscribe<CallReportDetailsScreen>(this, Helpers.Message.PreventLandscape, sender =>
+            {
+                RequestedOrientation = ScreenOrientation.Portrait;
+            });
         }
+
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
             if(item.ItemId == 16908332)
