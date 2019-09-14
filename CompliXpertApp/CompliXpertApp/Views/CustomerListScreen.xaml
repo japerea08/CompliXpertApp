@@ -1,12 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CompliXpertApp.Views.CustomerListScreen"
-             NavigationPage.HasBackButton="False">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="+ Add Prospect"
-                     Command="{Binding AddProspectCommand}"/>
-    </ContentPage.ToolbarItems>
+             x:Class="CompliXpertApp.Views.CustomerListScreen">
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Customer List"
@@ -45,12 +40,17 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <ActivityIndicator IsRunning="{Binding IsBusy}"/>
+            <Button Text="New Prospect" 
+                    BackgroundColor="#428bca" 
+                    TextColor="White" 
+                    Margin="15, 15, 15, 0" 
+                    Command="{Binding AddProspectCommand}"/>
             <Button Text="Send New Data" 
                     BackgroundColor="#428bca" 
                     TextColor="White" 
-                    Margin="15" 
+                    Margin="15,5,15,15" 
                     Command="{Binding SendNewDataCommand}"/>
+            <ActivityIndicator IsRunning="{Binding IsBusy}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
