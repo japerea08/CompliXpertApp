@@ -1,5 +1,4 @@
 ﻿using CompliXpertApp.Helpers;
-using CompliXpertApp.Models;
 using CompliXpertApp.ViewModels;
 using System;
 using Xamarin.Forms;
@@ -15,26 +14,26 @@ namespace CompliXpertApp.Views
 		public CreateCallReportScreen ()
 		{
             NavigationPage.SetTitleIconImageSource(this, "compli_logo_xsmall.png");
-            //CustomNavBackButton = () =>
-            //{
-            //    if (createCallReportViewModel.ReasonSelected == true)
-            //    {
-            //        Device.BeginInvokeOnMainThread(async () =>
-            //        {
-            //            if (await App.Current.MainPage.DisplayAlert("Are you sure you want to go back?", "All unsaved information will be lost.", "Yes", "Cancel"))
-            //            {
-            //                await App.Current.MainPage.Navigation.PopAsync();
-            //            }
-            //        });
-            //    }
-            //    else
-            //    {
-            //        Device.BeginInvokeOnMainThread(async () => 
-            //        {
-            //            await App.Current.MainPage.Navigation.PopAsync();
-            //        });
-            //    }
-            //};
+            CustomNavBackButton = () =>
+            {
+                if (createCallReportViewModel.ReasonSelected == true)
+                {
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        if (await App.Current.MainPage.DisplayAlert("Are you sure you want to go back?", "All unsaved information will be lost.", "Yes", "Cancel"))
+                        {
+                            await App.Current.MainPage.Navigation.PopAsync();
+                        }
+                    });
+                }
+                else
+                {
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await App.Current.MainPage.Navigation.PopAsync();
+                    });
+                }
+            };
             createCallReportViewModel = new CreateCallReportViewModel();
 			InitializeComponent();
             BindingContext = createCallReportViewModel;
@@ -43,6 +42,7 @@ namespace CompliXpertApp.Views
         {
             MessagingCenter.Send(this, Message.AllowLandscapePortrait);
             base.OnAppearing();
+            createCallReportViewModel.StandardHeight = ReferenceEntry.Height;
         }
         protected override void OnDisappearing()
         {
@@ -69,6 +69,14 @@ namespace CompliXpertApp.Views
                 });
                 return true;
             }     
+        }
+        void EditorCompleted(object sender, EventArgs e)
+        {
+            Editor editor = (Editor) sender;
+            if (createCallReportViewModel.StandardHeight != editor.Height)
+            {
+                createCallReportViewModel.Height += editor.Height; 
+            }
         }
 
     }

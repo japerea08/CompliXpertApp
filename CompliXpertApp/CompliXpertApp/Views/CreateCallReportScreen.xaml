@@ -6,13 +6,13 @@
         <ScrollView>
             <StackLayout Margin="30,15">
                 <Label Text="Account"
-                   TextColor="#305d82"
-                   FontSize="Large"/>
+                       TextColor="#305d82"
+                       FontSize="Large"/>
                 <Label Text="{Binding Account.AccountNumber}"
                        FontSize="Medium"/>
                 <Label Text="Customer Name"
-                   TextColor="#305d82"
-                   FontSize="Large"/>
+                       TextColor="#305d82"
+                       FontSize="Large"/>
                 <Label Text="{Binding CustomerName}"
                        FontSize="Medium"/>
                 <Label Text="Call Reason"
@@ -31,7 +31,8 @@
                 <Label Text="Reference"
                        TextColor="#305d82"
                        FontSize="Large"/>
-                <Entry Text="{Binding NewCallReport.Reference}"
+                <Entry x:Name="ReferenceEntry" 
+                       Text="{Binding NewCallReport.Reference}"
                        FontSize="Medium"/>
                 <StackLayout>
                     <ListView ItemsSource="{Binding QR}"
@@ -39,7 +40,8 @@
                               SelectionMode="None"
                               IsVisible="{Binding ReasonSelected}"
                               HasUnevenRows="True"
-                              HorizontalScrollBarVisibility="Never">
+                              HorizontalScrollBarVisibility="Never"
+                              HeightRequest="{Binding Height}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
@@ -49,7 +51,8 @@
                                            TextColor="#305d82"/>
                                         <Editor Text="{Binding Response}"
                                                 AutoSize="TextChanges"
-                                                FontSize="Medium"/>
+                                                FontSize="Medium"
+                                                Completed="EditorCompleted"/>
                                     </StackLayout>
                                 </ViewCell>
                             </DataTemplate>

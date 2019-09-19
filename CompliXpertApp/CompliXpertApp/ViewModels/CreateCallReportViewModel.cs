@@ -21,7 +21,7 @@ namespace CompliXpertApp.ViewModels
         private List<CallReportQuestions> _callReportQuestions;
         private List<QuestionandResponse> _questionsandResponse = new List<QuestionandResponse>();
         private CallReportType _type;
-        private int _height = 0;
+        private double _height = 0;
         private bool canSave = false;
 
         //constructor
@@ -53,7 +53,8 @@ namespace CompliXpertApp.ViewModels
         //properties
         
         public ICommand SaveCallReportCommand { get; set; }
-        public int Height
+        public double StandardHeight { get; set; }
+        public double Height
         {
             get
             {
@@ -163,7 +164,7 @@ namespace CompliXpertApp.ViewModels
             set
             {
                 _questionsandResponse = value;
-                Height = 90 * _questionsandResponse.Count();
+                Height = (StandardHeight * 2) * _questionsandResponse.Count();
                 ReasonSelected = true;
                 OnPropertyChanged();
             }
@@ -178,7 +179,7 @@ namespace CompliXpertApp.ViewModels
             set
             {
                 _callReportQuestions = value;
-                Height = 90 * _callReportQuestions.Count();
+                Height = (StandardHeight*2) * _callReportQuestions.Count();
                 ReasonSelected = true;
                 OnPropertyChanged();
             }
