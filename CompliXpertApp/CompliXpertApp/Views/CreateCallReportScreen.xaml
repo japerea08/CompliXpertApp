@@ -3,68 +3,71 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CompliXpertApp.Views.CreateCallReportScreen">
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout Margin="30,15">
-                <Label Text="Account"
-                       TextColor="#305d82"
-                       FontSize="Large"/>
-                <Label Text="{Binding Account.AccountNumber}"
-                       FontSize="Medium"/>
-                <Label Text="Customer Name"
-                       TextColor="#305d82"
-                       FontSize="Large"/>
-                <Label Text="{Binding CustomerName}"
-                       FontSize="Medium"/>
-                <Label Text="Call Date"
-                       TextColor="#305d82"
-                       FontSize="Large"/>
-                <DatePicker Date="{Binding NewCallReport.CallDate}"/>
-                <Label Text="Call Report Type"
-                       FontSize="Large"
-                       TextColor="#305d82"/>
-                <Picker Title="Select a Type"
-                        SelectedItem="{Binding Type, Mode=TwoWay}"
-                        ItemsSource="{Binding Types}"
-                        ItemDisplayBinding="{Binding Description}"
+        <StackLayout Margin="15"
+                     VerticalOptions="FillAndExpand">
+            <ListView ItemsSource="{Binding QR}"
+                        SeparatorVisibility="None"
+                        SelectionMode="None"
+                        HasUnevenRows="True"
+                        HorizontalScrollBarVisibility="Never"
+                      VerticalOptions="StartAndExpand">
+                <ListView.Header>
+                    <StackLayout VerticalOptions="FillAndExpand">
+                        <Label Text="Account"
+                               TextColor="#305d82"
+                               FontSize="Large"/>
+                        <Label Text="{Binding Account.AccountNumber}"
+                               FontSize="Medium"/>
+                        <Label Text="Customer Name"
+                               TextColor="#305d82"
+                               FontSize="Large"/>
+                        <Label Text="{Binding CustomerName}"
+                               FontSize="Medium"/>
+                        <Label Text="Reference"
+                               TextColor="#305d82"
+                               FontSize="Large"/>
+                        <Entry x:Name="ReferenceEntry" 
+                               Text="{Binding NewCallReport.Reference}"
+                               FontSize="Medium"/>
+                        <Label Text="Call Date"
+                               TextColor="#305d82"
+                                FontSize="Large"/>
+                        <DatePicker Date="{Binding NewCallReport.CallDate}"/>
+                        <Label Text="Call Report Type"
+                               FontSize="Large"
+                               TextColor="#305d82"/>
+                        <Picker Title="Select a Type"
+                                SelectedItem="{Binding Type, Mode=TwoWay}"
+                                ItemsSource="{Binding Types}"
+                                ItemDisplayBinding="{Binding Description}"
                         >
-                </Picker>
-                <Label Text="Reference"
-                       TextColor="#305d82"
-                       FontSize="Large"/>
-                <Entry x:Name="ReferenceEntry" 
-                       Text="{Binding NewCallReport.Reference}"
-                       FontSize="Medium"/>
-                <StackLayout>
-                    <ListView ItemsSource="{Binding QR}"
-                              SeparatorVisibility="None"
-                              SelectionMode="None"
-                              IsVisible="{Binding ReasonSelected}"
-                              HasUnevenRows="True"
-                              HorizontalScrollBarVisibility="Never"
-                              HeightRequest="{Binding Height}">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <StackLayout>
-                                        <Label Text="{Binding QuestionHeader}"
-                                           FontSize="Large"
-                                           TextColor="#305d82"/>
-                                        <Editor Text="{Binding Response}"
-                                                AutoSize="TextChanges"
-                                                FontSize="Medium"
-                                                Completed="EditorCompleted"/>
-                                    </StackLayout>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </StackLayout>
-                <Button Text="Save" 
+                        </Picker>
+                    </StackLayout>
+                </ListView.Header>
+                <ListView.Footer>
+                    <StackLayout Padding="0,15,0,10">
+                        <Button Text="Save" 
                             BackgroundColor="#428bca" 
                             TextColor="White" 
                             Command="{Binding SaveCallReportCommand}"></Button>
-                <ActivityIndicator IsRunning="{Binding IsBusy}"/>
-            </StackLayout>
-        </ScrollView>
+                    </StackLayout>
+                </ListView.Footer>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout IsVisible="{Binding ReasonSelected}">
+                                <Label Text="{Binding QuestionHeader}"
+                                           FontSize="Large"
+                                           TextColor="#305d82"/>
+                                <Editor Text="{Binding Response}"
+                                                AutoSize="TextChanges"
+                                                FontSize="Medium"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <ActivityIndicator IsRunning="{Binding IsBusy}"/>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

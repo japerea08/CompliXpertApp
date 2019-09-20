@@ -70,14 +70,5 @@ namespace CompliXpertApp.Views
                 return true;
             }     
         }
-        void EditorCompleted(object sender, EventArgs e)
-        {
-            Editor editor = (Editor) sender;
-            if (createCallReportViewModel.StandardHeight != editor.Height)
-            {
-                createCallReportViewModel.Height += editor.Height; 
-            }
-        }
-
     }
 }

@@ -96,7 +96,6 @@
             <ListView ItemsSource="{Binding QuestionandResponses}" 
                               HasUnevenRows="True" 
                               SeparatorVisibility="None"
-                              HeightRequest="{Binding Height}"
                               VerticalScrollBarVisibility="Never"
                               SelectionMode="None">
                 <ListView.Triggers>
