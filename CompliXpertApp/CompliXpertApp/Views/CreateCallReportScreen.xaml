@@ -15,10 +15,10 @@
                        FontSize="Large"/>
                 <Label Text="{Binding CustomerName}"
                        FontSize="Medium"/>
-                <Label Text="Call Reason"
+                <Label Text="Call Report Type"
                        FontSize="Large"
                        TextColor="#305d82"/>
-                <Picker Title="Select a Reason"
+                <Picker Title="Select a Type"
                         SelectedItem="{Binding Type, Mode=TwoWay}"
                         ItemsSource="{Binding Types}"
                         ItemDisplayBinding="{Binding Description}"

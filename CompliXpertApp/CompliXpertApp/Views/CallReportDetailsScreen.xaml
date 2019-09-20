@@ -15,7 +15,7 @@
                    FontSize="Large"/>
                 <Label Text="{Binding Report.AccountNumber}"
                        FontSize="Medium"/>
-                <Label Text="Reason"
+                <Label Text="Call Report Type"
                    TextColor="#305d82"
                    FontSize="Large"/>
                 <Label Text="{Binding ReportType}"
