@@ -3,165 +3,193 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CompliXpertApp.Views.CallReportDetailsScreen">
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout Margin="15">
-                <Label Text="Call Report"
-                   TextColor="#305d82"
-                   FontSize="Large"/>
-                <Label Text="{Binding Report.CallReportId}"
-                       FontSize="Medium"/>
-                <Label Text="Account"
-                   TextColor="#305d82"
-                   FontSize="Large"/>
-                <Label Text="{Binding Report.AccountNumber}"
-                       FontSize="Medium"/>
-                <Label Text="Call Report Type"
-                   TextColor="#305d82"
-                   FontSize="Large"/>
-                <Label Text="{Binding ReportType}"
-                       FontSize="Medium"/>
-                <!--Will display if created on the mobile device-->
-                <StackLayout>
-                    <StackLayout.Triggers>
-                        <DataTrigger TargetType="StackLayout"
+
+            <!--Will display if created on the mobile device-->
+            <!--<StackLayout>
+                <StackLayout.Triggers>
+                    <DataTrigger TargetType="StackLayout"
                                      Binding="{Binding CreatedOnMobile}"
                                      Value="True">
-                            <Setter Property="IsVisible" Value="True"></Setter>
-                        </DataTrigger>
-                        <DataTrigger TargetType="StackLayout"
+                        <Setter Property="IsVisible" Value="True"></Setter>
+                    </DataTrigger>
+                    <DataTrigger TargetType="StackLayout"
                                      Binding="{Binding CreatedOnMobile}"
                                      Value="False">
-                            <Setter Property="IsVisible" Value="False"></Setter>
-                        </DataTrigger>
-                    </StackLayout.Triggers>
-                    <Label Text="Call Date"
+                        <Setter Property="IsVisible" Value="False"></Setter>
+                    </DataTrigger>
+                </StackLayout.Triggers>
+                <Label Text="Call Date"
                         TextColor="#305d82"
                         FontSize="Large"/>
-                    <DatePicker Date="{Binding Report.CallDate}" FontSize="Medium"></DatePicker>
-                    <Label Text="Reference"
+                <DatePicker Date="{Binding Report.CallDate}" FontSize="Large"></DatePicker>
+                <Label Text="Reference"
                         TextColor="#305d82"
                         FontSize="Large"/>
-                    <Entry Text="{Binding Report.Reference, TargetNullValue='Reference Not Given'}"
-                           FontSize="Medium"/>
-                    <ListView ItemsSource="{Binding QuestionandResponses}" 
+                <Entry Text="{Binding Report.Reference, TargetNullValue='Reference Not Given'}"
+                           FontSize="Large"/>
+                <ListView ItemsSource="{Binding QuestionandResponses}" 
                               HasUnevenRows="True" 
                               SeparatorVisibility="None"
                               HeightRequest="{Binding Height}"
                               VerticalScrollBarVisibility="Never"
                               SelectionMode="None">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <StackLayout>
-                                        <Label Text="{Binding QuestionHeader}"
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout>
+                                    <Label Text="{Binding QuestionHeader}"
                                            FontSize="Large"
                                            TextColor="#305d82"/>
-                                        <Editor Text="{Binding Response}"
+                                    <Editor Text="{Binding Response}"
                                                 AutoSize="TextChanges"
-                                                FontSize="Medium"/>
-                                    </StackLayout>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </StackLayout>
-                <!--this will display if not created on the mobile device-->
-                <StackLayout>
-                    <StackLayout.Triggers>
-                        <DataTrigger TargetType="StackLayout"
+                                                FontSize="Large"/>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>-->
+            <!--this will display if not created on the mobile device-->
+        <StackLayout Margin="15"
+                         VerticalOptions="FillAndExpand">
+            <StackLayout.Triggers>
+                <DataTrigger TargetType="StackLayout"
                                      Binding="{Binding CreatedOnMobile}"
                                      Value="True">
-                            <Setter Property="IsVisible" Value="False"></Setter>
-                        </DataTrigger>
-                        <DataTrigger TargetType="StackLayout"
+                    <Setter Property="IsVisible" Value="False"></Setter>
+                </DataTrigger>
+                <DataTrigger TargetType="StackLayout"
                                      Binding="{Binding CreatedOnMobile}"
                                      Value="False">
-                            <Setter Property="IsVisible" Value="True"></Setter>
-                        </DataTrigger>
-                    </StackLayout.Triggers>
-                    <Label Text="Call Date"
-                        TextColor="#305d82"
-                        FontSize="Large"/>
-                    <DatePicker Date="{Binding Report.CallDate}" IsEnabled="False" FontSize="Medium"></DatePicker>
-                    <Label Text="Reference"
-                        TextColor="#305d82"
-                        FontSize="Large"/>
-                    <Label Text="{Binding Report.Reference, TargetNullValue='Reference Not Given'}"
-                           FontSize="Medium"/>
-                    <ListView ItemsSource="{Binding QuestionandResponses}" 
+                    <Setter Property="IsVisible" Value="True"></Setter>
+                </DataTrigger>
+            </StackLayout.Triggers>
+            <ListView ItemsSource="{Binding QuestionandResponses}" 
+                          VerticalOptions="StartAndExpand"
                               HasUnevenRows="True" 
                               SeparatorVisibility="None"
                               SelectionMode="None"
-                              HeightRequest="{Binding Height}"
-                              VerticalScrollBarVisibility="Never">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <StackLayout>
-                                        <Label Text="{Binding QuestionHeader}"
+                              VerticalScrollBarVisibility="Never"
+                              HorizontalScrollBarVisibility="Default"
+                              ItemTapped="ShowResponse">
+                <ListView.Header>
+                    <StackLayout>
+                        <Label Text="Account"
+                                   TextColor="#305d82"
+                                   FontSize="Large"/>
+                        <Label Text="{Binding Report.AccountNumber}"
+                                   FontSize="Large"/>
+                        <Label Text="Call Report"
+                                   TextColor="#305d82"
+                                   FontSize="Large"/>
+                        <Label Text="{Binding Report.CallReportId}"
+                                   FontSize="Large"/>
+                        <Label Text="Call Report Type"
+                                   TextColor="#305d82"
+                                   FontSize="Large"/>
+                        <Label Text="{Binding ReportType}"
+                                    FontSize="Large"/>
+                        <Label Text="Call Date"
+                                       TextColor="#305d82"
+                                       FontSize="Large"/>
+                        <DatePicker Date="{Binding Report.CallDate}" 
+                                            IsEnabled="False" 
+                                            FontSize="Large"></DatePicker>
+                        <Label Text="Reference"
+                                       TextColor="#305d82"
+                                       FontSize="Large"/>
+                        <Label Text="{Binding Report.Reference, TargetNullValue='Reference Not Given'}"
+                                       FontSize="Large"/>
+                    </StackLayout>
+                </ListView.Header>
+                <ListView.Footer>
+                    <StackLayout Padding="0,15,0,10">
+                        <Button 
+                                Text="Close" 
+                                BackgroundColor="#428bca" 
+                                TextColor="White" 
+                                Command="{Binding CloseCallReportCommand}">
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button"
+                                         Binding="{Binding CreatedOnMobile}"
+                                         Value="True">
+                                    <Setter Property="IsVisible" Value="False"></Setter>
+                                </DataTrigger>
+                                <DataTrigger TargetType="Button"
+                                         Binding="{Binding CreatedOnMobile}"
+                                         Value="False">
+                                    <Setter Property="IsVisible" Value="True"></Setter>
+                                </DataTrigger>
+                            </Button.Triggers>
+                        </Button>
+                    </StackLayout>
+                </ListView.Footer>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout>
+                                <Label Text="{Binding QuestionHeader}"
                                            FontSize="Large"
                                            TextColor="#305d82"/>
-                                        <Label Text="{Binding Response}"
-                                               FontSize="Medium"/>
-                                    </StackLayout>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </StackLayout>
-                <Grid Padding="0,0,0,10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Text="Save" BackgroundColor="#428bca" TextColor="White" Command="{Binding SaveCallReportCommand}">
-                        <Button.Triggers>
-                            <DataTrigger TargetType="Button"
+                                <Label Text="{Binding Response}"
+                                               FontSize="Large"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+        <!--<Grid Padding="0,0,0,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Text="Save" BackgroundColor="#428bca" TextColor="White" Command="{Binding SaveCallReportCommand}">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button"
                                          Binding="{Binding CreatedOnMobile}"
                                          Value="True">
-                                <Setter Property="IsVisible" Value="True"></Setter>
-                            </DataTrigger>
-                            <DataTrigger TargetType="Button"
+                            <Setter Property="IsVisible" Value="True"></Setter>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Button"
                                          Binding="{Binding CreatedOnMobile}"
                                          Value="False">
-                                <Setter Property="IsVisible" Value="False"></Setter>
-                            </DataTrigger>
-                        </Button.Triggers>
-                    </Button>
-                    <Button Grid.Column="1" Text="Delete" BackgroundColor="#f44242" TextColor="White" Command="{Binding DeleteCallReportCommand}">
-                        <Button.Triggers>
-                            <DataTrigger TargetType="Button"
+                            <Setter Property="IsVisible" Value="False"></Setter>
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+                <Button Grid.Column="1" Text="Delete" BackgroundColor="#f44242" TextColor="White" Command="{Binding DeleteCallReportCommand}">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button"
                                          Binding="{Binding CreatedOnMobile}"
                                          Value="True">
-                                <Setter Property="IsVisible" Value="True"></Setter>
-                            </DataTrigger>
-                            <DataTrigger TargetType="Button"
+                            <Setter Property="IsVisible" Value="True"></Setter>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Button"
                                          Binding="{Binding CreatedOnMobile}"
                                          Value="False">
-                                <Setter Property="IsVisible" Value="False"></Setter>
-                            </DataTrigger>
-                        </Button.Triggers>
-                    </Button>
-                    <Button Grid.Column="0" Text="Close" BackgroundColor="#428bca" TextColor="White" Command="{Binding CloseCallReportCommand}">
-                        <Button.Triggers>
-                            <DataTrigger TargetType="Button"
+                            <Setter Property="IsVisible" Value="False"></Setter>
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+                --><!--<Button Grid.Column="0" Text="Close" BackgroundColor="#428bca" TextColor="White" Command="{Binding CloseCallReportCommand}">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button"
                                          Binding="{Binding CreatedOnMobile}"
                                          Value="True">
-                                <Setter Property="IsVisible" Value="False"></Setter>
-                            </DataTrigger>
-                            <DataTrigger TargetType="Button"
+                            <Setter Property="IsVisible" Value="False"></Setter>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Button"
                                          Binding="{Binding CreatedOnMobile}"
                                          Value="False">
-                                <Setter Property="IsVisible" Value="True"></Setter>
-                            </DataTrigger>
-                        </Button.Triggers>
-                    </Button>
-                </Grid>
-                <ActivityIndicator IsRunning="{Binding IsBusy}"/>
-            </StackLayout>
-        </ScrollView>
+                            <Setter Property="IsVisible" Value="True"></Setter>
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>--><!--
+            </Grid>-->
+
     </ContentPage.Content>
 </ContentPage>
