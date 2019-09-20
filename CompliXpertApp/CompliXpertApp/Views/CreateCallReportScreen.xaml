@@ -15,6 +15,10 @@
                        FontSize="Large"/>
                 <Label Text="{Binding CustomerName}"
                        FontSize="Medium"/>
+                <Label Text="Call Date"
+                       TextColor="#305d82"
+                       FontSize="Large"/>
+                <DatePicker Date="{Binding NewCallReport.CallDate}"/>
                 <Label Text="Call Report Type"
                        FontSize="Large"
                        TextColor="#305d82"/>
@@ -24,10 +28,6 @@
                         ItemDisplayBinding="{Binding Description}"
                         >
                 </Picker>
-                <Label Text="Call Date"
-                       TextColor="#305d82"
-                       FontSize="Large"/>
-                <DatePicker Date="{Binding NewCallReport.CallDate}"/>
                 <Label Text="Reference"
                        TextColor="#305d82"
                        FontSize="Large"/>
