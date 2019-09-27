@@ -42,7 +42,6 @@ namespace CompliXpertApp.Views
         {
             MessagingCenter.Send(this, Message.AllowLandscapePortrait);
             base.OnAppearing();
-            createCallReportViewModel.StandardHeight = ReferenceEntry.Height;
         }
         protected override void OnDisappearing()
         {

@@ -6,7 +6,8 @@
              x:Class="CompliXpertApp.Views.CreateCallReportScreen">
     <ContentPage.Content>
         <StackLayout Margin="15"
-                     VerticalOptions="FillAndExpand">
+                     VerticalOptions="FillAndExpand"
+                     BackgroundColor="#fafafa">
             <ListView ItemsSource="{Binding QR}"
                         SeparatorVisibility="None"
                         SelectionMode="None"
@@ -25,12 +26,6 @@
                                FontSize="Large"/>
                         <Label Text="{Binding CustomerName}"
                                FontSize="Medium"/>
-                        <Label Text="Reference"
-                               TextColor="#305d82"
-                               FontSize="Large"/>
-                        <Entry x:Name="ReferenceEntry" 
-                               Text="{Binding NewCallReport.Reference}"
-                               FontSize="Medium"/>
                         <Label Text="Call Date"
                                TextColor="#305d82"
                                 FontSize="Large"/>
@@ -44,6 +39,15 @@
                                 ItemDisplayBinding="{Binding Description}"
                         >
                         </Picker>
+                        <Label Text="Reference"
+                               TextColor="#305d82"
+                               FontSize="Large"/>
+                        <local1:CustomEntry Text="{Binding NewCallReport.Reference}"
+                                            FontSize="Medium"
+                                            BorderEnabled="True"
+                                            StrokeColor="Black"
+                                            CornerRadius="0"
+                                            StrokeThickness="10"/>
                     </StackLayout>
                 </ListView.Header>
                 <ListView.Footer>
