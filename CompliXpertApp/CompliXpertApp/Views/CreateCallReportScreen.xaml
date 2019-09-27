@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:CompliXpertApp;assembly=CompliXpertApp"
+             xmlns:local1="clr-namespace:CompliXpertApp.CustomViews"
              x:Class="CompliXpertApp.Views.CreateCallReportScreen">
     <ContentPage.Content>
         <StackLayout Margin="15"
@@ -59,9 +61,13 @@
                                 <Label Text="{Binding QuestionHeader}"
                                            FontSize="Large"
                                            TextColor="#305d82"/>
-                                <Editor Text="{Binding Response}"
-                                                AutoSize="TextChanges"
-                                                FontSize="Medium"/>
+                                <local1:CustomEditor Text="{Binding Response}"
+                                                     AutoSize="TextChanges"
+                                                     FontSize="Medium"
+                                                     BorderEnabled="True"
+                                                     StrokeColor="Black"
+                                                     CornerRadius="0"
+                                                     StrokeThickness="10"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
