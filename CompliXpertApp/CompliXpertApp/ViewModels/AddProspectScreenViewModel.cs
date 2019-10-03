@@ -126,6 +126,7 @@ namespace CompliXpertApp.ViewModels
             Prospect.CreatedOnMobile = true;
             Prospect.Citizenship = Citizenship?.CountryCode;
             Prospect.CountryofResidence = CountryofResidence?.CountryCode;
+            ProspectAccount.AccountClass = AccountClass;
             //add the new propsect to the DB here
             if(Prospect != null)
             {
