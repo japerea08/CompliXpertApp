@@ -14,7 +14,9 @@ namespace CompliXpertApp.ViewModels
     {
         private bool isBusy = false;
         private List<Customer> _accountList;
+        private List<Customer> _prospectList;
         private bool canDownload = false;
+        private bool createdOnMobile = false;
 
         public CustomerListScreenViewModel()
         {
@@ -26,7 +28,24 @@ namespace CompliXpertApp.ViewModels
             {
                 using (CompliXperAppContext context = new CompliXperAppContext())
                 {
-                    Customers = context.Customer.ToList();
+                    //Customers = context.Customer.ToList();
+                    //prospects are added but at this time all are added and need to be trimmed to only prospects
+                    Prospects = (from _prospect in context.Customer
+                                where _prospect.CreatedOnMobile == true
+                                select new Customer
+                                {
+                                    CustomerNumber = _prospect.CustomerNumber,
+                                    CustomerId = _prospect.CustomerId,
+                                    CustomerName = _prospect.CustomerName,
+                                    LegalType = _prospect.LegalType,
+                                    CreatedOnMobile = _prospect.CreatedOnMobile,
+                                    IsPEP = _prospect.IsPEP,
+                                    MailAddress = _prospect.MailAddress,
+                                    Citizenship = _prospect.Citizenship,
+                                    CountryofResidence = _prospect.CountryofResidence,
+                                    Email = _prospect.Email,
+                                    Account = _prospect.Account
+                                }).ToList();
                 }
             });
             AddProspectCommand = new Command(AddProspect);
@@ -38,6 +57,18 @@ namespace CompliXpertApp.ViewModels
         }
 
         //properties
+        public bool CreatedOnMobile
+        {
+            get
+            {
+                return createdOnMobile;
+            }
+            set
+            {
+                createdOnMobile = value;
+                OnPropertyChanged();
+            }
+        }
         private Customer Customer { get; set; }
         void CanDownload(bool value)
         {
@@ -52,6 +83,18 @@ namespace CompliXpertApp.ViewModels
             set
             {
                 isBusy = value;
+                OnPropertyChanged();
+            }
+        }
+        public List<Customer> Prospects
+        {
+            get
+            {
+                return _prospectList;
+            }
+            set
+            {
+                _prospectList = value;
                 OnPropertyChanged();
             }
         }
@@ -99,10 +142,12 @@ namespace CompliXpertApp.ViewModels
                 if (callReports.Count > 0 || prospectList.Count > 0)
                 {
                     CanDownload(true);
+                    CreatedOnMobile = true;
                 }
                 else
                 {
                     CanDownload(false);
+                    CreatedOnMobile = false;
                 }
             }
         }
