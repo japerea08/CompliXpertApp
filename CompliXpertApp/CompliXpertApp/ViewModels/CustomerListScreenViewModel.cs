@@ -25,7 +25,6 @@ namespace CompliXpertApp.ViewModels
                 //dummy lists
                 List<Customer> customers = new List<Customer>();
                 List<Customer> prospects = new List<Customer>();
-                //Customers = args;
                 //filter the prospects out
                 foreach (Customer customer in args)
                 {

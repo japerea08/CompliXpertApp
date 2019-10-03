@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:CompliXpertApp;assembly=CompliXpertApp"
              xmlns:local1="clr-namespace:CompliXpertApp.CustomViews"
              x:Class="CompliXpertApp.Views.CreateCallReportScreen">
     <ContentPage.Content>
@@ -10,7 +9,6 @@
                      Padding="0,5">
             <ListView ItemsSource="{Binding QR}"
                         SeparatorVisibility="None"
-                        SelectionMode="None"
                         HasUnevenRows="True"
                         HorizontalScrollBarVisibility="Never"
                         VerticalOptions="FillAndExpand">
@@ -19,13 +17,35 @@
                         <Label Text="Account"
                                TextColor="#305d82"
                                FontSize="Large"/>
-                        <Label Text="{Binding Account.AccountNumber}"
-                               FontSize="Medium"/>
+                        <local1:CustomEntry Text="{Binding Account.AccountNumber}"
+                                            FontSize="Medium"
+                                            BorderEnabled="True"
+                                            StrokeColor="#305d82"
+                                            CornerRadius="0"
+                                            IsReadOnly="True"
+                                            StrokeThickness="3"
+                                            BackgroundColor="#f5f5f5"/>
                         <Label Text="Customer Name"
                                TextColor="#305d82"
                                FontSize="Large"/>
-                        <Label Text="{Binding CustomerName}"
-                               FontSize="Medium"/>
+                        <local1:CustomEntry Text="{Binding CustomerName}"
+                                            FontSize="Medium"
+                                            BorderEnabled="True"
+                                            StrokeColor="#305d82"
+                                            IsReadOnly="True"
+                                            CornerRadius="0"
+                                            StrokeThickness="3"
+                                            BackgroundColor="#f5f5f5"/>
+                        <Label Text="Reference"
+                               TextColor="#305d82"
+                               FontSize="Large"/>
+                        <local1:CustomEntry Text="{Binding NewCallReport.Reference}"
+                                            FontSize="Medium"
+                                            BorderEnabled="True"
+                                            StrokeColor="#305d82"
+                                            CornerRadius="0"
+                                            StrokeThickness="3"
+                                            BackgroundColor="#f5f5f5"/>
                         <Label Text="Call Date"
                                TextColor="#305d82"
                                 FontSize="Large"/>
@@ -39,16 +59,6 @@
                                 ItemDisplayBinding="{Binding Description}"
                         >
                         </Picker>
-                        <Label Text="Reference"
-                               TextColor="#305d82"
-                               FontSize="Large"/>
-                        <local1:CustomEntry Text="{Binding NewCallReport.Reference}"
-                                            FontSize="Medium"
-                                            BorderEnabled="True"
-                                            StrokeColor="#305d82"
-                                            CornerRadius="0"
-                                            StrokeThickness="3"
-                                            BackgroundColor="#f5f5f5"/>
                     </StackLayout>
                 </ListView.Header>
                 <ListView.ItemTemplate>

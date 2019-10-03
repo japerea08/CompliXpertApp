@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local1="clr-namespace:CompliXpertApp.CustomViews"
              x:Class="CompliXpertApp.Views.CallReportDetailsScreen">
     <ContentPage.Content>
         <!--this will display if not created on the mobile device-->
@@ -30,18 +31,36 @@
                         <Label Text="Account"
                                    TextColor="#305d82"
                                    FontSize="Large"/>
-                        <Label Text="{Binding Report.AccountNumber}"
-                                   FontSize="Large"/>
+                        <local1:CustomEntry Text="{Binding Report.AccountNumber}"
+                                            FontSize="Medium"
+                                            IsReadOnly="True"
+                                            BorderEnabled="True"
+                                            StrokeColor="#305d82"
+                                            CornerRadius="0"
+                                            StrokeThickness="3"
+                                            BackgroundColor="#f5f5f5"/>
                         <Label Text="Call Report"
                                    TextColor="#305d82"
                                    FontSize="Large"/>
-                        <Label Text="{Binding Report.CallReportId}"
-                                   FontSize="Large"/>
+                        <local1:CustomEntry Text="{Binding Report.CallReportId}"
+                                            FontSize="Medium"
+                                            IsReadOnly="True"
+                                            BorderEnabled="True"
+                                            StrokeColor="#305d82"
+                                            CornerRadius="0"
+                                            StrokeThickness="3"
+                                            BackgroundColor="#f5f5f5"/>
                         <Label Text="Call Report Type"
                                    TextColor="#305d82"
                                    FontSize="Large"/>
-                        <Label Text="{Binding ReportType}"
-                                    FontSize="Large"/>
+                        <local1:CustomEntry Text="{Binding ReportType}"
+                                            FontSize="Medium"
+                                            IsReadOnly="True"
+                                            BorderEnabled="True"
+                                            StrokeColor="#305d82"
+                                            CornerRadius="0"
+                                            StrokeThickness="3"
+                                            BackgroundColor="#f5f5f5"/>
                         <Label Text="Call Date"
                                        TextColor="#305d82"
                                        FontSize="Large"/>
@@ -51,8 +70,14 @@
                         <Label Text="Reference"
                                        TextColor="#305d82"
                                        FontSize="Large"/>
-                        <Label Text="{Binding Report.Reference, TargetNullValue='Reference Not Given'}"
-                                       FontSize="Large"/>
+                        <local1:CustomEntry Text="{Binding Report.Reference, TargetNullValue='Reference Not Given'}"
+                                            FontSize="Medium"
+                                            IsReadOnly="True"
+                                            BorderEnabled="True"
+                                            StrokeColor="#305d82"
+                                            CornerRadius="0"
+                                            StrokeThickness="3"
+                                            BackgroundColor="#f5f5f5"/>
                     </StackLayout>
                 </ListView.Header>
                 <ListView.Footer>
@@ -84,8 +109,14 @@
                                 <Label Text="{Binding QuestionHeader}"
                                            FontSize="Large"
                                            TextColor="#305d82"/>
-                                <Label Text="{Binding Response}"
-                                               FontSize="Large"/>
+                                <local1:CustomEditor Text="{Binding Response}"
+                                            FontSize="Medium"
+                                            IsReadOnly="True"
+                                            BorderEnabled="True"
+                                            StrokeColor="#305d82"
+                                            CornerRadius="0"
+                                            StrokeThickness="3"
+                                            BackgroundColor="#f5f5f5"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
@@ -115,18 +146,35 @@
                         <Label Text="Account"
                                    TextColor="#305d82"
                                    FontSize="Large"/>
-                        <Label Text="{Binding Report.AccountNumber}"
-                                   FontSize="Large"/>
+                        <local1:CustomEntry Text="{Binding Report.AccountNumber}"
+                                            FontSize="Medium"
+                                            IsReadOnly="True"
+                                            BorderEnabled="True"
+                                            StrokeColor="#305d82"
+                                            CornerRadius="0"
+                                            StrokeThickness="3"/>
                         <Label Text="Call Report"
                                    TextColor="#305d82"
                                    FontSize="Large"/>
-                        <Label Text="{Binding Report.CallReportId}"
-                                   FontSize="Large"/>
+                        <local1:CustomEntry Text="{Binding Report.CallReportId}"
+                                            FontSize="Medium"
+                                            IsReadOnly="True"
+                                            BorderEnabled="True"
+                                            StrokeColor="#305d82"
+                                            CornerRadius="0"
+                                            StrokeThickness="3"
+                                            BackgroundColor="#f5f5f5"/>
                         <Label Text="Call Report Type"
                                    TextColor="#305d82"
                                    FontSize="Large"/>
-                        <Label Text="{Binding ReportType}"
-                                    FontSize="Large"/>
+                        <local1:CustomEntry Text="{Binding ReportType}"
+                                            FontSize="Medium"
+                                            IsReadOnly="True"
+                                            BorderEnabled="True"
+                                            StrokeColor="#305d82"
+                                            CornerRadius="0"
+                                            StrokeThickness="3"
+                                            BackgroundColor="#f5f5f5"/>
                         <Label Text="Call Date"
                                        TextColor="#305d82"
                                        FontSize="Large"/>
@@ -136,8 +184,13 @@
                         <Label Text="Reference"
                                        TextColor="#305d82"
                                        FontSize="Large"/>
-                        <Label Text="{Binding Report.Reference, TargetNullValue='Reference Not Given'}"
-                                       FontSize="Large"/>
+                        <local1:CustomEntry Text="{Binding Report.Reference, TargetNullValue='Reference Not Given'}"
+                                            FontSize="Medium"
+                                            BorderEnabled="True"
+                                            StrokeColor="#305d82"
+                                            CornerRadius="0"
+                                            StrokeThickness="3"
+                                            BackgroundColor="#f5f5f5"/>
                     </StackLayout>
                 </ListView.Header>
                 <ListView.Footer>
@@ -190,9 +243,14 @@
                                 <Label Text="{Binding QuestionHeader}"
                                            FontSize="Large"
                                            TextColor="#305d82"/>
-                                <Editor Text="{Binding Response}"
-                                                AutoSize="TextChanges"
-                                                FontSize="Large"/>
+                                <local1:CustomEditor Text="{Binding Response}"
+                                                     FontSize="Medium"
+                                                     AutoSize="TextChanges"
+                                                     BorderEnabled="True"
+                                                     StrokeColor="#305d82"
+                                                     CornerRadius="0"
+                                                     StrokeThickness="3"
+                                                     BackgroundColor="#f5f5f5"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
