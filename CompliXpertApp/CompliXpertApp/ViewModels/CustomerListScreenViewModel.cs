@@ -22,14 +22,25 @@ namespace CompliXpertApp.ViewModels
         {
             MessagingCenter.Subscribe<LoginViewModel, List<Customer>>(this, Message.AccountListLoaded, (sender, args) =>
             {
-                Customers = args;
+                //dummy lists
+                List<Customer> customers = new List<Customer>();
+                List<Customer> prospects = new List<Customer>();
+                //Customers = args;
+                //filter the prospects out
+                foreach (Customer customer in args)
+                {
+                    if (customer.CreatedOnMobile == true)
+                        prospects.Add(customer);
+                    else
+                        customers.Add(customer);
+                }
+                Customers = customers;
+                Prospects = prospects;
             });
             MessagingCenter.Subscribe<AddProspectScreenViewModel, Customer>(this, Message.CustomerLoaded, (sender, _customer) =>
             {
                 using (CompliXperAppContext context = new CompliXperAppContext())
                 {
-                    //Customers = context.Customer.ToList();
-                    //prospects are added but at this time all are added and need to be trimmed to only prospects
                     Prospects = (from _prospect in context.Customer
                                 where _prospect.CreatedOnMobile == true
                                 select new Customer
