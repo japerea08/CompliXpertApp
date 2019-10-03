@@ -17,6 +17,7 @@ namespace CompliXpertApp.ViewModels
         private List<Customer> _prospectList;
         private bool canDownload = false;
         private bool createdOnMobile = false;
+        private bool prospectCreated = false;
 
         public CustomerListScreenViewModel()
         {
@@ -76,6 +77,18 @@ namespace CompliXpertApp.ViewModels
             set
             {
                 createdOnMobile = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool ProspectCreated
+        {
+            get
+            {
+                return prospectCreated;
+            }
+            set
+            {
+                prospectCreated = value;
                 OnPropertyChanged();
             }
         }
@@ -149,7 +162,13 @@ namespace CompliXpertApp.ViewModels
                 var prospectList = context.Customer
                     .Where(customer => customer.CreatedOnMobile == true)
                     .ToList();
-                if (callReports.Count > 0 || prospectList.Count > 0)
+                if (prospectList.Count > 0)
+                {
+                    ProspectCreated = true;
+                    CanDownload(true);
+                }
+                    
+                if (callReports.Count > 0 )
                 {
                     CanDownload(true);
                     CreatedOnMobile = true;

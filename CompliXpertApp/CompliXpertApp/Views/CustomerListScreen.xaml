@@ -44,12 +44,12 @@
             <StackLayout>
                 <StackLayout.Triggers>
                         <DataTrigger TargetType="StackLayout"
-                                 Binding="{Binding CreatedOnMobile}"
+                                 Binding="{Binding ProspectCreated}"
                                  Value="True">
                             <Setter Property="IsVisible" Value="True"/>
                         </DataTrigger>
                         <DataTrigger TargetType="StackLayout"
-                                 Binding="{Binding CreatedOnMobile}"
+                                 Binding="{Binding ProspectCreated}"
                                  Value="False">
                             <Setter Property="IsVisible" Value="False"/>
                         </DataTrigger>
@@ -63,18 +63,6 @@
                           HasUnevenRows="True"
                           SeparatorColor="#ffffff"
                           SelectedItem="{Binding CustomerSelected, Mode=TwoWay}">
-                    <!--<ListView.Triggers>
-                        <DataTrigger TargetType="ListView"
-                                 Binding="{Binding CreatedOnMobile}"
-                                 Value="True">
-                            <Setter Property="IsVisible" Value="True"/>
-                        </DataTrigger>
-                        <DataTrigger TargetType="ListView"
-                                 Binding="{Binding CreatedOnMobile}"
-                                 Value="False">
-                            <Setter Property="IsVisible" Value="False"/>
-                        </DataTrigger>
-                    </ListView.Triggers>-->
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
