@@ -76,7 +76,7 @@ namespace CompliXpertApp.ViewModels
                 }
                 App.Current.MainPage.Navigation.RemovePage(App.Current.MainPage.Navigation.NavigationStack[App.Current.MainPage.Navigation.NavigationStack.Count - 2]);
                 //place the new page into stack
-                App.Current.MainPage.Navigation.InsertPageBefore(new CallReportsList(), App.Current.MainPage.Navigation.NavigationStack[App.Current.MainPage.Navigation.NavigationStack.Count - 1]);
+                App.Current.MainPage.Navigation.InsertPageBefore(new CompliXpertAppMasterDetailPage() { Detail = new NavigationPage(new CallReportsList()) }, App.Current.MainPage.Navigation.NavigationStack[App.Current.MainPage.Navigation.NavigationStack.Count - 1]);
                 MessagingCenter.Send<CallReportDetailsViewModel, int?>(this, Message.AccountNumber, Report.AccountNumber);
             });
             SaveCallReportCommand = new Command(async () => await SaveCallReportAsync());

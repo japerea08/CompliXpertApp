@@ -64,7 +64,7 @@ namespace CompliXpertApp.ViewModels
         }
         public async void AddProspect()
         {
-            await App.Current.MainPage.Navigation.PushAsync(new AddProspectScreen());
+            await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage() { Detail = new NavigationPage(new AddProspectScreen()) });
         }
 
         //properties
@@ -183,7 +183,7 @@ namespace CompliXpertApp.ViewModels
         async void GetCustomerMaster(Customer customer)
         {
             CustomerSelected = null;
-            await App.Current.MainPage.Navigation.PushAsync(new CustomerMaster());
+            await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage() { Detail = new NavigationPage(new CustomerMaster())});
             MessagingCenter.Send<CustomerListScreenViewModel, Customer>(this, Message.CustomerLoaded, customer);
         }
 

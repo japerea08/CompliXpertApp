@@ -102,7 +102,8 @@ namespace CompliXpertApp.ViewModels
                     List<Customer> customers = await Task.Run(() => GetCustomersAsync());
                     IsBusy = false;
                     Page page = new CustomerListScreen();
-                    await App.Current.MainPage.Navigation.PushAsync(new CustomerListScreen());
+                    //await App.Current.MainPage.Navigation.PushAsync(new CustomerListScreen());
+                    await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage());
                     MessagingCenter.Send<LoginViewModel, List<Customer>>(this, Message.AccountListLoaded, customers);
                     CanAttemptLogin(true);
                 }
@@ -114,7 +115,8 @@ namespace CompliXpertApp.ViewModels
                     await Task.Run(() => AddCustomersAsync(customers));
                     customers = await Task.Run(() => GetCustomersAsync());
                     IsBusy = false;
-                    await App.Current.MainPage.Navigation.PushAsync(new CustomerListScreen());
+                    //await App.Current.MainPage.Navigation.PushAsync(new CustomerListScreen());
+                    await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage());
                     //pass our list
                     MessagingCenter.Send<LoginViewModel, List<Customer>>(this, Message.AccountListLoaded, customers);
                     CanAttemptLogin(true);

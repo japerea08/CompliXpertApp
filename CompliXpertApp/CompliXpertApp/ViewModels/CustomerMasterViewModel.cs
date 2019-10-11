@@ -110,7 +110,7 @@ namespace CompliXpertApp.ViewModels
         {
             AccountSelected = null;
             IsBusy = true;
-            await App.Current.MainPage.Navigation.PushAsync(new AccountMasterScreen());
+            await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage() { Detail = new NavigationPage(new AccountMasterScreen()) });
             IsBusy = false;
             MessagingCenter.Send<CustomerMasterViewModel, Account>(this, Message.AccountLoaded, account);
         }        

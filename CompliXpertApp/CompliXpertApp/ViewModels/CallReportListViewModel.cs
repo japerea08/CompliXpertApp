@@ -90,7 +90,7 @@ namespace CompliXpertApp.ViewModels
         async void GetCallReportDetails(CallReport report)
         {
             CallReport = null;
-            await App.Current.MainPage.Navigation.PushAsync(new CallReportDetailsScreen());
+            await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage() { Detail = new NavigationPage(new CallReportDetailsScreen()) });
             MessagingCenter.Send<CallReportListViewModel, CallReport>(this, Message.CallReportLoaded, report);
         }
         #endregion

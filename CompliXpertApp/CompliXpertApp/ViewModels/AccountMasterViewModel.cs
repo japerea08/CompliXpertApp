@@ -60,14 +60,14 @@ namespace CompliXpertApp.ViewModels
         async Task ViewCallReportsAsync()
         {
             IsBusy = true;
-            await App.Current.MainPage.Navigation.PushAsync(new CallReportsList());
+            await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage() { Detail = new NavigationPage(new CallReportsList()) });
             IsBusy = false;
             MessagingCenter.Send<AccountMasterViewModel, int>(this, Message.AccountNumber, Account.AccountNumber);
            
         }
         async Task GoToCreateCallReportAsync()
         {
-            await App.Current.MainPage.Navigation.PushAsync(new CreateCallReportScreen());
+            await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage() { Detail = new NavigationPage(new CreateCallReportScreen()) });
             MessagingCenter.Send<AccountMasterViewModel, Account>(this, Message.CustomerLoaded, Account);
         }
 
