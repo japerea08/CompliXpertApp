@@ -6,6 +6,7 @@
   <StackLayout>
         <ListView BackgroundColor="#428bca"
                   ItemsSource="{Binding MenuItems}"
+                  SelectedItem="{Binding MenuItem, Mode=TwoWay}"
                   HasUnevenRows="True">
             <ListView.Header>
                 <StackLayout>
@@ -19,11 +20,15 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Label Text="{Binding Title}"
+                        <StackLayout Orientation="Horizontal"
+                                     HorizontalOptions="End">
+                            <Image Source="{Binding ImageSource}"/>
+                            <Label Text="{Binding Title}"
                                TextColor="White"
                                FontSize="Medium"
                                HorizontalTextAlignment="End"
                                Margin="25,15"/>
+                        </StackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
