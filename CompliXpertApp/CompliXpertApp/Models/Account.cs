@@ -17,5 +17,9 @@ namespace CompliXpertApp.Models
         public ICollection<CallReport> CallReport { get; set; }
         public Customer CustomerNumberNavigation { get; set; }
         public AccountClass AccountClass { get; set; }
+        //future migrations
+        public string ProductCode { get; set; }
+        public string BusinessCode { get; set; }
+        public string IndustryCode { get; set; }
     }
 }

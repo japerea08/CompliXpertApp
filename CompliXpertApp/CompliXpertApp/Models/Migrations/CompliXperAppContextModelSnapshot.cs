@@ -24,7 +24,13 @@ namespace MigrationsApp.Migrations
 
                     b.Property<string>("AccountType");
 
+                    b.Property<string>("BusinessCode");
+
                     b.Property<int?>("CustomerNumber");
+
+                    b.Property<string>("IndustryCode");
+
+                    b.Property<string>("ProductCode");
 
                     b.HasKey("AccountNumber");
 
@@ -145,6 +151,8 @@ namespace MigrationsApp.Migrations
                 {
                     b.Property<int>("CustomerNumber");
 
+                    b.Property<string>("BusinessCode");
+
                     b.Property<int?>("Citizenship");
 
                     b.Property<int?>("CountryofResidence");
@@ -156,6 +164,8 @@ namespace MigrationsApp.Migrations
                     b.Property<string>("CustomerName");
 
                     b.Property<string>("Email");
+
+                    b.Property<string>("IndustryCode");
 
                     b.Property<bool>("IsPEP");
 

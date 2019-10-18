@@ -22,6 +22,11 @@ namespace CompliXpertApp.Models
         public virtual DbSet<CallReportResponse> CallReportResponse { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<AccountClass> AccountClasses { get; set; }
+        //public DbSet<IndustryType> IndustryTypes { get; set; }
+        //public DbSet<LinesofBusiness> LinesofBusinesses { get; set; }
+        //public DbSet<ProductCode> ProductCodes { get; set; }
+        //public DbSet<QuestionandResponse> QuestionandResponses { get; set; }
+        //public DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -45,7 +50,13 @@ namespace CompliXpertApp.Models
 
                 b.Property<string>("AccountType");
 
+                b.Property<string>("BusinessCode");
+
                 b.Property<int?>("CustomerNumber");
+
+                b.Property<string>("IndustryCode");
+
+                b.Property<string>("ProductCode");
 
                 b.HasKey("AccountNumber");
 
@@ -166,6 +177,8 @@ namespace CompliXpertApp.Models
             {
                 b.Property<int>("CustomerNumber");
 
+                b.Property<string>("BusinessCode");
+
                 b.Property<int?>("Citizenship");
 
                 b.Property<int?>("CountryofResidence");
@@ -177,6 +190,8 @@ namespace CompliXpertApp.Models
                 b.Property<string>("CustomerName");
 
                 b.Property<string>("Email");
+
+                b.Property<string>("IndustryCode");
 
                 b.Property<bool>("IsPEP");
 

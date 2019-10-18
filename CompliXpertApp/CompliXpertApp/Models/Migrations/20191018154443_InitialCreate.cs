@@ -73,7 +73,9 @@ namespace MigrationsApp.Migrations
                     MailAddress = table.Column<string>(nullable: true),
                     Citizenship = table.Column<int>(nullable: true),
                     CountryofResidence = table.Column<int>(nullable: true),
-                    Email = table.Column<string>(nullable: true)
+                    Email = table.Column<string>(nullable: true),
+                    BusinessCode = table.Column<string>(nullable: true),
+                    IndustryCode = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -87,7 +89,10 @@ namespace MigrationsApp.Migrations
                     AccountNumber = table.Column<int>(nullable: false),
                     AccountType = table.Column<string>(nullable: true),
                     AccountClassCode = table.Column<int>(nullable: true),
-                    CustomerNumber = table.Column<int>(nullable: true)
+                    CustomerNumber = table.Column<int>(nullable: true),
+                    ProductCode = table.Column<string>(nullable: true),
+                    BusinessCode = table.Column<string>(nullable: true),
+                    IndustryCode = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

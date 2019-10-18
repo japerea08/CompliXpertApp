@@ -20,6 +20,8 @@ namespace CompliXpertApp.Models
         public int? Citizenship { get; set; }
         public int? CountryofResidence { get; set; }
         public string Email { get; set; }
+        public string BusinessCode { get; set; }
+        public string IndustryCode { get; set; }
         public ICollection<Account> Account { get; set; }
     }
 }

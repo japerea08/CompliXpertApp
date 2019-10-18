@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MigrationsApp.Migrations
 {
     [DbContext(typeof(CompliXperAppContext))]
-    [Migration("20190829174403_InitialCreate")]
+    [Migration("20191018154443_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,7 +26,13 @@ namespace MigrationsApp.Migrations
 
                     b.Property<string>("AccountType");
 
+                    b.Property<string>("BusinessCode");
+
                     b.Property<int?>("CustomerNumber");
+
+                    b.Property<string>("IndustryCode");
+
+                    b.Property<string>("ProductCode");
 
                     b.HasKey("AccountNumber");
 
@@ -147,6 +153,8 @@ namespace MigrationsApp.Migrations
                 {
                     b.Property<int>("CustomerNumber");
 
+                    b.Property<string>("BusinessCode");
+
                     b.Property<int?>("Citizenship");
 
                     b.Property<int?>("CountryofResidence");
@@ -158,6 +166,8 @@ namespace MigrationsApp.Migrations
                     b.Property<string>("CustomerName");
 
                     b.Property<string>("Email");
+
+                    b.Property<string>("IndustryCode");
 
                     b.Property<bool>("IsPEP");
 
