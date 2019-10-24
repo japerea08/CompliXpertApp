@@ -18,44 +18,43 @@ namespace CompliXpertApp.Droid
     [Activity(Theme = "@style/MyTheme.Splash", MainLauncher = true, NoHistory = true)]
     public class SplashActivity : AppCompatActivity
     {
-        static readonly string TAG = "X:" + typeof(SplashActivity).Name;
-        static readonly int REQUEST_STORAGE = 1;
-        static string[] PERMISSIONS_STORAGE = { Manifest.Permission.ReadExternalStorage, Manifest.Permission.WriteExternalStorage };
+        //static readonly int REQUEST_STORAGE = 1;
+        //static string[] PERMISSIONS_STORAGE = { Manifest.Permission.ReadExternalStorage, Manifest.Permission.WriteExternalStorage };
 
         public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState)
         {
             base.OnCreate(savedInstanceState, persistentState);
-            Log.Debug(TAG, "SplashActivity.OnCreate");
         }
 
         //requesting runtime permissions here because we want it asked only when the application first starts up
         protected override void OnStart()
         {
             base.OnStart();
-            //ask for the runtime permissions here...
-            if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.ReadExternalStorage) == (int) Permission.Granted && ActivityCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) == (int) Permission.Granted)
-            {
-                //we have permission, go ahead with the app
-                //create the folder async
-                CheckFolder().Wait();
-                StartActivity(new Intent(Application.Context, typeof(MainActivity)));
-            }
-            else
-            {
-                // storage permission is not granted. If necessary display rationale & request.
-                if (ActivityCompat.ShouldShowRequestPermissionRationale(this, Manifest.Permission.WriteExternalStorage) || ActivityCompat.ShouldShowRequestPermissionRationale(this, Manifest.Permission.ReadExternalStorage))
-                {
-                    var view = FindViewById(Android.Resource.Id.Content);
+            StartActivity(new Intent(Application.Context, typeof(MainActivity)));
+            ////ask for the runtime permissions here...
+            //if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.ReadExternalStorage) == (int) Permission.Granted && ActivityCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) == (int) Permission.Granted)
+            //{
+            //    //we have permission, go ahead with the app
+            //    //create the folder async
+            //    CheckFolder().Wait();
+            //    StartActivity(new Intent(Application.Context, typeof(MainActivity)));
+            //}
+            //else
+            //{
+            //    // storage permission is not granted. If necessary display rationale & request.
+            //    if (ActivityCompat.ShouldShowRequestPermissionRationale(this, Manifest.Permission.WriteExternalStorage) || ActivityCompat.ShouldShowRequestPermissionRationale(this, Manifest.Permission.ReadExternalStorage))
+            //    {
+            //        var view = FindViewById(Android.Resource.Id.Content);
 
-                    Snackbar.Make(view, "CompliXpert App Needs To Access File Storage", Snackbar.LengthIndefinite).SetAction("Ok", new Action<View>(delegate(View obj) {
-                        ActivityCompat.RequestPermissions(this, PERMISSIONS_STORAGE, REQUEST_STORAGE);
-                    })).Show();
-                }
-                else
-                {
-                    ActivityCompat.RequestPermissions(this, PERMISSIONS_STORAGE, REQUEST_STORAGE);
-                }
-            }
+            //        Snackbar.Make(view, "CompliXpert App Needs To Access File Storage", Snackbar.LengthIndefinite).SetAction("Ok", new Action<View>(delegate(View obj) {
+            //            ActivityCompat.RequestPermissions(this, PERMISSIONS_STORAGE, REQUEST_STORAGE);
+            //        })).Show();
+            //    }
+            //    else
+            //    {
+            //        ActivityCompat.RequestPermissions(this, PERMISSIONS_STORAGE, REQUEST_STORAGE);
+            //    }
+            //}
         }
 
 

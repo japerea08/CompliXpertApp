@@ -178,6 +178,42 @@ namespace MigrationsApp.Migrations
                     b.ToTable("Customer");
                 });
 
+            modelBuilder.Entity("CompliXpertApp.Models.IndustryType", b =>
+                {
+                    b.Property<string>("Code")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.HasKey("Code");
+
+                    b.ToTable("IndustryTypes");
+                });
+
+            modelBuilder.Entity("CompliXpertApp.Models.LinesofBusiness", b =>
+                {
+                    b.Property<string>("Code")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.HasKey("Code");
+
+                    b.ToTable("LinesofBusinesses");
+                });
+
+            modelBuilder.Entity("CompliXpertApp.Models.ProductCode", b =>
+                {
+                    b.Property<string>("Code")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.HasKey("Code");
+
+                    b.ToTable("ProductCodes");
+                });
+
             modelBuilder.Entity("CompliXpertApp.Models.Account", b =>
                 {
                     b.HasOne("CompliXpertApp.Models.AccountClass", "AccountClass")

@@ -59,13 +59,28 @@ namespace CompliXpertApp.ViewModels
         }
         public string Username
         {
-            get { return User.UserName; }
-            set { User.UserName = value; }
+            get
+            {
+                return User.UserName;
+                
+            }
+            set
+            {
+                User.UserName = value;
+                OnPropertyChanged();
+            }
         }
         public string Password
         {
-            get { return User.Password; }
-            set { User.Password = value; }
+            get
+            {
+                return User.Password;
+            }
+            set
+            {
+                User.Password = value;
+                OnPropertyChanged();
+            }
         }
 
         //methods
@@ -84,43 +99,49 @@ namespace CompliXpertApp.ViewModels
             {
                 CanAttemptLogin(false);
                 IsBusy = true;
-                //check CallReportType table and Question tables
-                if(await Task.Run(() => DBContainsCallReportTypeQuestionsandCountries()) == false)
-                {
-                    //get the json for call report questions
-                    List<CallReportType> callReportTypes = await Task.Run(() => GetCallReportTypeJsonAsync());
-                    List<CallReportQuestions> callReportQuestions = await Task.Run(()=> GetCallReportQuestionsJsonAsync());
-                    List<Country> countries = await Task.Run(() => GetCountriesAsync());
-                    List<AccountClass> accountClasses = await Task.Run(() => GetAccountClassesAsync());
-                    //add to DB
-                    await Task.Run(() => InitializeDBAsync(callReportTypes, callReportQuestions, countries, accountClasses));
-                }
-                //will only run if the DB has records
-                if (await Task.Run(() => DBContainsRecords()))
-                {
-                    //get everything from DB
-                    List<Customer> customers = await Task.Run(() => GetCustomersAsync());
-                    IsBusy = false;
-                    Page page = new CustomerListScreen();
-                    //await App.Current.MainPage.Navigation.PushAsync(new CustomerListScreen());
-                    await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage());
-                    MessagingCenter.Send<LoginViewModel, List<Customer>>(this, Message.AccountListLoaded, customers);
-                    CanAttemptLogin(true);
-                }
-                else
-                {
-                    //grab accounts from file
-                    List<Customer> customers = await Task.Run(() => GetJsonAsync());
-                    //add to the database
-                    await Task.Run(() => AddCustomersAsync(customers));
-                    customers = await Task.Run(() => GetCustomersAsync());
-                    IsBusy = false;
-                    //await App.Current.MainPage.Navigation.PushAsync(new CustomerListScreen());
-                    await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage());
-                    //pass our list
-                    MessagingCenter.Send<LoginViewModel, List<Customer>>(this, Message.AccountListLoaded, customers);
-                    CanAttemptLogin(true);
-                }                
+                //await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage());
+                await App.Current.MainPage.Navigation.PushAsync(new LoadingScreen());
+                IsBusy = false;
+                Username = null;
+                Password = null;
+                CanAttemptLogin(true);
+                ////check CallReportType table and Question tables
+                //if(await Task.Run(() => DBContainsCallReportTypeQuestionsandCountries()) == false)
+                //{
+                //    //get the json for call report questions
+                //    List<CallReportType> callReportTypes = await Task.Run(() => GetCallReportTypeJsonAsync());
+                //    List<CallReportQuestions> callReportQuestions = await Task.Run(()=> GetCallReportQuestionsJsonAsync());
+                //    List<Country> countries = await Task.Run(() => GetCountriesAsync());
+                //    List<AccountClass> accountClasses = await Task.Run(() => GetAccountClassesAsync());
+                //    //add to DB
+                //    await Task.Run(() => InitializeDBAsync(callReportTypes, callReportQuestions, countries, accountClasses));
+                //}
+                ////will only run if the DB has records
+                //if (await Task.Run(() => DBContainsRecords()))
+                //{
+                //    //get everything from DB
+                //    List<Customer> customers = await Task.Run(() => GetCustomersAsync());
+                //    IsBusy = false;
+                //    Page page = new CustomerListScreen();
+                //    //await App.Current.MainPage.Navigation.PushAsync(new CustomerListScreen());
+                //    await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage());
+                //    MessagingCenter.Send<LoginViewModel, List<Customer>>(this, Message.AccountListLoaded, customers);
+                //    CanAttemptLogin(true);
+                //}
+                //else
+                //{
+                //    //grab accounts from file
+                //    List<Customer> customers = await Task.Run(() => GetJsonAsync());
+                //    //add to the database
+                //    await Task.Run(() => AddCustomersAsync(customers));
+                //    customers = await Task.Run(() => GetCustomersAsync());
+                //    IsBusy = false;
+                //    //await App.Current.MainPage.Navigation.PushAsync(new CustomerListScreen());
+                //    await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage());
+                //    //pass our list
+                //    MessagingCenter.Send<LoginViewModel, List<Customer>>(this, Message.AccountListLoaded, customers);
+                //    CanAttemptLogin(true);
+                //}                
             }
             else
             {

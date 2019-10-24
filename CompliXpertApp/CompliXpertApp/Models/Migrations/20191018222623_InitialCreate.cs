@@ -83,6 +83,42 @@ namespace MigrationsApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "IndustryTypes",
+                columns: table => new
+                {
+                    Code = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IndustryTypes", x => x.Code);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LinesofBusinesses",
+                columns: table => new
+                {
+                    Code = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LinesofBusinesses", x => x.Code);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductCodes",
+                columns: table => new
+                {
+                    Code = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductCodes", x => x.Code);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Account",
                 columns: table => new
                 {
@@ -196,6 +232,15 @@ namespace MigrationsApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "Countries");
+
+            migrationBuilder.DropTable(
+                name: "IndustryTypes");
+
+            migrationBuilder.DropTable(
+                name: "LinesofBusinesses");
+
+            migrationBuilder.DropTable(
+                name: "ProductCodes");
 
             migrationBuilder.DropTable(
                 name: "CallReport");

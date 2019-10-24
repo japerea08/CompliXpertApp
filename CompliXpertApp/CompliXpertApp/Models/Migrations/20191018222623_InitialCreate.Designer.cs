@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MigrationsApp.Migrations
 {
     [DbContext(typeof(CompliXperAppContext))]
-    [Migration("20191018164901_InitialCreate")]
+    [Migration("20191018222623_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -178,6 +178,42 @@ namespace MigrationsApp.Migrations
                     b.HasKey("CustomerNumber");
 
                     b.ToTable("Customer");
+                });
+
+            modelBuilder.Entity("CompliXpertApp.Models.IndustryType", b =>
+                {
+                    b.Property<string>("Code")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.HasKey("Code");
+
+                    b.ToTable("IndustryTypes");
+                });
+
+            modelBuilder.Entity("CompliXpertApp.Models.LinesofBusiness", b =>
+                {
+                    b.Property<string>("Code")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.HasKey("Code");
+
+                    b.ToTable("LinesofBusinesses");
+                });
+
+            modelBuilder.Entity("CompliXpertApp.Models.ProductCode", b =>
+                {
+                    b.Property<string>("Code")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.HasKey("Code");
+
+                    b.ToTable("ProductCodes");
                 });
 
             modelBuilder.Entity("CompliXpertApp.Models.Account", b =>
