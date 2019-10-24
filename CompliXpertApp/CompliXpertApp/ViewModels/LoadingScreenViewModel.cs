@@ -14,10 +14,12 @@ namespace CompliXpertApp.ViewModels
         static HttpClient client;
         public  LoadingScreenViewModel()
         {
+            
             client = new HttpClient() { MaxResponseContentBufferSize = 1000000 };
             client.BaseAddress = new Uri("https://complixperlite2019.azurewebsites.net/");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            IsBusy = true;
         }
 
         //properties
@@ -35,11 +37,11 @@ namespace CompliXpertApp.ViewModels
         {
             using (CompliXperAppContext context = new CompliXperAppContext())
             {
-                IsBusy = true;
+                //IsBusy = true;
                 if(context.Customer.Any() == true)
                 {
-                    
                     await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage());
+                    App.Current.MainPage.Navigation.RemovePage(App.Current.MainPage.Navigation.NavigationStack[App.Current.MainPage.Navigation.NavigationStack.Count - 2]);
                     IsBusy = false;
                 }
                 else
@@ -47,6 +49,7 @@ namespace CompliXpertApp.ViewModels
                     //make a call to the Api
                     await PopulateSqliteDb();
                     await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage());
+                    App.Current.MainPage.Navigation.RemovePage(App.Current.MainPage.Navigation.NavigationStack[App.Current.MainPage.Navigation.NavigationStack.Count - 2]);
                     IsBusy = false;
                 }
             }

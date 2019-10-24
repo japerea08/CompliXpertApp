@@ -98,10 +98,10 @@ namespace CompliXpertApp.ViewModels
             if (String.IsNullOrEmpty(Username) == false && String.IsNullOrEmpty(Password) == false)
             {
                 CanAttemptLogin(false);
-                IsBusy = true;
+                //IsBusy = true;
                 //await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage());
                 await App.Current.MainPage.Navigation.PushAsync(new LoadingScreen());
-                IsBusy = false;
+                //IsBusy = false;
                 Username = null;
                 Password = null;
                 CanAttemptLogin(true);

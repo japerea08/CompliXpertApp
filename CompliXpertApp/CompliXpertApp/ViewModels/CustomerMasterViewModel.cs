@@ -22,22 +22,6 @@ namespace CompliXpertApp.ViewModels
             MessagingCenter.Subscribe<CustomerListScreenViewModel, Customer>(this, Message.CustomerLoaded, (sender, args) =>
             {
                 Customer = args;
-                foreach(Account account in Customer.Account)
-                {
-                    if(account.AccountClass == null)
-                    {
-                        using (CompliXperAppContext context = new CompliXperAppContext())
-                        {
-                            account.AccountClass = (from _accountClass in context.AccountClasses
-                                                    where _accountClass.AccountClassCode == account.AccountClassCode
-                                                    select new AccountClass
-                                                    {
-                                                        AccountClassCode = _accountClass.AccountClassCode,
-                                                        Description = _accountClass.Description
-                                                    }).FirstOrDefault();
-                        }
-                    }
-                }
             });
             //this message is for the return
             MessagingCenter.Subscribe<CreateCallReportViewModel, Customer>(this, Message.CallReportCreated, (sender, _account) =>
