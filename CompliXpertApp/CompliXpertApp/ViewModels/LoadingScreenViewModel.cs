@@ -47,16 +47,20 @@ namespace CompliXpertApp.ViewModels
                 else
                 {
                     //make a call to the Api
-                    await PopulateSqliteDb();
-                    await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage());
-                    App.Current.MainPage.Navigation.RemovePage(App.Current.MainPage.Navigation.NavigationStack[App.Current.MainPage.Navigation.NavigationStack.Count - 2]);
-                    IsBusy = false;
+                    bool result = await PopulateSqliteDb();
+                    if (result == true)
+                    {
+                        await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage());
+                        App.Current.MainPage.Navigation.RemovePage(App.Current.MainPage.Navigation.NavigationStack[App.Current.MainPage.Navigation.NavigationStack.Count - 2]);
+                        IsBusy = false;
+                    }
+                    
                 }
             }
 
         }
 
-        public async Task PopulateSqliteDb()
+        public async Task<bool> PopulateSqliteDb()
         {
             using (CompliXperAppContext context = new CompliXperAppContext())
             {
@@ -70,26 +74,36 @@ namespace CompliXpertApp.ViewModels
                 Task<Customer[]> customers = GetCustomersAsync();
                 Task<IndustryType[]> industryTypes = GetIndustryTypesAsync();
                 Task<LinesofBusiness[]> linesofBusinesses = GetLinesofBusinessAsync();
-           
-                //awaiting each task
-                context.AddRange(await accounts);
-                context.AddRange(await productCodes);
-                context.AddRange(await accountClasses);
-                context.AddRange(await callReports);
-                context.AddRange(await callReportQuestions);
-                context.AddRange(await callReportTypes);
-                context.AddRange(await countries);
-                context.AddRange(await customers);
-                context.AddRange(await industryTypes);
-                context.AddRange(await linesofBusinesses);
 
+                //awaiting each task
+                try
+                {
+                    context.AddRange(await accounts);
+                    context.AddRange(await productCodes);
+                    context.AddRange(await accountClasses);
+                    context.AddRange(await callReports);
+                    context.AddRange(await callReportQuestions);
+                    context.AddRange(await callReportTypes);
+                    context.AddRange(await countries);
+                    context.AddRange(await customers);
+                    context.AddRange(await industryTypes);
+                    context.AddRange(await linesofBusinesses);
+                }
+                catch (Exception)
+                {
+                    await App.Current.MainPage.DisplayAlert("Something went wrong.", "It appears you are not connected to the internet.", "OK");
+                    await App.Current.MainPage.Navigation.PopAsync();
+                    return false;
+                }
                 try
                 {
                     await context.SaveChangesAsync();
+                    return true;
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.InnerException);
+                    return false;
                 }
             }
 
