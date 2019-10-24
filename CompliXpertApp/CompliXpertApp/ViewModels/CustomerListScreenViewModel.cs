@@ -21,44 +21,16 @@ namespace CompliXpertApp.ViewModels
 
         public CustomerListScreenViewModel()
         {
-            MessagingCenter.Subscribe<LoginViewModel, List<Customer>>(this, Message.AccountListLoaded, (sender, args) =>
+            //make a call to the local sqlite DB to populaye the list of customers
+            using (CompliXperAppContext context = new CompliXperAppContext())
             {
-                //dummy lists
-                List<Customer> customers = new List<Customer>();
-                List<Customer> prospects = new List<Customer>();
-                //filter the prospects out
-                foreach (Customer customer in args)
-                {
-                    if (customer.CreatedOnMobile == true)
-                        prospects.Add(customer);
-                    else
-                        customers.Add(customer);
-                }
-                Customers = customers;
-                Prospects = prospects;
-            });
-            MessagingCenter.Subscribe<AddProspectScreenViewModel, Customer>(this, Message.CustomerLoaded, (sender, _customer) =>
-            {
-                using (CompliXperAppContext context = new CompliXperAppContext())
-                {
-                    Prospects = (from _prospect in context.Customer
-                                where _prospect.CreatedOnMobile == true
-                                select new Customer
-                                {
-                                    CustomerNumber = _prospect.CustomerNumber,
-                                    CustomerId = _prospect.CustomerId,
-                                    CustomerName = _prospect.CustomerName,
-                                    LegalType = _prospect.LegalType,
-                                    CreatedOnMobile = _prospect.CreatedOnMobile,
-                                    IsPEP = _prospect.IsPEP,
-                                    MailAddress = _prospect.MailAddress,
-                                    Citizenship = _prospect.Citizenship,
-                                    CountryofResidence = _prospect.CountryofResidence,
-                                    Email = _prospect.Email,
-                                    Account = _prospect.Account
-                                }).ToList();
-                }
-            });
+                Customers = (from customer in context.Customer
+                             where customer.CreatedOnMobile == false
+                             select customer).ToList();
+                Prospects = (from customer in context.Customer
+                             where customer.CreatedOnMobile == true
+                             select customer).ToList();
+            }
             AddProspectCommand = new Command(AddProspect);
             SendNewDataCommand = new Command(async () => await DownloadCallReportsAsync(), () => canDownload);
         }

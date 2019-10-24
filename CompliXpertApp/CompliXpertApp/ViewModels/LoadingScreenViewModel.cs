@@ -18,8 +18,6 @@ namespace CompliXpertApp.ViewModels
             client.BaseAddress = new Uri("https://complixperlite2019.azurewebsites.net/");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-            //check to see if DB contain records
-            DBContainsRecords().GetAwaiter();
         }
 
         //properties
@@ -40,8 +38,9 @@ namespace CompliXpertApp.ViewModels
                 IsBusy = true;
                 if(context.Customer.Any() == true)
                 {
-                    IsBusy = false;
+                    
                     await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage());
+                    IsBusy = false;
                 }
                 else
                 {
@@ -95,7 +94,7 @@ namespace CompliXpertApp.ViewModels
 
         public async Task<ProductCode[]> GetProductCodesAsync()
         {
-            HttpResponseMessage response = await client.GetAsync("api/productcodes1");
+            HttpResponseMessage response = await client.GetAsync("api/productcodes");
             if (response.IsSuccessStatusCode)
                 return await response.Content.ReadAsAsync<ProductCode[]>();
             else
