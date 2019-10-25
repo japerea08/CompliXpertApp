@@ -12,7 +12,6 @@ namespace CompliXpertApp
             InitializeComponent();
             //constructor sets the MainPage property to a MainPage object type
             MainPage = new NavigationPage(new LoginScreen());
-            //MainPage = new CompliXpertAppMasterDetailPage();
         }
 
         protected override void OnStart()

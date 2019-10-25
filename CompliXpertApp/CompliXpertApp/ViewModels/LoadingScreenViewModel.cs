@@ -5,6 +5,7 @@ using System.Linq;
 using CompliXpertApp.Views;
 using System;
 using System.Net.Http;
+using Xamarin.Forms;
 
 namespace CompliXpertApp.ViewModels
 {
@@ -50,8 +51,10 @@ namespace CompliXpertApp.ViewModels
                     bool result = await PopulateSqliteDb();
                     if (result == true)
                     {
-                        await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage());
-                        App.Current.MainPage.Navigation.RemovePage(App.Current.MainPage.Navigation.NavigationStack[App.Current.MainPage.Navigation.NavigationStack.Count - 2]);
+                        //await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage());
+                        App.Current.MainPage = new NavigationPage(new CompliXpertAppMasterDetailPage());
+                        await App.Current.MainPage.Navigation.PopAsync();
+                        //App.Current.MainPage.Navigation.RemovePage(App.Current.MainPage.Navigation.NavigationStack[App.Current.MainPage.Navigation.NavigationStack.Count - 2]);
                         IsBusy = false;
                     }
                     

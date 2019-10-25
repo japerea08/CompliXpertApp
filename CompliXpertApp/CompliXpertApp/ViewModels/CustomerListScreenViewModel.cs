@@ -22,88 +22,82 @@ namespace CompliXpertApp.ViewModels
         public CustomerListScreenViewModel()
         {
             //make a call to the local sqlite DB to populaye the list of customers
-            using (CompliXperAppContext context = new CompliXperAppContext())
-            {
-                Customers = (from customer in context.Customer
-                             where customer.CreatedOnMobile == false
-                             select new Customer()
-                             {
-                                 CustomerNumber = customer.CustomerNumber,
-                                 CustomerId = customer.CustomerId,
-                                 CustomerName = customer.CustomerName,
-                                 LegalType = customer.LegalType,
-                                 CreatedOnMobile = customer.CreatedOnMobile,
-                                 IsPEP = customer.IsPEP,
-                                 MailAddress = customer.MailAddress,
-                                 Citizenship = customer.Citizenship,
-                                 CountryofResidence = customer.CountryofResidence,
-                                 Email = customer.Email,
-                                 BusinessCode = customer.BusinessCode,
-                                 IndustryCode = customer.IndustryCode,
-                                 Account = (from account in context.Account
-                                            where account.CustomerNumber == customer.CustomerNumber
-                                            select new Account()
-                                            {
-                                                AccountNumber = account.AccountNumber,
-                                                AccountType = account.AccountType,
-                                                CustomerNumber = account.CustomerNumber,
-                                                AccountClassCode = account.AccountClassCode,
-                                                BusinessCode = account.BusinessCode,
-                                                IndustryCode = account.IndustryCode,
-                                                ProductCode = account.ProductCode,
-                                                AccountClass = (from accountClass in context.AccountClasses
-                                                                where accountClass.AccountClassCode == account.AccountClassCode
-                                                                select accountClass).FirstOrDefault(),
-                                                CallReport = (from callReport in context.CallReport
-                                                              where callReport.AccountNumber == account.AccountNumber
-                                                              select callReport).ToList()
-                                           }).ToList()
-                             }).ToList();
+            //using (CompliXperAppContext context = new CompliXperAppContext())
+            //{
+            //    Customers = (from customer in context.Customer
+            //                 where customer.CreatedOnMobile == false
+            //                 select new Customer()
+            //                 {
+            //                     CustomerNumber = customer.CustomerNumber,
+            //                     CustomerId = customer.CustomerId,
+            //                     CustomerName = customer.CustomerName,
+            //                     LegalType = customer.LegalType,
+            //                     CreatedOnMobile = customer.CreatedOnMobile,
+            //                     IsPEP = customer.IsPEP,
+            //                     MailAddress = customer.MailAddress,
+            //                     Citizenship = customer.Citizenship,
+            //                     CountryofResidence = customer.CountryofResidence,
+            //                     Email = customer.Email,
+            //                     BusinessCode = customer.BusinessCode,
+            //                     IndustryCode = customer.IndustryCode,
+            //                     Account = (from account in context.Account
+            //                                where account.CustomerNumber == customer.CustomerNumber
+            //                                select new Account()
+            //                                {
+            //                                    AccountNumber = account.AccountNumber,
+            //                                    AccountType = account.AccountType,
+            //                                    CustomerNumber = account.CustomerNumber,
+            //                                    AccountClassCode = account.AccountClassCode,
+            //                                    BusinessCode = account.BusinessCode,
+            //                                    IndustryCode = account.IndustryCode,
+            //                                    ProductCode = account.ProductCode,
+            //                                    AccountClass = (from accountClass in context.AccountClasses
+            //                                                    where accountClass.AccountClassCode == account.AccountClassCode
+            //                                                    select accountClass).FirstOrDefault(),
+            //                                    CallReport = (from callReport in context.CallReport
+            //                                                  where callReport.AccountNumber == account.AccountNumber
+            //                                                  select callReport).ToList()
+            //                               }).ToList()
+            //                 }).ToList();
 
-                Prospects = (from customer in context.Customer
-                             where customer.CreatedOnMobile == true
-                             select new Customer()
-                             {
-                                 CustomerNumber = customer.CustomerNumber,
-                                 CustomerId = customer.CustomerId,
-                                 CustomerName = customer.CustomerName,
-                                 LegalType = customer.LegalType,
-                                 CreatedOnMobile = customer.CreatedOnMobile,
-                                 IsPEP = customer.IsPEP,
-                                 MailAddress = customer.MailAddress,
-                                 Citizenship = customer.Citizenship,
-                                 CountryofResidence = customer.CountryofResidence,
-                                 Email = customer.Email,
-                                 BusinessCode = customer.BusinessCode,
-                                 IndustryCode = customer.IndustryCode,
-                                 Account = (from account in context.Account
-                                            where account.CustomerNumber == customer.CustomerNumber
-                                            select new Account()
-                                            {
-                                                AccountNumber = account.AccountNumber,
-                                                AccountType = account.AccountType,
-                                                CustomerNumber = account.CustomerNumber,
-                                                AccountClassCode = account.AccountClassCode,
-                                                BusinessCode = account.BusinessCode,
-                                                IndustryCode = account.IndustryCode,
-                                                ProductCode = account.ProductCode,
-                                                AccountClass = (from accountClass in context.AccountClasses
-                                                                where accountClass.AccountClassCode == account.AccountClassCode
-                                                                select accountClass).FirstOrDefault(),
-                                                CallReport = (from callReport in context.CallReport
-                                                              where callReport.AccountNumber == account.AccountNumber
-                                                              select callReport).ToList()
-                                            }).ToList()
-                             }).ToList();
-            }
-            AddProspectCommand = new Command(AddProspect);
+            //    Prospects = (from customer in context.Customer
+            //                 where customer.CreatedOnMobile == true
+            //                 select new Customer()
+            //                 {
+            //                     CustomerNumber = customer.CustomerNumber,
+            //                     CustomerId = customer.CustomerId,
+            //                     CustomerName = customer.CustomerName,
+            //                     LegalType = customer.LegalType,
+            //                     CreatedOnMobile = customer.CreatedOnMobile,
+            //                     IsPEP = customer.IsPEP,
+            //                     MailAddress = customer.MailAddress,
+            //                     Citizenship = customer.Citizenship,
+            //                     CountryofResidence = customer.CountryofResidence,
+            //                     Email = customer.Email,
+            //                     BusinessCode = customer.BusinessCode,
+            //                     IndustryCode = customer.IndustryCode,
+            //                     Account = (from account in context.Account
+            //                                where account.CustomerNumber == customer.CustomerNumber
+            //                                select new Account()
+            //                                {
+            //                                    AccountNumber = account.AccountNumber,
+            //                                    AccountType = account.AccountType,
+            //                                    CustomerNumber = account.CustomerNumber,
+            //                                    AccountClassCode = account.AccountClassCode,
+            //                                    BusinessCode = account.BusinessCode,
+            //                                    IndustryCode = account.IndustryCode,
+            //                                    ProductCode = account.ProductCode,
+            //                                    AccountClass = (from accountClass in context.AccountClasses
+            //                                                    where accountClass.AccountClassCode == account.AccountClassCode
+            //                                                    select accountClass).FirstOrDefault(),
+            //                                    CallReport = (from callReport in context.CallReport
+            //                                                  where callReport.AccountNumber == account.AccountNumber
+            //                                                  select callReport).ToList()
+            //                                }).ToList()
+            //                 }).ToList();
+            //}
             SendNewDataCommand = new Command(async () => await DownloadCallReportsAsync(), () => canDownload);
         }
-        public async void AddProspect()
-        {
-            await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage() { Detail = new NavigationPage(new AddProspectScreen()) });
-        }
-
         //properties
         public bool CreatedOnMobile
         {

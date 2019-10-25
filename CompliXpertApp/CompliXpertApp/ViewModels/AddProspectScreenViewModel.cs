@@ -147,12 +147,8 @@ namespace CompliXpertApp.ViewModels
                     try
                     {
                         await context.SaveChangesAsync();
-                        ProspectAccount.AccountClass = AccountClass;
-                        Prospect.Account.Clear();
-                        Prospect.Account.Add(ProspectAccount);
-                        //send the new customer back
-                        await App.Current.MainPage.Navigation.PopAsync();
-                        MessagingCenter.Send<AddProspectScreenViewModel, Customer>(this, Message.CustomerLoaded, Prospect);
+                        App.Current.MainPage = new NavigationPage(new CompliXpertAppMasterDetailPage());
+                        await App.Current.MainPage.Navigation.PopToRootAsync();
                     }
                     catch (DbUpdateException e)
                     {

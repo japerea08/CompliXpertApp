@@ -44,17 +44,17 @@
             <!--Stacklayout that will only display if a prospect is created-->
             <StackLayout>
                 <StackLayout.Triggers>
-                        <DataTrigger TargetType="StackLayout"
+                    <DataTrigger TargetType="StackLayout"
                                  Binding="{Binding ProspectCreated}"
                                  Value="True">
-                            <Setter Property="IsVisible" Value="True"/>
-                        </DataTrigger>
-                        <DataTrigger TargetType="StackLayout"
+                        <Setter Property="IsVisible" Value="True"/>
+                    </DataTrigger>
+                    <DataTrigger TargetType="StackLayout"
                                  Binding="{Binding ProspectCreated}"
                                  Value="False">
-                            <Setter Property="IsVisible" Value="False"/>
-                        </DataTrigger>
-                    </StackLayout.Triggers>
+                        <Setter Property="IsVisible" Value="False"/>
+                    </DataTrigger>
+                </StackLayout.Triggers>
                 <Label Text="Prospect List"
                                    FontSize="Large"
                                    HorizontalTextAlignment="Center"
@@ -92,11 +92,6 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </StackLayout>
-            <Button Text="New Prospect" 
-                    BackgroundColor="#428bca" 
-                    TextColor="White" 
-                    Margin="15, 15, 15, 0" 
-                    Command="{Binding AddProspectCommand}"/>
             <Button Text="Send New Data" 
                     BackgroundColor="#428bca" 
                     TextColor="White" 
