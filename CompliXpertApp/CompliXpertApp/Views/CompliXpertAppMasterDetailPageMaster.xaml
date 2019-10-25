@@ -7,13 +7,14 @@
         <ListView BackgroundColor="#428bca"
                   ItemsSource="{Binding MenuItems}"
                   SelectedItem="{Binding MenuItem, Mode=TwoWay}"
-                  HasUnevenRows="True">
+                  HasUnevenRows="True"
+                  HorizontalOptions="FillAndExpand">
             <ListView.Header>
-                <StackLayout>
+                <StackLayout HorizontalOptions="FillAndExpand"
+                             BackgroundColor="#a1a1a1">
                     <Label Text="Sign Out"
                            TextColor="White"
                            FontSize="Medium"
-                           HorizontalTextAlignment="End"
                            Margin="25,15"/>
                 </StackLayout>
             </ListView.Header>
@@ -21,13 +22,16 @@
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Orientation="Horizontal"
-                                     HorizontalOptions="End">
-                            <Image Source="{Binding ImageSource}"/>
+                                     HorizontalOptions="FillAndExpand"
+                                     BackgroundColor="{Binding Color}">
                             <Label Text="{Binding Title}"
                                TextColor="White"
                                FontSize="Medium"
                                HorizontalTextAlignment="End"
-                               Margin="25,15"/>
+                               Margin="25,15"
+                                   HorizontalOptions="End"/>
+                            <Image Source="{Binding ImageSource}"
+                                   HorizontalOptions="End"/>
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

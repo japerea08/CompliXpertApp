@@ -2,28 +2,58 @@
 using CompliXpertApp.Models;
 using CompliXpertApp.Views;
 using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using System.Linq;
 using Xamarin.Forms;
 
 namespace CompliXpertApp.ViewModels
 {
     class CompliXpertAppMasterDetailPageMasterViewModel: AbstractNotifyPropertyChanged
     {
-        private CompliXpertAppMasterDetailPageMenuItem _menuItem; 
+        private CompliXpertAppMasterDetailPageMenuItem _menuItem;
+        private List<CompliXpertAppMasterDetailPageMenuItem> customers;
+        private List<CompliXpertAppMasterDetailPageMenuItem> menuItems;
         
         public CompliXpertAppMasterDetailPageMasterViewModel()
         {
-            MenuItems = new ObservableCollection<CompliXpertAppMasterDetailPageMenuItem>(new[]
+            CreateCallReportTapped = false;
+            //first list that everyone will see
+            MenuItems = new List<CompliXpertAppMasterDetailPageMenuItem>()
             {
                     new CompliXpertAppMasterDetailPageMenuItem { Id = 0, Title = "Customer List", ImageSource = "white_home.png", TargetType = typeof(CustomerListScreen) },
-                    new CompliXpertAppMasterDetailPageMenuItem { Id = 1, Title = "Create Call Report", ImageSource = null, TargetType = typeof(CreateCallReportScreen) },
-                    new CompliXpertAppMasterDetailPageMenuItem { Id = 2, Title = "Calendar", ImageSource = null },
-                    new CompliXpertAppMasterDetailPageMenuItem { Id = 3, Title = "History", ImageSource = null }
-                });
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 1, Title = "Create Call Report", ImageSource = null, TargetType = typeof(CreateCallReportScreen)},
+                    new CompliXpertAppMasterDetailPageMenuItem{Id = 2, Title = "Add Prospect", ImageSource = null, TargetType = typeof(AddProspectScreen)},
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 3, Title = "Calendar", ImageSource = null},
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 4, Title = "History", ImageSource = null }
+            };
+
+            //second list that will contain all the customers in the system
+            using (CompliXperAppContext context = new CompliXperAppContext())
+            {
+                List<Customer> customerList = context.Customer.ToList();
+                customers = new List<CompliXpertAppMasterDetailPageMenuItem>();
+
+                foreach(Customer customer in customerList)
+                {
+                    customers.Add(new CompliXpertAppMasterDetailPageMenuItem {Id = customer.CustomerNumber, Title = customer.CustomerName, TargetType = typeof(CreateCallReportScreen), Color = "#a1a1a1" });
+                }
+            }
         }
 
         //properties
-        public ObservableCollection<CompliXpertAppMasterDetailPageMenuItem> MenuItems { get; set; }
+        public List<CompliXpertAppMasterDetailPageMenuItem> MenuItems
+        {
+            get
+            {
+                return menuItems;
+            }
+            set
+            {
+                menuItems = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool CreateCallReportTapped { get; set; }
         public CompliXpertAppMasterDetailPageMenuItem MenuItem
         {
             get
@@ -35,15 +65,46 @@ namespace CompliXpertApp.ViewModels
                 _menuItem = value;
                 if (MenuItem == null)
                     return;
+                if (MenuItem.Id == 1)
+                {
+                    //to redo the list
+                    RebuildMenu();
+                }
                 CallScreen(MenuItem);
                 OnPropertyChanged();
             }
         }
 
+        private void RebuildMenu()
+        {
+            List<CompliXpertAppMasterDetailPageMenuItem> items = new List<CompliXpertAppMasterDetailPageMenuItem>();
+            //if create call report was tapped to see all customers
+            if (CreateCallReportTapped == false)
+            {
+                //add the list of customers to the menu items          
+                items.AddRange(MenuItems);
+                items.InsertRange(2, customers);
+                MenuItems = items;
+                CreateCallReportTapped = true;
+            }
+            //action to be taken if create call report has already been tapped and you want to close the list
+            else
+            {
+                items.AddRange(MenuItems);
+                items.RemoveRange(2, customers.Count);
+                MenuItems = items;
+                CreateCallReportTapped = false;
+            }
+        }
+
         private async void CallScreen(CompliXpertAppMasterDetailPageMenuItem menuItem)
         {
+            MenuItem = null;
+            if (menuItem.Id == 1)
+                return;
             var page = (Page) Activator.CreateInstance(menuItem.TargetType);
             await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage() { Detail = new NavigationPage(page) });
+            //use messaging center here to send the customer for CreateCallReport
         }
     }
 }

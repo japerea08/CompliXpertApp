@@ -9,5 +9,6 @@ namespace CompliXpertApp.Models
         public string Title { get; set; }
         public string ImageSource { get; set; }
         public Type TargetType { get; set; }
+        public string Color { get; set; }
     }
 }
