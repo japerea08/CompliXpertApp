@@ -2,6 +2,13 @@
 {
     static public class Message
     {
+        public static string CustomerIdAttached
+        {
+            get
+            {
+                return "customer id attached";
+            }
+        }
         public static string AllowLandscapePortrait
         {
             get

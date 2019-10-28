@@ -42,7 +42,7 @@ namespace CompliXpertApp.ViewModels
                 if(context.Customer.Any() == true)
                 {
                     await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage());
-                    App.Current.MainPage.Navigation.RemovePage(App.Current.MainPage.Navigation.NavigationStack[App.Current.MainPage.Navigation.NavigationStack.Count - 2]);
+                    App.Current.MainPage = new NavigationPage(new CompliXpertAppMasterDetailPage());
                     IsBusy = false;
                 }
                 else
@@ -51,10 +51,9 @@ namespace CompliXpertApp.ViewModels
                     bool result = await PopulateSqliteDb();
                     if (result == true)
                     {
-                        //await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage());
+                        //the Customer List screen is set as the root page.
+                        await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage());
                         App.Current.MainPage = new NavigationPage(new CompliXpertAppMasterDetailPage());
-                        await App.Current.MainPage.Navigation.PopAsync();
-                        //App.Current.MainPage.Navigation.RemovePage(App.Current.MainPage.Navigation.NavigationStack[App.Current.MainPage.Navigation.NavigationStack.Count - 2]);
                         IsBusy = false;
                     }
                     

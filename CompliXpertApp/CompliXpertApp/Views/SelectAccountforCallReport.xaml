@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CompliXpertApp.Views.SelectAccountforCallReport">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Select Account "
+                   FontSize="Large"
+                   HorizontalTextAlignment="Center"
+                   TextColor="#305d82"
+                   Margin="0,10"/>
+            <Label Text="Create a Call Report for"/>
+            <Picker Title="Select an account"
+                    ItemsSource="{Binding Accounts}"
+                    ItemDisplayBinding="{Binding AccountNumber}"
+                    SelectedItem="{Binding SelectedAccount}"/>
+            <Button Text="Create Call Report" 
+                    BackgroundColor="#428bca" 
+                    TextColor="White" 
+                    Margin="15,5,15,15"
+                    VerticalOptions="End"
+                    Command="{Binding CreateCallReportCommand}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

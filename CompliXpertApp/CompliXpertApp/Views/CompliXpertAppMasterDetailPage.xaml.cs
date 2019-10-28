@@ -27,5 +27,10 @@ namespace CompliXpertApp.Views
 
             MasterPage.ListView.SelectedItem = null;
         }
+        protected override void OnDisappearing()
+        {
+            this.IsPresented = false;
+            base.OnDisappearing();
+        }
     }
 }

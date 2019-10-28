@@ -27,20 +27,17 @@ namespace CompliXpertApp.ViewModels
         //constructor
         public CreateCallReportViewModel()
         {
+            MessagingCenter.Subscribe<SelectAccountforCallReportViewModel, Account>(this, Message.AccountLoaded, async (sender, account) => 
+            {
+                Account = account;
+                await InitializeCreateCallReportScreenAsync();
+
+            });
+
             MessagingCenter.Subscribe<AccountMasterViewModel, Account>(this, Message.CustomerLoaded, async (sender, account)=> 
             {
                 Account = account;
-                using (var context = new CompliXperAppContext())
-                {
-                    CustomerName = (
-                        from c in context.Customer
-                        where c.CustomerNumber == Account.CustomerNumber
-                        select c.CustomerName
-                    ).FirstOrDefault();
-
-                    //get all the types
-                    Types = await context.CallReportType.ToListAsync();
-                }
+                await InitializeCreateCallReportScreenAsync();
             });
             SaveCallReportCommand = new Command(async () => await SaveNewCallReportAsync(), () => canSave);
             //must instantiate new call report to take in the new data
@@ -48,10 +45,27 @@ namespace CompliXpertApp.ViewModels
             {
                 CallDate = DateTime.Today
             };
+
+            
+        }
+
+        private async Task InitializeCreateCallReportScreenAsync()
+        {
+            using (var context = new CompliXperAppContext())
+            {
+                CustomerName = (
+                    from c in context.Customer
+                    where c.CustomerNumber == Account.CustomerNumber
+                    select c.CustomerName
+                ).FirstOrDefault();
+
+                //get all the types
+                Types = await context.CallReportType.ToListAsync();
+            }
         }
         #region Properties
         //properties
-        
+
         public ICommand SaveCallReportCommand { get; set; }
         public double StandardHeight { get; set; }
         public double Height
@@ -223,7 +237,7 @@ namespace CompliXpertApp.ViewModels
             //deselect the type of callreport
             Type = null;
             ReasonSelected = false;
-            await App.Current.MainPage.Navigation.PopAsync();
+            await App.Current.MainPage.Navigation.PopToRootAsync();
             MessagingCenter.Send<CreateCallReportViewModel, Account>(this, Message.CallReportCreated, Account);
         }
         //adding the callreport to the table
@@ -257,10 +271,6 @@ namespace CompliXpertApp.ViewModels
                 await context.AddRangeAsync(responses);
                 await context.SaveChangesAsync();
             }
-        }
-        public async Task DeleteCallReportAsync()
-        {
-            await App.Current.MainPage.Navigation.PopAsync();
         }
         #endregion
     }

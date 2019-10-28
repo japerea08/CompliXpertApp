@@ -35,7 +35,7 @@ namespace CompliXpertApp.ViewModels
 
                 foreach(Customer customer in customerList)
                 {
-                    customers.Add(new CompliXpertAppMasterDetailPageMenuItem {Id = customer.CustomerNumber, Title = customer.CustomerName, TargetType = typeof(CreateCallReportScreen), Color = "#a1a1a1" });
+                    customers.Add(new CompliXpertAppMasterDetailPageMenuItem {Id = customer.CustomerNumber, Title = customer.CustomerName, TargetType = typeof(SelectAccountforCallReport), Color = "#a1a1a1" });
                 }
             }
         }
@@ -100,11 +100,27 @@ namespace CompliXpertApp.ViewModels
         private async void CallScreen(CompliXpertAppMasterDetailPageMenuItem menuItem)
         {
             MenuItem = null;
-            if (menuItem.Id == 1)
-                return;
             var page = (Page) Activator.CreateInstance(menuItem.TargetType);
-            await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage() { Detail = new NavigationPage(page) });
-            //use messaging center here to send the customer for CreateCallReport
+            //if the user selects the customer list ensure that we are back to the root
+            if (menuItem.TargetType.FullName.Equals(typeof(CustomerListScreen).FullName))
+            {
+                App.Current.MainPage = new NavigationPage(new CompliXpertAppMasterDetailPage());
+                await App.Current.MainPage.Navigation.PopToRootAsync();
+            }
+            else if (menuItem.Id == 1)
+            {
+                return;
+            }
+            //check target type for selectaccountforcallreport
+            else if (menuItem.TargetType.FullName.Equals(typeof(SelectAccountforCallReport).FullName))
+            {
+                await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage() { Detail = new NavigationPage(page) });
+                //use messaging center here to send the customer for CreateCallReport
+                MessagingCenter.Send<CompliXpertAppMasterDetailPageMasterViewModel, int>(this, Message.CustomerIdAttached, menuItem.Id);
+            }
+            else
+                await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage() { Detail = new NavigationPage(page) });
+            
         }
     }
 }
