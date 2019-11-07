@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local1="clr-namespace:CompliXpertApp.CustomViews"
+             x:Class="CompliXpertApp.Views.AddNewContactScreen">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Margin="20,10">
+                <Label  Text="Contact Name"
+                        FontSize="Large"
+                       TextColor="#305d82"/>
+                <local1:CustomEntry Text="{Binding ContactName}"
+                       FontSize="Medium"
+                       BorderEnabled="True"
+                       StrokeColor="#305d82"
+                       CornerRadius="0"
+                       StrokeThickness="3"
+                       BackgroundColor="#f5f5f5"/>
+                <Label Text="Title"
+                       FontSize="Large"
+                       TextColor="#305d82"/>
+                <local1:CustomEntry Text="{Binding NewContact.Title}"
+                       FontSize="Medium"
+                       BorderEnabled="True"
+                       StrokeColor="#305d82"
+                       CornerRadius="0"
+                       StrokeThickness="3"
+                       BackgroundColor="#f5f5f5"/>
+                <Label Text="Email"
+                       FontSize="Large"
+                       TextColor="#305d82"/>
+                <local1:CustomEntry Text="{Binding NewContact.Email}"
+                       FontSize="Medium"
+                       BorderEnabled="True"
+                       StrokeColor="#305d82"
+                       CornerRadius="0"
+                       StrokeThickness="3"
+                       BackgroundColor="#f5f5f5"
+                       Keyboard="Email"/>
+                <Label Text="Phone Number"
+                       FontSize="Large"
+                       TextColor="#305d82"/>
+                <local1:CustomEntry Text="{Binding NewContact.Phonenumber}"
+                       FontSize="Medium"
+                       BorderEnabled="True"
+                       StrokeColor="#305d82"
+                       CornerRadius="0"
+                       StrokeThickness="3"
+                       BackgroundColor="#f5f5f5"
+                       Keyboard="Telephone"/>
+                <Label Text="Company"
+                       FontSize="Large"
+                       TextColor="#305d82"/>
+                <local1:CustomEntry Text="{Binding NewContact.Company}"
+                       FontSize="Medium"
+                       BorderEnabled="True"
+                       StrokeColor="#305d82"
+                       CornerRadius="0"
+                       StrokeThickness="3"
+                       BackgroundColor="#f5f5f5"/>
+                <Label Text="Comments"
+                        FontSize="Large"
+                        TextColor="#305d82"/>
+                <local1:CustomEditor Text="{Binding NewContact.Comments}"
+                                     AutoSize="TextChanges"
+                                     FontSize="Medium"
+                                     BorderEnabled="True"
+                                     StrokeColor="#305d82"
+                                     CornerRadius="0"
+                                     StrokeThickness="3"
+                                     BackgroundColor="#f5f5f5"/>
+                <Button Text="Add New Contact" 
+                        BackgroundColor="#428bca" 
+                        TextColor="White"
+                        Margin="0,0,0,20"
+                        Command="{Binding AddNewContactCommand}"></Button>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

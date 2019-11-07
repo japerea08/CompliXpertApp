@@ -23,6 +23,7 @@ namespace CompliXpertApp.ViewModels
                     new CompliXpertAppMasterDetailPageMenuItem { Id = 0, Title = "Customer List", ImageSource = "white_home.png", TargetType = typeof(CustomerListScreen) },
                     new CompliXpertAppMasterDetailPageMenuItem { Id = 1, Title = "Create Call Report", ImageSource = null, TargetType = typeof(CreateCallReportScreen)},
                     new CompliXpertAppMasterDetailPageMenuItem{Id = 2, Title = "Add Prospect", ImageSource = null, TargetType = typeof(AddProspectScreen)},
+                    new CompliXpertAppMasterDetailPageMenuItem{Id = 3, Title = "Add New Contact", ImageSource = null, TargetType = typeof(AddNewContactScreen) },
                     new CompliXpertAppMasterDetailPageMenuItem { Id = 3, Title = "Calendar", ImageSource = null},
                     new CompliXpertAppMasterDetailPageMenuItem { Id = 4, Title = "History", ImageSource = null }
             };
