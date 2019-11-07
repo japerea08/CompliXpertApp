@@ -117,18 +117,11 @@ namespace MigrationsApp.Migrations
                     Email = table.Column<string>(nullable: true),
                     Phonenumber = table.Column<string>(nullable: true),
                     Company = table.Column<string>(nullable: true),
-                    Comments = table.Column<string>(nullable: true),
-                    AccountNumber = table.Column<int>(nullable: false)
+                    Comments = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_NewContact", x => x.ContactId);
-                    table.ForeignKey(
-                        name: "FK_NewContact_Account_AccountNumber",
-                        column: x => x.AccountNumber,
-                        principalTable: "Account",
-                        principalColumn: "AccountNumber",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

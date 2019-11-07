@@ -204,8 +204,6 @@ namespace MigrationsApp.Migrations
                 b.Property<int>("ContactId")
                 .ValueGeneratedOnAdd();
 
-                b.Property<int>("AccountNumber");
-
                 b.Property<string>("Comments");
 
                 b.Property<string>("Company");
@@ -219,9 +217,6 @@ namespace MigrationsApp.Migrations
                 b.Property<string>("Title");
 
                 b.HasKey("ContactId");
-
-                b.HasIndex("AccountNumber")
-                    .IsUnique();
 
                 b.ToTable("NewContact");
             });
@@ -294,14 +289,6 @@ namespace MigrationsApp.Migrations
                 b.HasOne("CompliXperLite.Models.CallReport")
                     .WithMany("Responses")
                     .HasForeignKey("CallReportId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity("CompliXpertApp.Models.NewContact", b =>
-            {
-                b.HasOne("CompliXpertApp.Models.Account")
-                    .WithOne("Contact")
-                    .HasForeignKey("CompliXpertApp.Models.NewContact", "AccountNumber")
                     .OnDelete(DeleteBehavior.Cascade);
             });
 

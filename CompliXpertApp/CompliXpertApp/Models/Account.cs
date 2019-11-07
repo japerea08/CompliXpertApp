@@ -21,6 +21,5 @@ namespace CompliXpertApp.Models
         public string ProductCode { get; set; }
         public string BusinessCode { get; set; }
         public string IndustryCode { get; set; }
-        public NewContact Contact { get; set; }
     }
 }

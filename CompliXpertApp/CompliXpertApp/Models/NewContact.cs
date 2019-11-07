@@ -13,6 +13,5 @@ namespace CompliXpertApp.Models
         public string Phonenumber { get; set; }
         public string Company { get; set; }
         public string Comments { get; set; }
-        public int AccountNumber { get; set; }
     }
 }

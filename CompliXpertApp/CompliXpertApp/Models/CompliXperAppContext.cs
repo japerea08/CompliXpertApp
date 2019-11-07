@@ -249,9 +249,6 @@ namespace CompliXpertApp.Models
 
                 b.HasKey("ContactId");
 
-                b.HasIndex("AccountNumber")
-                        .IsUnique();
-
                 b.ToTable("NewContact");
             });
 
@@ -311,13 +308,6 @@ namespace CompliXpertApp.Models
                 b.HasOne("CompliXpertApp.Models.CallReport")
                     .WithMany("Responses")
                     .HasForeignKey("CallReportId")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-            modelBuilder.Entity("CompliXpertApp.Models.NewContact", b =>
-            {
-                b.HasOne("CompliXpertApp.Models.Account")
-                    .WithOne("Contact")
-                    .HasForeignKey("CompliXpertApp.Models.NewContact", "AccountNumber")
                     .OnDelete(DeleteBehavior.Cascade);
             });
 
