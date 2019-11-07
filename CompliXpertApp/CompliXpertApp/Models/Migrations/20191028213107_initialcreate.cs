@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MigrationsApp.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class initialcreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -107,6 +107,31 @@ namespace MigrationsApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "NewContact",
+                columns: table => new
+                {
+                    ContactId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Phonenumber = table.Column<string>(nullable: true),
+                    Company = table.Column<string>(nullable: true),
+                    Comments = table.Column<string>(nullable: true),
+                    AccountNumber = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NewContact", x => x.ContactId);
+                    table.ForeignKey(
+                        name: "FK_NewContact_Account_AccountNumber",
+                        column: x => x.AccountNumber,
+                        principalTable: "Account",
+                        principalColumn: "AccountNumber",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProductCodes",
                 columns: table => new
                 {
@@ -198,10 +223,55 @@ namespace MigrationsApp.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Note",
+                columns: table => new
+                {
+                    NoteId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Subject = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    CreatedonMobile = table.Column<bool>(nullable: false),
+                    CallReportId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Note", x => x.NoteId);
+                    table.ForeignKey(
+                        name: "FK_Note_CallReport_CallReportId",
+                        column: x => x.CallReportId,
+                        principalTable: "CallReport",
+                        principalColumn: "CallReportId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    UserID = table.Column<int>(nullable: false),
+                    UserName = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.UserID);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NewContact_AccountNumber",
+                table: "NewContact",
+                column: "AccountNumber",
+                unique: true);
+
             migrationBuilder.CreateIndex(
                 name: "IX_Account_AccountClassCode",
                 table: "Account",
                 column: "AccountClassCode");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Account_ContactId",
+                table: "Account",
+                column: "ContactId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Account_CustomerNumber",
@@ -216,6 +286,11 @@ namespace MigrationsApp.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_CallReportResponse_CallReportId",
                 table: "CallReportResponse",
+                column: "CallReportId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Note_CallReportId",
+                table: "Note",
                 column: "CallReportId");
         }
 
@@ -240,7 +315,13 @@ namespace MigrationsApp.Migrations
                 name: "LinesofBusinesses");
 
             migrationBuilder.DropTable(
+                name: "Note");
+
+            migrationBuilder.DropTable(
                 name: "ProductCodes");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "CallReport");
@@ -250,6 +331,9 @@ namespace MigrationsApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "AccountClasses");
+
+            migrationBuilder.DropTable(
+                name: "NewContact");
 
             migrationBuilder.DropTable(
                 name: "Customer");

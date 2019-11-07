@@ -26,6 +26,8 @@ namespace MigrationsApp.Migrations
 
                     b.Property<string>("BusinessCode");
 
+                    b.Property<int?>("ContactId");
+
                     b.Property<int?>("CustomerNumber");
 
                     b.Property<string>("IndustryCode");
@@ -202,6 +204,51 @@ namespace MigrationsApp.Migrations
                     b.ToTable("LinesofBusinesses");
                 });
 
+            modelBuilder.Entity("CompliXpertApp.Models.NewContact", b =>
+                {
+                    b.Property<int>("ContactId")
+                        .ValueGeneratedOnAdd();
+                    b.Property<int>("AccountNumber");
+
+                    b.Property<string>("Comments");
+
+                    b.Property<string>("Company");
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Phonenumber");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("ContactId");
+                    b.HasIndex("AccountNumber")
+                        .IsUnique();
+
+                    b.ToTable("NewContact");
+                });
+
+            modelBuilder.Entity("CompliXpertApp.Models.Note", b =>
+                {
+                    b.Property<int>("NoteId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CallReportId");
+
+                    b.Property<bool>("CreatedonMobile");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Subject");
+
+                    b.HasKey("NoteId");
+
+                    b.HasIndex("CallReportId");
+
+                    b.ToTable("Note");
+                });
+
             modelBuilder.Entity("CompliXpertApp.Models.ProductCode", b =>
                 {
                     b.Property<string>("Code")
@@ -213,6 +260,19 @@ namespace MigrationsApp.Migrations
 
                     b.ToTable("ProductCodes");
                 });
+
+            modelBuilder.Entity("CompliXperLite.Models.User", b =>
+            {
+                b.Property<int>("UserID");
+
+                b.Property<string>("Password");
+
+                b.Property<string>("UserName");
+
+                b.HasKey("UserID");
+
+                b.ToTable("Users");
+            });
 
             modelBuilder.Entity("CompliXpertApp.Models.Account", b =>
                 {
@@ -239,6 +299,21 @@ namespace MigrationsApp.Migrations
                         .WithMany("Responses")
                         .HasForeignKey("CallReportId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CompliXperLite.Models.NewContact", b =>
+            {
+                b.HasOne("CompliXperLite.Models.Account")
+                    .WithOne("Contact")
+                    .HasForeignKey("CompliXperLite.Models.NewContact", "AccountNumber")
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity("CompliXpertApp.Models.Note", b =>
+                {
+                    b.HasOne("CompliXpertApp.Models.CallReport")
+                        .WithMany("Notes")
+                        .HasForeignKey("CallReportId");
                 });
 #pragma warning restore 612, 618
         }
