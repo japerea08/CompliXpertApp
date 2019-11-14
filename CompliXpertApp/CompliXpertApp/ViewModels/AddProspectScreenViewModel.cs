@@ -14,14 +14,23 @@ namespace CompliXpertApp.ViewModels
 {
     class AddProspectScreenViewModel : AbstractNotifyPropertyChanged
     {
+        private bool textEntered;
+        private bool emailValidated;
         private bool canAdd = false;
         private string customerName = null;
         private string legalType = null;
+        private string emailValidationMessage = null;
         private Account prospectAccount;
         private AccountClass accountClass;
+        private ICommand emailValidateMessageCommand;
+        private string prospectEmail = null;
+        private Color emailValidationColor;
+
         //constructor
         public AddProspectScreenViewModel()
         {
+            TextEntered = false;
+            EmailValidated = false;
             AddProspectCommand = new Command(async () => await AddProspectAsync(), () => canAdd);
             AccountClass = new AccountClass();
             Prospect = new Customer();
@@ -34,6 +43,76 @@ namespace CompliXpertApp.ViewModels
             }
         }
         //properties
+        public ICommand EmailValidateMessageCommand => emailValidateMessageCommand ?? (emailValidateMessageCommand = new Command<bool>(CheckEmailFormat));
+
+       void CheckEmailFormat(bool input)
+        {
+            if (input == false)
+                EmailValidated = false;
+            else
+                EmailValidated = true;
+        }
+
+        public bool TextEntered
+        {
+            get
+            {
+                return textEntered;
+            }
+            set
+            {
+                textEntered = value;
+                OnPropertyChanged();
+            }
+        }
+        public Color EmailValidationColor
+        {
+            get
+            {
+                return emailValidationColor;
+            }
+            set
+            {
+                emailValidationColor = value;
+                OnPropertyChanged();
+            }
+        }
+        public string EmailValidationMessage
+        {
+            get
+            {
+                //if nothing has been entered into the email entry
+                return emailValidationMessage;
+            }
+            set
+            {
+                emailValidationMessage = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool EmailValidated
+        {
+            get
+            {
+                return emailValidated;
+            }
+            set
+            {
+                emailValidated = value;
+                //if email is not validated
+                if(value == false)
+                {
+                    EmailValidationMessage = "Email format is not correct";
+                    EmailValidationColor = Color.Red;
+                }
+                else
+                {
+                    EmailValidationMessage = "Email format looks correct";
+                    EmailValidationColor = Color.Green;
+                }
+                OnPropertyChanged();
+            }
+        }
         public AccountClass AccountClass
         {
             get
@@ -75,6 +154,22 @@ namespace CompliXpertApp.ViewModels
         public Country Citizenship { get; set; }
         public Country CountryofResidence { get; set; }
         public Customer Prospect { get; set; }
+        public string ProspectEmail
+        {
+            get
+            {
+                return prospectEmail;
+            }
+            set
+            {
+                prospectEmail = value;
+                if (String.IsNullOrEmpty(prospectEmail) == true || String.IsNullOrWhiteSpace(prospectEmail) == true)
+                    TextEntered = false;
+                else
+                    TextEntered = true;
+                OnPropertyChanged();
+            }
+        }
         public string CustomerName
         {
             get
@@ -122,6 +217,7 @@ namespace CompliXpertApp.ViewModels
             //generate a prospect account number
             ProspectAccount.AccountClassCode = AccountClass.AccountClassCode;
             Prospect.CustomerName = CustomerName;
+            Prospect.Email = prospectEmail;
             Prospect.LegalType = LegalType;
             Prospect.CreatedOnMobile = true;
             Prospect.Citizenship = Citizenship?.CountryCode;
