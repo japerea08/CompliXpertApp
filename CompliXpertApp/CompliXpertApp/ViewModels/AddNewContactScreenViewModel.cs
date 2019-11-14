@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using CompliXpertApp.Helpers;
 using CompliXpertApp.Models;
 using CompliXpertApp.Views;
@@ -13,6 +14,10 @@ namespace CompliXpertApp.ViewModels
     {
         private bool canAdd = false;
         private string contactName;
+        private bool emailValidated;
+        private ICommand emailValidateMessageCommand;
+        private Color emailValidationColor;
+        private string emailValidationMessage;
 
         public AddNewContactScreenViewModel()
         {
@@ -37,8 +42,66 @@ namespace CompliXpertApp.ViewModels
                     CanAdd(false);
             }
         }
+        public bool EmailValidated
+        {
+            get
+            {
+                return emailValidated;
+            }
+            set
+            {
+                emailValidated = value;
+                //if email is not validated
+                if (value == false)
+                {
+                    EmailValidationMessage = "Email format is not correct";
+                    EmailValidationColor = Color.Red;
+                }
+                else
+                {
+                    EmailValidationMessage = "Email format looks correct";
+                    EmailValidationColor = Color.Green;
+                }
+                OnPropertyChanged();
+            }
+        }
+        public Color EmailValidationColor
+        {
+            get
+            {
+                return emailValidationColor;
+            }
+            set
+            {
+                emailValidationColor = value;
+                OnPropertyChanged();
+            }
+        }
+        public string EmailValidationMessage
+        {
+            get
+            {
+                //if nothing has been entered into the email entry
+                return emailValidationMessage;
+            }
+            set
+            {
+                emailValidationMessage = value;
+                OnPropertyChanged();
+            }
+        }
         public Command AddNewContactCommand { get; private set; }
+        public ICommand EmailValidateMessageCommand => emailValidateMessageCommand ?? (emailValidateMessageCommand = new Command<bool>(CheckEmailFormat));
+
+
         //methods
+        void CheckEmailFormat(bool input)
+        {
+            if (input == false)
+                EmailValidated = false;
+            else
+                EmailValidated = true;
+        }
         void CanAdd(bool value)
         {
             canAdd = value;
