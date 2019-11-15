@@ -142,7 +142,9 @@ namespace CompliXpertApp.ViewModels
             }
             else if (entity.GetType() == typeof(NewContact))
             {
-
+                EntitySelected = null;
+                await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage() { Detail = new NavigationPage(new NewContactMaster()) });
+                MessagingCenter.Send<CustomerListScreenViewModel, NewContact>(this, Message.NewContactLoaded, (NewContact) entity);
             }
         }
         public List<ApplicationEntityGroup> Group

@@ -2,6 +2,13 @@
 {
     static public class Message
     {
+        public static string NewContactLoaded
+        {
+            get
+            {
+                return "new contact loaded";
+            }
+        }
         public static string CustomerIdAttached
         {
             get

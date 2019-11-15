@@ -18,6 +18,8 @@ namespace CompliXpertApp.ViewModels
         private ICommand emailValidateMessageCommand;
         private Color emailValidationColor;
         private string emailValidationMessage;
+        private string newContactEmail;
+        private bool textEntered;
 
         public AddNewContactScreenViewModel()
         {
@@ -27,6 +29,22 @@ namespace CompliXpertApp.ViewModels
 
         //properties
         public NewContact NewContact { get; set; }
+        public string NewContactEmail
+        {
+            get
+            {
+                return newContactEmail;
+            }
+            set
+            {
+                newContactEmail = value;
+                if (String.IsNullOrEmpty(newContactEmail) == true || String.IsNullOrWhiteSpace(newContactEmail) == true)
+                    TextEntered = false;
+                else
+                    TextEntered = true;
+                OnPropertyChanged();
+            }
+        }
         public string ContactName
         {
             get
@@ -40,6 +58,18 @@ namespace CompliXpertApp.ViewModels
                     CanAdd(true);
                 else
                     CanAdd(false);
+            }
+        }
+        public bool TextEntered
+        {
+            get
+            {
+                return textEntered;
+            }
+            set
+            {
+                textEntered = value;
+                OnPropertyChanged();
             }
         }
         public bool EmailValidated
@@ -114,6 +144,7 @@ namespace CompliXpertApp.ViewModels
                 if(NewContact != null || ContactName != null)
                 {
                     NewContact.Name = contactName;
+                    NewContact.Email = newContactEmail;
                     context.Add(NewContact);
                     try
                     {
