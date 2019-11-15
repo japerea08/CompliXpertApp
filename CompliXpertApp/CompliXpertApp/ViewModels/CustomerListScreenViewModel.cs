@@ -3,6 +3,7 @@ using CompliXpertApp.Models;
 using CompliXpertApp.Views;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,9 +16,12 @@ namespace CompliXpertApp.ViewModels
         private bool isBusy = false;
         private List<Customer> _accountList;
         private List<Customer> _prospectList;
+        private List<NewContact> _newContactList;
+        private List<ApplicationEntityGroup> listOfEntities;
         private bool canDownload = false;
         private bool createdOnMobile = false;
         private bool prospectCreated = false;
+        private bool newContactAdded;
 
         public CustomerListScreenViewModel()
         {
@@ -36,6 +40,18 @@ namespace CompliXpertApp.ViewModels
                 OnPropertyChanged();
             }
         }
+        public bool NewContactAdded
+        {
+            get
+            {
+                return newContactAdded;
+            }
+            set
+            {
+                newContactAdded = value;
+                OnPropertyChanged();
+            }
+        }
         public bool ProspectCreated
         {
             get
@@ -48,13 +64,12 @@ namespace CompliXpertApp.ViewModels
                 OnPropertyChanged();
             }
         }
-        private Customer Customer { get; set; }
+        private Object Entity { get; set; }
         void CanDownload(bool value)
         {
             canDownload = value;
             ((Command) SendNewDataCommand).ChangeCanExecute();
         }
-        public Command AddProspectCommand { get;}
         public Command SendNewDataCommand { get; }
         public bool IsBusy
         {
@@ -62,6 +77,18 @@ namespace CompliXpertApp.ViewModels
             set
             {
                 isBusy = value;
+                OnPropertyChanged();
+            }
+        }
+        public List<NewContact> NewContactList
+        {
+            get
+            {
+                return _newContactList;
+            }
+            set
+            {
+                _newContactList = value;
                 OnPropertyChanged();
             }
         }
@@ -89,22 +116,83 @@ namespace CompliXpertApp.ViewModels
                 OnPropertyChanged();
             }
         }
-        public Customer CustomerSelected
+        public Object EntitySelected
         {
             get
             {
-                return Customer;
+                return Entity;
             }
             set
-            {               
-                Customer = value;
-                if (Customer == null)
+            {
+                Entity = value;
+                if (Entity == null)
                     return;
-                GetCustomerMaster(Customer);
+                GetEntityMaster(Entity);
+                OnPropertyChanged();
+            }
+        }
+
+        async void GetEntityMaster(object entity)
+        {
+            if(entity.GetType() == typeof(Customer))
+            {
+                EntitySelected = null;
+                await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage() { Detail = new NavigationPage(new CustomerMaster()) });
+                MessagingCenter.Send<CustomerListScreenViewModel, Customer>(this, Message.CustomerLoaded, (Customer)entity);
+            }
+            else if (entity.GetType() == typeof(NewContact))
+            {
+
+            }
+        }
+        public List<ApplicationEntityGroup> Group
+        {
+            get
+            {
+                return listOfEntities;
+            }
+            set
+            {
+                listOfEntities = value;
                 OnPropertyChanged();
             }
         }
         //methods
+        public void CreateGroups()
+        {
+            var customerList = new ApplicationEntityGroup();
+
+            if (_accountList.Any() == true)
+            {
+                
+                customerList.AddRange(_accountList);
+                customerList.Heading = "Customer List";
+            }
+
+            var prospectList = new ApplicationEntityGroup();
+            if (_prospectList.Any() == true)
+            {
+                
+                prospectList.AddRange(_prospectList);
+                prospectList.Heading = "Prospect List";
+            }
+
+            var newContactList = new ApplicationEntityGroup();
+            if (_newContactList.Any() == true)
+            {
+                newContactList.AddRange(_newContactList);
+                newContactList.Heading = "New Contacts";
+            }
+            var groupList = new List<ApplicationEntityGroup>()
+            {
+                customerList,
+                prospectList,
+                newContactList
+            };
+
+            Group = groupList;
+
+        }
         //will check to see if new call reports were created or a prospect
         public void CheckForNewData()
         {
@@ -123,6 +211,12 @@ namespace CompliXpertApp.ViewModels
                     ProspectCreated = true;
                     CanDownload(true);
                 }
+
+                if(_newContactList.Count > 0)
+                {
+                    NewContactAdded = true;
+                    CanDownload(true);
+                }
                     
                 if (callReports.Count > 0 )
                 {
@@ -136,13 +230,6 @@ namespace CompliXpertApp.ViewModels
                 }
             }
         }
-        async void GetCustomerMaster(Customer customer)
-        {
-            CustomerSelected = null;
-            await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage() { Detail = new NavigationPage(new CustomerMaster())});
-            MessagingCenter.Send<CustomerListScreenViewModel, Customer>(this, Message.CustomerLoaded, customer);
-        }
-
         //download all the new data that has been added...phase 1(just new Call Reports)
         //will become a Http Push request
         public async Task DownloadCallReportsAsync()

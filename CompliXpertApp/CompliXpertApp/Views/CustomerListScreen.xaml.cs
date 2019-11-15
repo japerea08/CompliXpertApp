@@ -66,6 +66,8 @@ namespace CompliXpertApp.Views
                                             }).ToList()
                              }).ToList();
 
+                listScreenViewModel.NewContactList = context.NewContacts.ToList();
+
                 listScreenViewModel.Prospects = (from customer in context.Customer
                              where customer.CreatedOnMobile == true
                              select new Customer()
@@ -102,6 +104,7 @@ namespace CompliXpertApp.Views
                                             }).ToList()
                              }).ToList();
             }
+            listScreenViewModel.CreateGroups();
             listScreenViewModel.CheckForNewData();
         }
     }

@@ -208,7 +208,7 @@ namespace MigrationsApp.Migrations
                 {
                     b.Property<int>("ContactId")
                         .ValueGeneratedOnAdd();
-                    b.Property<int>("AccountNumber");
+                    //b.Property<int>("AccountNumber");
 
                     b.Property<string>("Comments");
 
@@ -301,13 +301,13 @@ namespace MigrationsApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("CompliXperLite.Models.NewContact", b =>
-            {
-                b.HasOne("CompliXperLite.Models.Account")
-                    .WithOne("Contact")
-                    .HasForeignKey("CompliXperLite.Models.NewContact", "AccountNumber")
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
+            //modelBuilder.Entity("CompliXperLite.Models.NewContact", b =>
+            //{
+            //    b.HasOne("CompliXperLite.Models.Account")
+            //        .WithOne("Contact")
+            //        .HasForeignKey("CompliXperLite.Models.NewContact", "AccountNumber")
+            //        .OnDelete(DeleteBehavior.Cascade);
+            //});
 
             modelBuilder.Entity("CompliXpertApp.Models.Note", b =>
                 {

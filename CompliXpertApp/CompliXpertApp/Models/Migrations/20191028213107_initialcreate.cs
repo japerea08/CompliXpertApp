@@ -250,11 +250,11 @@ namespace MigrationsApp.Migrations
                     table.PrimaryKey("PK_Users", x => x.UserID);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_NewContact_AccountNumber",
-                table: "NewContact",
-                column: "AccountNumber",
-                unique: true);
+            //migrationBuilder.CreateIndex(
+            //    name: "IX_NewContact_AccountNumber",
+            //    table: "NewContact",
+            //    column: "AccountNumber",
+            //    unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Account_AccountClassCode",
