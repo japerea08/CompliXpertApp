@@ -10,7 +10,7 @@ using Xamarin.Forms;
 
 namespace CompliXpertApp.ViewModels
 {
-    class AddNewContactScreenViewModel : AbstractNotifyPropertyChanged
+    class AddNewContactScreenViewModel : AbstractEmailValidator
     {
         private bool canAdd = false;
         private string contactName;
@@ -60,66 +60,66 @@ namespace CompliXpertApp.ViewModels
                     CanAdd(false);
             }
         }
-        public bool TextEntered
-        {
-            get
-            {
-                return textEntered;
-            }
-            set
-            {
-                textEntered = value;
-                OnPropertyChanged();
-            }
-        }
-        public bool EmailValidated
-        {
-            get
-            {
-                return emailValidated;
-            }
-            set
-            {
-                emailValidated = value;
-                //if email is not validated
-                if (value == false)
-                {
-                    EmailValidationMessage = "Email format is not correct";
-                    EmailValidationColor = Color.Red;
-                }
-                else
-                {
-                    EmailValidationMessage = "Email format looks correct";
-                    EmailValidationColor = Color.Green;
-                }
-                OnPropertyChanged();
-            }
-        }
-        public Color EmailValidationColor
-        {
-            get
-            {
-                return emailValidationColor;
-            }
-            set
-            {
-                emailValidationColor = value;
-                OnPropertyChanged();
-            }
-        }
-        public string EmailValidationMessage
-        {
-            get
-            {
-                //if nothing has been entered into the email entry
-                return emailValidationMessage;
-            }
-            set
-            {
-                emailValidationMessage = value;
-                OnPropertyChanged();
-            }
-        }
+        //public bool TextEntered
+        //{
+        //    get
+        //    {
+        //        return textEntered;
+        //    }
+        //    set
+        //    {
+        //        textEntered = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
+        //public bool EmailValidated
+        //{
+        //    get
+        //    {
+        //        return emailValidated;
+        //    }
+        //    set
+        //    {
+        //        emailValidated = value;
+        //        //if email is not validated
+        //        if (value == false)
+        //        {
+        //            EmailValidationMessage = "Email format is not correct";
+        //            EmailValidationColor = Color.Red;
+        //        }
+        //        else
+        //        {
+        //            EmailValidationMessage = "Email format looks correct";
+        //            EmailValidationColor = Color.Green;
+        //        }
+        //        OnPropertyChanged();
+        //    }
+        //}
+        //public Color EmailValidationColor
+        //{
+        //    get
+        //    {
+        //        return emailValidationColor;
+        //    }
+        //    set
+        //    {
+        //        emailValidationColor = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
+        //public string EmailValidationMessage
+        //{
+        //    get
+        //    {
+        //        //if nothing has been entered into the email entry
+        //        return emailValidationMessage;
+        //    }
+        //    set
+        //    {
+        //        emailValidationMessage = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
         public Command AddNewContactCommand { get; private set; }
         public ICommand EmailValidateMessageCommand => emailValidateMessageCommand ?? (emailValidateMessageCommand = new Command<bool>(CheckEmailFormat));
 

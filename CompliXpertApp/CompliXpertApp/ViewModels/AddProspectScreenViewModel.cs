@@ -12,7 +12,7 @@ using Xamarin.Forms;
 
 namespace CompliXpertApp.ViewModels
 {
-    class AddProspectScreenViewModel : AbstractNotifyPropertyChanged
+    class AddProspectScreenViewModel : AbstractEmailValidator
     {
         private bool textEntered;
         private bool emailValidated;
@@ -53,66 +53,66 @@ namespace CompliXpertApp.ViewModels
                 EmailValidated = true;
         }
 
-        public bool TextEntered
-        {
-            get
-            {
-                return textEntered;
-            }
-            set
-            {
-                textEntered = value;
-                OnPropertyChanged();
-            }
-        }
-        public Color EmailValidationColor
-        {
-            get
-            {
-                return emailValidationColor;
-            }
-            set
-            {
-                emailValidationColor = value;
-                OnPropertyChanged();
-            }
-        }
-        public string EmailValidationMessage
-        {
-            get
-            {
-                //if nothing has been entered into the email entry
-                return emailValidationMessage;
-            }
-            set
-            {
-                emailValidationMessage = value;
-                OnPropertyChanged();
-            }
-        }
-        public bool EmailValidated
-        {
-            get
-            {
-                return emailValidated;
-            }
-            set
-            {
-                emailValidated = value;
-                //if email is not validated
-                if(value == false)
-                {
-                    EmailValidationMessage = "Email format is not correct";
-                    EmailValidationColor = Color.Red;
-                }
-                else
-                {
-                    EmailValidationMessage = "Email format looks correct";
-                    EmailValidationColor = Color.Green;
-                }
-                OnPropertyChanged();
-            }
-        }
+        //public bool TextEntered
+        //{
+        //    get
+        //    {
+        //        return textEntered;
+        //    }
+        //    set
+        //    {
+        //        textEntered = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
+        //public Color EmailValidationColor
+        //{
+        //    get
+        //    {
+        //        return emailValidationColor;
+        //    }
+        //    set
+        //    {
+        //        emailValidationColor = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
+        //public string EmailValidationMessage
+        //{
+        //    get
+        //    {
+        //        //if nothing has been entered into the email entry
+        //        return emailValidationMessage;
+        //    }
+        //    set
+        //    {
+        //        emailValidationMessage = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
+        //public bool EmailValidated
+        //{
+        //    get
+        //    {
+        //        return emailValidated;
+        //    }
+        //    set
+        //    {
+        //        emailValidated = value;
+        //        //if email is not validated
+        //        if(value == false)
+        //        {
+        //            EmailValidationMessage = "Email format is not correct";
+        //            EmailValidationColor = Color.Red;
+        //        }
+        //        else
+        //        {
+        //            EmailValidationMessage = "Email format looks correct";
+        //            EmailValidationColor = Color.Green;
+        //        }
+        //        OnPropertyChanged();
+        //    }
+        //}
         public AccountClass AccountClass
         {
             get
