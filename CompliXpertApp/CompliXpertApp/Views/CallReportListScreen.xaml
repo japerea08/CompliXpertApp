@@ -1,15 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CompliXpertApp.Views.CustomerListScreen"
-             NavigationPage.HasBackButton="False">
+             x:Class="CompliXpertApp.Views.CallReportListScreen">
     <ContentPage.Content>
         <StackLayout>
-            <ListView ItemsSource="{Binding Group}"
+            <Label Text="Call Report List"
+                   FontSize="Large"
+                   HorizontalTextAlignment="Center"
+                   TextColor="#305d82"
+                   Margin="0,10"/>
+            <ListView ItemsSource="{Binding CallReportGroup}"
                       IsGroupingEnabled="True"
                       HasUnevenRows="True"
                       SeparatorColor="#ffffff"
-                      SelectedItem="{Binding EntitySelected, Mode=TwoWay}">
+                      SelectedItem="{Binding CallReportSelected, Mode=TwoWay}">
                 <ListView.GroupHeaderTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -31,25 +35,21 @@
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Label Text="{Binding CustomerName}" 
+                                <Label Text="{Binding CallReportType}" 
                                        FontSize="Large" 
                                        Grid.Row="0"
                                        Grid.Column="0"
                                        TextColor="#305d82"
                                        Margin="10,2,0,0"/>
-                                <Label Text="{Binding CustomerNumber}"
-                                       FontSize="Small"
-                                       Grid.Row="1"
-                                       Grid.Column="0"
-                                       Margin="10,0,0,2"/>
-                                <Label Text="{Binding Name}" 
-                                       FontSize="Large" 
+                                <Label Text="{Binding Date}" 
+                                       FontSize="Medium" 
                                        Grid.Row="0"
-                                       Grid.Column="0"
+                                       Grid.Column="1"
                                        TextColor="#305d82"
                                        Margin="10,2,0,0"/>
-                                <Label Text="{Binding Company}"
+                                <Label Text="{Binding AccountNumber}"
                                        FontSize="Small"
                                        Grid.Row="1"
                                        Grid.Column="0"
@@ -59,11 +59,6 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button Text="Send New Data" 
-                                BackgroundColor="#428bca" 
-                                TextColor="White" 
-                                Margin="15,5,15,15" 
-                                Command="{Binding SendNewDataCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

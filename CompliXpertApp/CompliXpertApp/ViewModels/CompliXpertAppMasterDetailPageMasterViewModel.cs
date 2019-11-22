@@ -24,7 +24,7 @@ namespace CompliXpertApp.ViewModels
                     new CompliXpertAppMasterDetailPageMenuItem { Id = 1, Title = "Create Call Report", ImageSource = null, TargetType = typeof(CreateCallReportScreen)},
                     new CompliXpertAppMasterDetailPageMenuItem{Id = 2, Title = "Add Prospect", ImageSource = null, TargetType = typeof(AddProspectScreen)},
                     new CompliXpertAppMasterDetailPageMenuItem{Id = 3, Title = "Add New Contact", ImageSource = null, TargetType = typeof(AddNewContactScreen) },
-                    new CompliXpertAppMasterDetailPageMenuItem { Id = 3, Title = "Calendar", ImageSource = null},
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 3, Title = "Call Report List", ImageSource = null, TargetType = typeof(CallReportListScreen)},
                     new CompliXpertAppMasterDetailPageMenuItem { Id = 4, Title = "History", ImageSource = null }
             };
 
@@ -119,9 +119,13 @@ namespace CompliXpertApp.ViewModels
                 //use messaging center here to send the customer for CreateCallReport
                 MessagingCenter.Send<CompliXpertAppMasterDetailPageMasterViewModel, int>(this, Message.CustomerIdAttached, menuItem.Id);
             }
+            //this is the condition for any other menu choice
             else
+            {
                 await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage() { Detail = new NavigationPage(page) });
-            
+
+            }
+             
         }
     }
 }
