@@ -25,6 +25,59 @@ namespace CompliXpertApp.ViewModels
         //constructor
         public CallReportDetailsViewModel()
         {
+            MessagingCenter.Subscribe<CallReportListScreenViewModel, CallReport>(this, Message.CallReportLoaded, async (sender, _report) =>
+            {
+                Report = _report;
+                CreatedOnMobile = Report.CreatedOnMobile;
+
+                //get the questions
+                using (var context = new CompliXperAppContext())
+                {
+                    ReportType = _report.CallReportType;
+
+                    List<CallReportQuestions> Questions = await (
+                        from _q in context.CallReportQuestions
+                        where _q.Type == Report.CallReportType
+                        select new CallReportQuestions
+                        {
+                            QuestionId = _q.QuestionId,
+                            QuestionHeader = _q.QuestionHeader,
+                            Status = _q.Status,
+                            Type = _q.Type
+                        }
+                    ).ToListAsync();
+                    List<QuestionandResponse> _qr = new List<QuestionandResponse>();
+                    foreach (var question in Questions)
+                    {
+                        foreach (var response in Report.Responses)
+                        {
+                            if (question.QuestionId == response.QuestionId)
+                            {
+                                //instantiate new object
+                                QuestionandResponse questionandResponse = new QuestionandResponse();
+                                questionandResponse.QuestionHeader = question.QuestionHeader;
+                                questionandResponse.Response = response.Response;
+                                questionandResponse.QuestionId = response.QuestionId;
+                                questionandResponse.ResponseId = response.ResponseId;
+                                _qr.Add(questionandResponse);
+                                break;
+                            }
+                        }
+                    }
+                    QuestionandResponses = _qr;
+                }
+                //manipulate the stack
+                List<Page> stackPages = new List<Page>();
+                foreach (Page page in App.Current.MainPage.Navigation.NavigationStack)
+                {
+                    stackPages.Add(page);
+                }
+                App.Current.MainPage.Navigation.RemovePage(App.Current.MainPage.Navigation.NavigationStack[App.Current.MainPage.Navigation.NavigationStack.Count - 2]);
+                //place the new page into stack
+                App.Current.MainPage.Navigation.InsertPageBefore(new CompliXpertAppMasterDetailPage() { Detail = new NavigationPage(new CallReportsList()) }, App.Current.MainPage.Navigation.NavigationStack[App.Current.MainPage.Navigation.NavigationStack.Count - 1]);
+                MessagingCenter.Send<CallReportDetailsViewModel, int?>(this, Message.AccountNumber, Report.AccountNumber);
+            });
+
             MessagingCenter.Subscribe<CallReportListViewModel, CallReport>(this, Message.CallReportLoaded, async (sender, _report) =>
             {
                 Report = _report;
