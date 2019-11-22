@@ -76,6 +76,7 @@ namespace CompliXpertApp.ViewModels
                 Task<Customer[]> customers = GetCustomersAsync();
                 Task<IndustryType[]> industryTypes = GetIndustryTypesAsync();
                 Task<LinesofBusiness[]> linesofBusinesses = GetLinesofBusinessAsync();
+                Task<CallReportResponse[]> responses = GetCallReportResponsesAsync();
 
                 //awaiting each task
                 try
@@ -90,6 +91,7 @@ namespace CompliXpertApp.ViewModels
                     context.AddRange(await customers);
                     context.AddRange(await industryTypes);
                     context.AddRange(await linesofBusinesses);
+                    context.AddRange(await responses);
                 }
                 catch (Exception)
                 {
@@ -109,6 +111,19 @@ namespace CompliXpertApp.ViewModels
                 }
             }
 
+        }
+
+        public async Task<CallReportResponse[]> GetCallReportResponsesAsync()
+        {
+            HttpResponseMessage response = await client.GetAsync("api/CallReportResponses");
+            if (response.IsSuccessStatusCode)
+                return await response.Content.ReadAsAsync<CallReportResponse[]>();
+            else
+            {
+                await App.Current.MainPage.DisplayAlert("Looks like something went wrong.", "The server is not responding.", "OK");
+                await App.Current.MainPage.Navigation.PopAsync();
+                return null;
+            }
         }
 
         public async Task<ProductCode[]> GetProductCodesAsync()
