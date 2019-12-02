@@ -9,11 +9,18 @@ namespace CompliXpertApp.Views
     public partial class CompliXpertAppMasterDetailPageMaster : ContentPage
     {
         public ListView ListView;
-
+        private CompliXpertAppMasterDetailPageMasterViewModel compliXpertAppMasterDetailPageMasterViewModel;
         public CompliXpertAppMasterDetailPageMaster()
         {
+            compliXpertAppMasterDetailPageMasterViewModel = new CompliXpertAppMasterDetailPageMasterViewModel();
             InitializeComponent();
-            BindingContext = new CompliXpertAppMasterDetailPageMasterViewModel();
+            BindingContext = compliXpertAppMasterDetailPageMasterViewModel;
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            compliXpertAppMasterDetailPageMasterViewModel.InitializeData();
         }
     }
 }
