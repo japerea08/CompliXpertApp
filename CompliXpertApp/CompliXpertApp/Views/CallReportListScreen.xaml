@@ -29,10 +29,6 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <ViewCell.ContextActions>
-                                <MenuItem Text="Add Note"/>
-                                <MenuItem Text="Add Person"/>
-                            </ViewCell.ContextActions>
                             <Grid BackgroundColor="#f5f5f5">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
