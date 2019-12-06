@@ -163,12 +163,14 @@ namespace CompliXpertApp.ViewModels
         public void CreateGroups()
         {
             var customerList = new ApplicationEntityGroup();
+            var groupList = new List<ApplicationEntityGroup>();
 
             if (_accountList.Any() == true)
             {
                 
                 customerList.AddRange(_accountList);
                 customerList.Heading = "Customer List";
+                groupList.Add(customerList);
             }
 
             var prospectList = new ApplicationEntityGroup();
@@ -177,6 +179,7 @@ namespace CompliXpertApp.ViewModels
                 
                 prospectList.AddRange(_prospectList);
                 prospectList.Heading = "Prospect List";
+                groupList.Add(prospectList);
             }
 
             var newContactList = new ApplicationEntityGroup();
@@ -184,13 +187,9 @@ namespace CompliXpertApp.ViewModels
             {
                 newContactList.AddRange(_newContactList);
                 newContactList.Heading = "New Contacts";
+                groupList.Add(newContactList);
             }
-            var groupList = new List<ApplicationEntityGroup>()
-            {
-                customerList,
-                prospectList,
-                newContactList
-            };
+                   
 
             Group = groupList;
 

@@ -183,4 +183,22 @@
       <Name>CompliXpertApp</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\compli_logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\compli_logo_android_mobile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\compli_logo_xsmall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\lightgradient.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\splash_background.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\white_home.png" />
+  </ItemGroup>
 </Project>
