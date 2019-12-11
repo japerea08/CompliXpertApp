@@ -67,12 +67,13 @@ namespace CompliXpertApp.ViewModels
                                                     select callReport).ToList();
                     foreach (CallReport callreport in callReports)
                     {
+                        callreport.Reason = "Type: " + callreport.Reason;
                         callreport.Responses = (from response in context.CallReportResponse
                                                 where response.CallReportId == callreport.CallReportId
                                                 select response).ToList(); 
                     }
-                    //convert the callreport type to the name
-                    dummyCallReportList.AddRange(ConvertCallReportTypeToName(context, callReports));
+
+                    dummyCallReportList.AddRange(callReports);
 
                     newList.Add(dummyCallReportList);
                 }
@@ -81,26 +82,10 @@ namespace CompliXpertApp.ViewModels
             }
         }
         private async void GetCallReportDetailScreenAsync()
-        {
-            //switching back the description to type in the selectedcallreport 
-            callReportSelected.CallReportType = (from callReportType in callReportTypes
-                                                 where callReportSelected.CallReportType == callReportType.Description
-                                                 select callReportType.Type).FirstOrDefault();
-
+        { 
             await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage() { Detail = new NavigationPage(new CallReportDetailsScreen()) });
             MessagingCenter.Send<CallReportListScreenViewModel, CallReport>(this, Message.CallReportLoaded, callReportSelected);
             CallReportSelected = null;
-        }
-        private IEnumerable<CallReport> ConvertCallReportTypeToName(CompliXperAppContext context, IEnumerable<CallReport> callReports)
-        {
-            foreach (CallReport callReport in callReports)
-            {
-                callReport.CallReportType = (from type in context.CallReportType
-                                             where callReport.CallReportType == type.Type
-                                             select type.Description).FirstOrDefault();
-
-            }
-            return callReports;
         }
     }
 }

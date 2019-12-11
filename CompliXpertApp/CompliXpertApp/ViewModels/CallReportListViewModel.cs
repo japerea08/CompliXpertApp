@@ -23,6 +23,7 @@ namespace CompliXpertApp.ViewModels
                     CallReports = context.CallReport.Where(report => report.AccountNumber == acctNumber).ToList();
                     foreach (CallReport report in _callReportsList)
                     {
+                        report.Reason = "Type: " + report.Reason;
                         report.Responses = await (from _responses in context.CallReportResponse
                                                  where _responses.CallReportId == report.CallReportId
                                                  select new CallReportResponse
@@ -42,6 +43,7 @@ namespace CompliXpertApp.ViewModels
                     CallReports = context.CallReport.Where(report => report.AccountNumber == acctNumber).ToList();
                     foreach (CallReport report in _callReportsList)
                     {
+                        report.Reason = "Type: " + report.Reason;
                         report.Responses = await(from _responses in context.CallReportResponse
                                                  where _responses.CallReportId == report.CallReportId
                                                  select new CallReportResponse

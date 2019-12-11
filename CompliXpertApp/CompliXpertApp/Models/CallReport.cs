@@ -31,6 +31,13 @@ namespace CompliXpertApp.Models
                 return CallDate.ToShortDateString();
             }
         }
+        public string Time
+        {
+            get
+            {
+                return CallDate.ToShortTimeString();
+            }
+        }
 
         public Account AccountNumberNavigation { get; set; }
     }

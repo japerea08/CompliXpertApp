@@ -17,8 +17,8 @@
                         <ViewCell>
                             <Label
                                 BackgroundColor="#f5f5f5"
-                                FontSize="Large"
                                 FontAttributes="Bold"
+                                FontSize="Large"
                                 HorizontalTextAlignment="Center"
                                 Text="{Binding Heading}" />
                         </ViewCell>

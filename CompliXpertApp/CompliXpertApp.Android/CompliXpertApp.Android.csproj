@@ -162,5 +162,8 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\lightgradient.png" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\three_dot.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

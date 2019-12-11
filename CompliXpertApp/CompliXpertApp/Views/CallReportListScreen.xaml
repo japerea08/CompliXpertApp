@@ -1,60 +1,101 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CompliXpertApp.Views.CallReportListScreen">
+<ContentPage
+    x:Class="CompliXpertApp.Views.CallReportListScreen"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Call Report List"
-                   FontSize="Large"
-                   HorizontalTextAlignment="Center"
-                   TextColor="#305d82"
-                   Margin="10,10,0,5"/>
-            <ListView ItemsSource="{Binding CallReportGroup}"
-                      IsGroupingEnabled="True"
-                      HasUnevenRows="True"
-                      SeparatorColor="#ffffff"
-                      SelectedItem="{Binding CallReportSelected, Mode=TwoWay}">
+            <ListView
+                HasUnevenRows="True"
+                IsGroupingEnabled="True"
+                ItemsSource="{Binding CallReportGroup}"
+                SelectedItem="{Binding CallReportSelected, Mode=TwoWay}"
+                SeparatorColor="#a9a9a9"
+                SeparatorVisibility="Default">
+                <ListView.Header>
+                    <Label
+                        Margin="10,10,0,2"
+                        FontAttributes="Bold"
+                        FontSize="Large"
+                        HorizontalTextAlignment="Center"
+                        Text="Call Report List" />
+                </ListView.Header>
                 <ListView.GroupHeaderTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Label Text="{Binding Heading}"
-                                   FontSize="Large"
-                                   HorizontalTextAlignment="Start"
-                                   TextColor="#305d82"
-                                   Margin="10,10,0,10"
-                                   FontAttributes="Bold"/>
+                            <Label
+                                Margin="10,5,0,10"
+                                FontSize="Large"
+                                HorizontalTextAlignment="Start"
+                                Text="{Binding Heading}"
+                                TextColor="#305d82" />
                         </ViewCell>
                     </DataTemplate>
                 </ListView.GroupHeaderTemplate>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid BackgroundColor="#f5f5f5">
+                            <Grid BackgroundColor="#eff4f9">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <Label Text="{Binding CallReportType}" 
-                                       FontSize="Large" 
-                                       Grid.Row="0"
-                                       Grid.Column="0"
-                                       TextColor="#305d82"
-                                       Margin="10,2,0,0"/>
-                                <Label Text="{Binding Date}" 
-                                       FontSize="Medium" 
-                                       Grid.Row="0"
-                                       Grid.Column="1"
-                                       TextColor="#305d82"
-                                       Margin="10,2,0,0"/>
-                                <Label Text="{Binding AccountNumber}"
-                                       FontSize="Small"
-                                       Grid.Row="1"
-                                       Grid.Column="0"
-                                       Margin="10,0,0,2"/>
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Margin="10,2,0,0"
+                                    FontSize="Large"
+                                    Text="{Binding Reason}"
+                                    TextColor="#305d82" />
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Margin="10,2,0,0"
+                                    FontSize="Small"
+                                    Text="{Binding Date}"
+                                    TextColor="#305d82" />
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="10,0,0,2"
+                                    FontSize="Small"
+                                    TextColor="#305d82">
+                                    <Label.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding CreatedOnMobile}"
+                                            TargetType="Label"
+                                            Value="True">
+                                            <Setter Property="Text" Value="Created on Mobile" />
+                                            <Setter Property="TextColor" Value="Green" />
+                                        </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding CreatedOnMobile}"
+                                            TargetType="Label"
+                                            Value="False">
+                                            <Setter Property="Text" Value="Downloaded from Core" />
+                                            <Setter Property="TextColor" Value="DarkGray" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Margin="10,0,0,2"
+                                    FontSize="Small"
+                                    Text="{Binding Time}"
+                                    TextColor="#305d82" />
+                                <Image
+                                    Grid.RowSpan="2"
+                                    Grid.Column="2"
+                                    HorizontalOptions="Center"
+                                    Opacity="0.5"
+                                    Source="three_dot.png" 
+                                    Margin="5,0"/>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
