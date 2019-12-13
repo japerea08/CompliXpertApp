@@ -12,6 +12,7 @@ namespace CompliXpertApp.Models
         public int CallReportId { get; set; }
         public string Officer { get; set; }
         public string Position { get; set; }
+        public DateTime CreatedDate { get; set; }
         public DateTime CallDate { get; set; }
         public string Reference { get; set; }
         public string ApprovedBy { get; set; }
@@ -35,7 +36,7 @@ namespace CompliXpertApp.Models
         {
             get
             {
-                return CallDate.ToShortTimeString();
+                return CreatedDate.ToShortTimeString();
             }
         }
 

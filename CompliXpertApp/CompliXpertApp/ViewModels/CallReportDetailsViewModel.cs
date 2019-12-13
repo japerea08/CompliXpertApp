@@ -280,6 +280,7 @@ namespace CompliXpertApp.ViewModels
                 CallReport report = await context.CallReport
                                     .SingleAsync(r => r.CallReportId == Report.CallReportId);
                 report.CallDate = Report.CallDate;
+                report.CreatedDate = DateTime.Now;
                 report.Position = Report.Position;
                 report.Reference = Report.Reference;
                 List<CallReportResponse> responses = new List<CallReportResponse>();

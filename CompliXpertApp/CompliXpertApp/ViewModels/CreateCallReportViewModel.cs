@@ -43,7 +43,8 @@ namespace CompliXpertApp.ViewModels
             //must instantiate new call report to take in the new data
             NewCallReport = new CallReport
             {
-                CallDate = DateTime.Now
+                CallDate = DateTime.Now,
+                CreatedDate = DateTime.Now
             };
 
             

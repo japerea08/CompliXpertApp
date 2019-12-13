@@ -68,6 +68,8 @@ namespace MigrationsApp.Migrations
 
                     b.Property<DateTime>("CallDate");
 
+                    b.Property<DateTime>("CreatedDate");
+
                     b.Property<string>("CallReportType");
 
                     b.Property<bool>("CreatedOnMobile");

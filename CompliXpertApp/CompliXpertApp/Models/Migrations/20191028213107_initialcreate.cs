@@ -176,6 +176,7 @@ namespace MigrationsApp.Migrations
                     Officer = table.Column<string>(nullable: true),
                     Position = table.Column<string>(nullable: true),
                     CallDate = table.Column<DateTime>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
                     Reference = table.Column<string>(nullable: true),
                     ApprovedBy = table.Column<string>(nullable: true),
                     ApprovedDate = table.Column<DateTime>(nullable: false),

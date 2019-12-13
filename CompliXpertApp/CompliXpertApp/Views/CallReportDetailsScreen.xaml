@@ -208,7 +208,7 @@
                         <DatePicker
                             Date="{Binding Report.CallDate}"
                             FontSize="Large"
-                            IsEnabled="False" />
+                            IsEnabled="True" />
                         <Label
                             FontSize="Large"
                             Text="Reference"
