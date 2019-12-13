@@ -92,10 +92,10 @@
                                 <Image
                                     Grid.RowSpan="2"
                                     Grid.Column="2"
+                                    Margin="5,0"
                                     HorizontalOptions="Center"
                                     Opacity="0.5"
-                                    Source="three_dot.png" 
-                                    Margin="5,0"/>
+                                    Source="three_dot.png" />
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

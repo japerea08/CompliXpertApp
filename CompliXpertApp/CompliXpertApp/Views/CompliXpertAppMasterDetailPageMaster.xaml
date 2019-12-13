@@ -9,7 +9,7 @@
                   SelectedItem="{Binding MenuItem, Mode=TwoWay}"
                   HasUnevenRows="True"
                   HorizontalOptions="FillAndExpand">
-            <ListView.Header>
+            <ListView.Footer>
                 <StackLayout HorizontalOptions="FillAndExpand"
                              BackgroundColor="#a1a1a1">
                     <Label Text="Sign Out"
@@ -17,7 +17,7 @@
                            FontSize="Medium"
                            Margin="25,15"/>
                 </StackLayout>
-            </ListView.Header>
+            </ListView.Footer>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -37,5 +37,5 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-  </StackLayout>
+    </StackLayout>
 </ContentPage>

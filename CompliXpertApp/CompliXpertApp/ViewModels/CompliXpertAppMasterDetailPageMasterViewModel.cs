@@ -21,13 +21,14 @@ namespace CompliXpertApp.ViewModels
             //first list that everyone will see
             MenuItems = new List<CompliXpertAppMasterDetailPageMenuItem>()
             {
-                    new CompliXpertAppMasterDetailPageMenuItem { Id = 0, Title = "Customer List", ImageSource = "white_home.png", TargetType = typeof(CustomerListScreen) },
-                    new CompliXpertAppMasterDetailPageMenuItem { Id = 1, Title = "Create Call Report", ImageSource = null, TargetType = typeof(CreateCallReportScreen)},
-                    new CompliXpertAppMasterDetailPageMenuItem{Id = 2, Title = "Add Prospect", ImageSource = null, TargetType = typeof(AddProspectScreen)},
-                    new CompliXpertAppMasterDetailPageMenuItem{Id = 3, Title = "Add New Contact", ImageSource = null, TargetType = typeof(AddNewContactScreen) },
-                    new CompliXpertAppMasterDetailPageMenuItem { Id = 4, Title = "Call Report List", ImageSource = null, TargetType = typeof(CallReportListScreen)},
-                    new CompliXpertAppMasterDetailPageMenuItem { Id = 5, Title = "Add Note/Add Attendee", ImageSource = null, TargetType = typeof(LoadingScreen)},
-                    new CompliXpertAppMasterDetailPageMenuItem { Id = 6, Title = "History", ImageSource = null }
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 0, Title = "Customer List", ImageSource = null, TargetType = typeof(CustomerListScreen) },
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 1, Title = "Prospect List", ImageSource = null, TargetType = typeof(ProspectListScreen) },
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 2, Title = "Create Call Report", ImageSource = null, TargetType = typeof(CreateCallReportScreen)},
+                    new CompliXpertAppMasterDetailPageMenuItem{Id = 3, Title = "Add Prospect", ImageSource = null, TargetType = typeof(AddProspectScreen)},
+                    new CompliXpertAppMasterDetailPageMenuItem{Id = 4, Title = "Add New Contact", ImageSource = null, TargetType = typeof(AddNewContactScreen) },
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 5, Title = "Call Report List", ImageSource = null, TargetType = typeof(CallReportListScreen)},
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 6, Title = "Add Note/Add Attendee", ImageSource = null, TargetType = typeof(LoadingScreen)},
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 7, Title = "History", ImageSource = null }
             };
         }
 
@@ -60,11 +61,11 @@ namespace CompliXpertApp.ViewModels
                 if (_menuItem.TargetType.FullName.Equals(typeof(CreateCallReportScreen).FullName ) == true)
                 {
                     //to redo the list
-                    RebuildMenuForCreateCallReport();
+                    RebuildMenuForCreateCallReport(_menuItem.Id);
                 }
                 else if(_menuItem.TargetType.FullName.Equals(typeof(LoadingScreen).FullName) == true)
                 {
-                    RebuildMenuForAddNoteAttendee();
+                    RebuildMenuForAddNoteAttendee(_menuItem.Id);
                 }
                 CallScreen(MenuItem);
                 OnPropertyChanged();
@@ -109,7 +110,7 @@ namespace CompliXpertApp.ViewModels
                 }
             }
         }
-        private void RebuildMenuForCreateCallReport()
+        private void RebuildMenuForCreateCallReport(int index)
         {
             List<CompliXpertAppMasterDetailPageMenuItem> items = new List<CompliXpertAppMasterDetailPageMenuItem>();
             //if create call report was tapped to see all customers
@@ -119,10 +120,19 @@ namespace CompliXpertApp.ViewModels
                 items.AddRange(MenuItems);
                 if (AddNoteAttendeeTapped == true)
                 {
-                    items.RemoveRange(6, callReports.Count);
+                    int i;
+                    foreach (CompliXpertAppMasterDetailPageMenuItem item in menuItems)
+                    {
+                        if (item.TargetType.FullName.Equals(typeof(LoadingScreen).FullName))
+                        {
+                            i = item.Id;
+                            items.RemoveRange(i + 1, customers.Count);
+                            return;
+                        }
+                    }
                     AddNoteAttendeeTapped = false;
                 }
-                items.InsertRange(2, customers);
+                items.InsertRange((index + 1), customers);
                 MenuItems = items;
                 CreateCallReportTapped = true;
             }
@@ -130,35 +140,90 @@ namespace CompliXpertApp.ViewModels
             else
             {
                 items.AddRange(MenuItems);
-                items.RemoveRange(2, customers.Count);
+                items.RemoveRange((index + 1), customers.Count);
                 MenuItems = items;
                 CreateCallReportTapped = false;
             }
         }
-        private void RebuildMenuForAddNoteAttendee()
+        private void RebuildMenuForAddNoteAttendee(int index)
         {
-            List<CompliXpertAppMasterDetailPageMenuItem> items = new List<CompliXpertAppMasterDetailPageMenuItem>();
-
-            if (AddNoteAttendeeTapped == false)
+            //logic if there are no Call Reports in the system
+            if(callReports.Count == 0)
             {
-                items.AddRange(MenuItems);
-                //check to see if createcallreport was tapped
-                if(CreateCallReportTapped == true)
+                List<CompliXpertAppMasterDetailPageMenuItem> items = new List<CompliXpertAppMasterDetailPageMenuItem>();
+
+                if (AddNoteAttendeeTapped == false)
                 {
-                    items.RemoveRange(2, customers.Count);
-                    CreateCallReportTapped = false;
+                    items.AddRange(MenuItems);
+                    //check to see if createcallreport was tapped
+                    if (CreateCallReportTapped == true)
+                    {
+                        int i;
+                        foreach (CompliXpertAppMasterDetailPageMenuItem item in menuItems)
+                        {
+                            if (item.TargetType.FullName.Equals(typeof(CreateCallReportScreen).FullName))
+                            {
+                                i = item.Id;
+                                items.RemoveRange(i + 1, customers.Count);
+                                break;
+                            }
+                        }
+
+                        CreateCallReportTapped = false;
+                    }
+                    callReports.Add(new CompliXpertAppMasterDetailPageMenuItem
+                    {
+                        Title = "No Call Reports Created",
+                        Color = "#a1a1a1"
+                    });
+                    items.InsertRange((index + 1), callReports);
+                    MenuItems = items;
+                    AddNoteAttendeeTapped = true;
                 }
-                items.InsertRange(6, callReports);
-                MenuItems = items;
-                AddNoteAttendeeTapped = true;
+                else
+                {
+                    items.AddRange(MenuItems);
+                    items.RemoveRange(index + 1, callReports.Count);
+                    MenuItems = items;
+                    AddNoteAttendeeTapped = false;
+                }
             }
             else
             {
-                items.AddRange(MenuItems);
-                items.RemoveRange(6, callReports.Count);
-                MenuItems = items;
-                AddNoteAttendeeTapped = false;
+                List<CompliXpertAppMasterDetailPageMenuItem> items = new List<CompliXpertAppMasterDetailPageMenuItem>();
+
+                if (AddNoteAttendeeTapped == false)
+                {
+                    items.AddRange(MenuItems);
+                    //check to see if createcallreport was tapped
+                    if (CreateCallReportTapped == true)
+                    {
+                        int i;
+                        foreach (CompliXpertAppMasterDetailPageMenuItem item in menuItems)
+                        {
+                            if (item.TargetType.FullName.Equals(typeof(CreateCallReportScreen).FullName))
+                            {
+                                i = item.Id;
+                                items.RemoveRange(i + 1, customers.Count);
+                                break;
+                            }
+                        }
+
+                        CreateCallReportTapped = false;
+                    }
+                    items.InsertRange((index + 1), callReports);
+                    MenuItems = items;
+                    AddNoteAttendeeTapped = true;
+                }
+                else
+                {
+                    items.AddRange(MenuItems);
+                    items.RemoveRange(index + 1, callReports.Count);
+                    MenuItems = items;
+                    AddNoteAttendeeTapped = false;
+                }
             }
+            
         }
 
         private async void CallScreen(CompliXpertAppMasterDetailPageMenuItem menuItem)

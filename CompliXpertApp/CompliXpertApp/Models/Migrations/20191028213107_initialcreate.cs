@@ -69,6 +69,7 @@ namespace MigrationsApp.Migrations
                     CustomerName = table.Column<string>(nullable: true),
                     LegalType = table.Column<string>(nullable: true),
                     CreatedOnMobile = table.Column<bool>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
                     IsPEP = table.Column<bool>(nullable: false),
                     MailAddress = table.Column<string>(nullable: true),
                     Citizenship = table.Column<int>(nullable: true),

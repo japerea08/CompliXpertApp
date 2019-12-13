@@ -161,6 +161,7 @@ namespace CompliXpertApp.ViewModels
             Prospect.CreatedOnMobile = true;
             Prospect.Citizenship = Citizenship?.CountryCode;
             Prospect.CountryofResidence = CountryofResidence?.CountryCode;
+            Prospect.CreatedDate = DateTime.Now;
             //add the new propsect to the DB here
             if(Prospect != null)
             {
@@ -176,8 +177,10 @@ namespace CompliXpertApp.ViewModels
                     Prospect.CustomerId = Prospect.CustomerNumber;
                     ProspectAccount.AccountNumber = Prospect.CustomerNumber;
                     ProspectAccount.CustomerNumber = Prospect.CustomerNumber;
-                    Prospect.Account = new List<Account>();
-                    Prospect.Account.Add(ProspectAccount);
+                    Prospect.Account = new List<Account>
+                    {
+                        ProspectAccount
+                    };
                     context.Add(Prospect);
                     try
                     {

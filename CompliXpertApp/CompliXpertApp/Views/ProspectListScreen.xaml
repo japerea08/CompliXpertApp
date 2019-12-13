@@ -1,28 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="CompliXpertApp.Views.CustomerListScreen"
+    x:Class="CompliXpertApp.Views.ProspectListScreen"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     NavigationPage.HasBackButton="False">
     <ContentPage.Content>
         <StackLayout>
+            <Label Text="Prospect List"
+                   FontAttributes="Bold"
+                   FontSize="Large"
+                   HorizontalTextAlignment="Center"/>
+            <Label Text="No Prospects Have Been Created"
+                   HorizontalTextAlignment="Center"
+                   FontAttributes="Bold"
+                   Margin="0,10">
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label"
+                                 Binding="{Binding ProspectsCreated}"
+                                 Value="false">
+                        <Setter Property="IsVisible" Value="True"/>
+                    </DataTrigger>
+                    <DataTrigger TargetType="Label"
+                                 Binding="{Binding ProspectsCreated}"
+                                 Value="True">
+                        <Setter Property="IsVisible" Value="False"/>
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
             <ListView
                 HasUnevenRows="True"
-                IsGroupingEnabled="True"
-                ItemsSource="{Binding Group}"
-                SelectedItem="{Binding EntitySelected, Mode=TwoWay}"
+                ItemsSource="{Binding ProspectList}"
+                SelectedItem="{Binding ProspectSelected, Mode=TwoWay}"
                 SeparatorColor="#ffffff">
-                <ListView.GroupHeaderTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Label
-                                FontAttributes="Bold"
-                                FontSize="Large"
-                                HorizontalTextAlignment="Center"
-                                Text="{Binding Heading}" />
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.GroupHeaderTemplate>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -33,6 +42,7 @@
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
                                 <Label
@@ -43,24 +53,19 @@
                                     Text="{Binding CustomerName}"
                                     TextColor="{StaticResource DarkBlueLabelColor}" />
                                 <Label
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    Margin="10,0,0,2"
-                                    FontSize="Small"
-                                    Text="{Binding CustomerNumber}" />
-                                <Label
                                     Grid.Row="0"
-                                    Grid.Column="0"
-                                    Margin="10,2,0,0"
-                                    FontSize="Large"
-                                    Text="{Binding Name}"
-                                    TextColor="#305d82" />
-                                <Label
-                                    Grid.Row="1"
-                                    Grid.Column="0"
+                                    Grid.Column="1"
                                     Margin="10,0,0,2"
                                     FontSize="Small"
-                                    Text="{Binding Company}" />
+                                    Text="{Binding Date}"
+                                    HorizontalTextAlignment="Center"/>
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Margin="10,2,0,0"
+                                    FontSize="Small"
+                                    Text="{Binding Time}" 
+                                    HorizontalTextAlignment="Center"/>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
@@ -72,16 +77,6 @@
                 Command="{Binding SendNewDataCommand}"
                 Text="Send New Data"
                 TextColor="{StaticResource ButtonTextColor}" />-->
-            <Frame
-                Padding="0,20"
-                BackgroundColor="#f5f5f5"
-                BorderColor="DarkGray"
-                HasShadow="False">
-                <Label
-                    FontSize="Medium"
-                    HorizontalTextAlignment="Center"
-                    Text="Sign Off" />
-            </Frame>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -11,13 +11,18 @@ namespace CompliXpertApp.ViewModels
     class CustomerMasterViewModel : AbstractNotifyPropertyChanged
     {
         //attributes
-        private bool canTap = true;
+        private readonly bool canTap = true;
         private Customer _customer;
         private bool _isBusy = false;
 
         //constructor
         public CustomerMasterViewModel()
         {
+            //message from the prospect list screen
+            MessagingCenter.Subscribe<ProspectListScreenViewModel, Customer>(this, Message.CustomerLoaded, (sender, args) =>
+            {
+                Customer = args;
+            });
             //this message is for the incoming
             MessagingCenter.Subscribe<CustomerListScreenViewModel, Customer>(this, Message.CustomerLoaded, (sender, args) =>
             {

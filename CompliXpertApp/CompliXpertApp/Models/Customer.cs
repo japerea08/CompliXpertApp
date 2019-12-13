@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace CompliXpertApp.Models
@@ -15,6 +16,7 @@ namespace CompliXpertApp.Models
         public string CustomerName { get; set; }
         public string LegalType { get; set; }
         public bool CreatedOnMobile { get; set; }
+        public DateTime CreatedDate { get; set; }
         public bool IsPEP { get; set; }
         public string MailAddress { get; set; }
         public int? Citizenship { get; set; }
@@ -23,5 +25,19 @@ namespace CompliXpertApp.Models
         public string BusinessCode { get; set; }
         public string IndustryCode { get; set; }
         public ICollection<Account> Account { get; set; }
+        public string Date
+        {
+            get
+            {
+                return CreatedDate.ToShortDateString();
+            }
+        }
+        public string Time
+        {
+            get
+            {
+                return CreatedDate.ToShortTimeString();
+            }
+        }
     }
 }

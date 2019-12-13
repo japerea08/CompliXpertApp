@@ -156,6 +156,8 @@ namespace MigrationsApp.Migrations
 
                 b.Property<bool>("CreatedOnMobile");
 
+                b.Property<DateTime>("CreatedDate");
+
                 b.Property<int>("CustomerId");
 
                 b.Property<string>("CustomerName");
