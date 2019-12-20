@@ -2,6 +2,13 @@
 {
     static public class Message
     {
+        public static string NoteCreated
+        {
+            get
+            {
+                return "note been created";
+            }
+        }
         public static string NewContactLoaded
         {
             get

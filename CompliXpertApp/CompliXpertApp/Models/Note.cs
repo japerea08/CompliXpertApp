@@ -9,5 +9,6 @@ namespace CompliXpertApp.Models
         public string Subject { get; set; }
         public string Description { get; set; }
         public bool CreatedonMobile { get; set; }
+        public int? CallReportId { get; set; }
     }
 }

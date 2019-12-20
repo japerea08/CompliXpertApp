@@ -1,4 +1,5 @@
 ﻿using CompliXpertApp.Helpers;
+using CompliXpertApp.Models;
 using CompliXpertApp.ViewModels;
 using System;
 using Xamarin.Forms;
@@ -41,6 +42,10 @@ namespace CompliXpertApp.Views
         protected override void OnAppearing()
         {
             MessagingCenter.Send(this, Message.AllowLandscapePortrait);
+            MessagingCenter.Subscribe<AddNoteScreenViewModel, Note> (this, Message.NoteCreated, (sender, note) =>
+            {
+                createCallReportViewModel.Note = note;
+            }); 
             base.OnAppearing();
         }
         protected override void OnDisappearing()

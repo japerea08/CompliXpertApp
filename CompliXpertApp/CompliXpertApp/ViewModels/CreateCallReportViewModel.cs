@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using CompliXpertApp.Views;
 
 namespace CompliXpertApp.ViewModels
 {
@@ -40,6 +41,10 @@ namespace CompliXpertApp.ViewModels
                 await InitializeCreateCallReportScreenAsync();
             });
             SaveCallReportCommand = new Command(async () => await SaveNewCallReportAsync(), () => canSave);
+
+            AddNoteCommand = new Command(async () => await AddNoteAsync());
+
+            AddPersonCommand = new Command(async () => await AddPersonAsync());
             //must instantiate new call report to take in the new data
             NewCallReport = new CallReport
             {
@@ -49,6 +54,7 @@ namespace CompliXpertApp.ViewModels
 
             
         }
+
 
         private async Task InitializeCreateCallReportScreenAsync()
         {
@@ -66,9 +72,11 @@ namespace CompliXpertApp.ViewModels
         }
         #region Properties
         //properties
-
+        public ICommand AddNoteCommand { get; set; }
+        public ICommand AddPersonCommand { get; set; }
         public ICommand SaveCallReportCommand { get; set; }
         public double StandardHeight { get; set; }
+        public Note Note { get; set; }
         public double Height
         {
             get
@@ -219,9 +227,28 @@ namespace CompliXpertApp.ViewModels
             canSave = value;
             ((Command) SaveCallReportCommand).ChangeCanExecute();
         }
+
+        async Task AddNoteAsync()
+        {
+            await App.Current.MainPage.Navigation.PushModalAsync(new AddNoteScreen());
+            //use messaging center to send call report info
+            MessagingCenter.Send<CreateCallReportViewModel, CallReport>(this, Message.CallReportLoaded, NewCallReport);
+        }
+
+        private Task AddPersonAsync()
+        {
+            throw new NotImplementedException();
+        }
         //save the new call report to local db for persistance
         async Task SaveNewCallReportAsync()
         {
+            if (Note != null)
+            {
+                Note.CallReportId = NewCallReport.CallReportId;
+                NewCallReport.Notes = new List<Note>();
+                NewCallReport.Notes.Add(Note);
+            }
+
             NewCallReport.AccountNumber = Account.AccountNumber;
             NewCallReport.Officer = "Tester";
             NewCallReport.CreatedOnMobile = true;

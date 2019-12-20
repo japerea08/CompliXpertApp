@@ -35,7 +35,11 @@ namespace CompliXpertApp.ViewModels
                 {
                     ReportType = _report.CallReportType;
 
-                    List<CallReportQuestions> Questions = await (
+                    Report.Notes = (from notes in context.Notes
+                                    where notes.CallReportId == Report.CallReportId
+                                    select notes).ToList();
+
+                    List < CallReportQuestions > Questions = await (
                         from _q in context.CallReportQuestions
                         where _q.Type == Report.CallReportType
                         select new CallReportQuestions
