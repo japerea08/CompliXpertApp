@@ -56,7 +56,7 @@ namespace CompliXpertApp.ViewModels
             set
             {
                 _menuItem = value;
-                if (_menuItem == null)
+                if (_menuItem == null || _menuItem.TargetType == null)
                     return;
                 if (_menuItem.TargetType.FullName.Equals(typeof(CreateCallReportScreen).FullName ) == true)
                 {
@@ -230,7 +230,7 @@ namespace CompliXpertApp.ViewModels
         {
             MenuItem = null;
             var page = (Page) Activator.CreateInstance(menuItem.TargetType);
-            //if the user selects the customer list ensure that we are back to the root
+
             if (menuItem.TargetType.FullName.Equals(typeof(CustomerListScreen).FullName))
             {
                 App.Current.MainPage = new NavigationPage(new CompliXpertAppMasterDetailPage());

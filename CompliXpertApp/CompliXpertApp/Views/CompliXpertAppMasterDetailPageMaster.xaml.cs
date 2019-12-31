@@ -22,5 +22,9 @@ namespace CompliXpertApp.Views
             base.OnAppearing();
             compliXpertAppMasterDetailPageMasterViewModel.InitializeData();
         }
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+        }
     }
 }
