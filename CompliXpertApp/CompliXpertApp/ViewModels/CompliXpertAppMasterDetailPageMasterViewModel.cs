@@ -14,7 +14,7 @@ namespace CompliXpertApp.ViewModels
         private List<CompliXpertAppMasterDetailPageMenuItem> customers;
         private List<CompliXpertAppMasterDetailPageMenuItem> menuItems;
         private List<CompliXpertAppMasterDetailPageMenuItem> callReports;
-        
+
         public CompliXpertAppMasterDetailPageMasterViewModel()
         {
             CreateCallReportTapped = false;
@@ -76,6 +76,7 @@ namespace CompliXpertApp.ViewModels
         {
             using (CompliXperAppContext context = new CompliXperAppContext())
             {
+                //gets all the customers in the DB
                 List<Customer> customerList = context.Customer.ToList();
 
                 //get only call reports that are created on mobile and initialize type correctly
@@ -127,7 +128,7 @@ namespace CompliXpertApp.ViewModels
                         {
                             i = item.Id;
                             items.RemoveRange(i + 1, customers.Count);
-                            return;
+                            break;
                         }
                     }
                     AddNoteAttendeeTapped = false;
@@ -224,6 +225,22 @@ namespace CompliXpertApp.ViewModels
                 }
             }
             
+        }
+        public void RebuildOriginalMenu()
+        {
+            MenuItems = new List<CompliXpertAppMasterDetailPageMenuItem>()
+            {
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 0, Title = "Customer List", ImageSource = null, TargetType = typeof(CustomerListScreen) },
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 1, Title = "Prospect List", ImageSource = null, TargetType = typeof(ProspectListScreen) },
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 2, Title = "Create Call Report", ImageSource = null, TargetType = typeof(CreateCallReportScreen)},
+                    new CompliXpertAppMasterDetailPageMenuItem{Id = 3, Title = "Add Prospect", ImageSource = null, TargetType = typeof(AddProspectScreen)},
+                    new CompliXpertAppMasterDetailPageMenuItem{Id = 4, Title = "Add New Contact", ImageSource = null, TargetType = typeof(AddNewContactScreen) },
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 5, Title = "Call Report List", ImageSource = null, TargetType = typeof(CallReportListScreen)},
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 6, Title = "Add Note/Add Attendee", ImageSource = null, TargetType = typeof(LoadingScreen)},
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 7, Title = "History", ImageSource = null }
+            };
+            CreateCallReportTapped = false;
+            AddNoteAttendeeTapped = false;
         }
 
         private async void CallScreen(CompliXpertAppMasterDetailPageMenuItem menuItem)
