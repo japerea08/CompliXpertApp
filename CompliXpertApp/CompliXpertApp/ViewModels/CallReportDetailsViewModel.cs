@@ -33,7 +33,9 @@ namespace CompliXpertApp.ViewModels
                 //get the questions
                 using (var context = new CompliXperAppContext())
                 {
-                    ReportType = _report.CallReportType;
+                    ReportType = (from r in context.CallReportType
+                                  where r.Type == Report.CallReportType
+                                  select r.Description).SingleOrDefault();
 
                     Report.Notes = (from notes in context.Notes
                                     where notes.CallReportId == Report.CallReportId
