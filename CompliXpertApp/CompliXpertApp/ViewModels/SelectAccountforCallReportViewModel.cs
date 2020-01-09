@@ -13,6 +13,8 @@ namespace CompliXpertApp.ViewModels
         private List<Account> _accounts;
         private Account _account;
         private bool _canCreateCallReport;
+        private List<CallReportType> callReportTypes;
+        private CallReportType callReportType;
         public SelectAccountforCallReportViewModel()
         {
             _canCreateCallReport = false;
@@ -24,6 +26,9 @@ namespace CompliXpertApp.ViewModels
                     _accounts  = (from _account in context.Account
                                 where _account.CustomerNumber == customerNumber
                                 select _account).ToList();
+
+                    //get all callreport types
+                    CallReportTypes = context.CallReportType.ToList();
                 }
                 Accounts = _accounts;
             });
@@ -32,6 +37,34 @@ namespace CompliXpertApp.ViewModels
         }
 
         //properties
+        public List<CallReportType> CallReportTypes
+        {
+            get
+            {
+                return callReportTypes;
+            }
+            set
+            {
+                callReportTypes = value;
+                OnPropertyChanged();
+            }
+        }
+        public CallReportType CallReportTypeSelected
+        {
+            get
+            {
+                return callReportType;
+            }
+            set
+            {
+                callReportType = value;
+                if (callReportType == null)
+                    return;
+                if (_account != null)
+                    CanCreateCallReport(true);
+                OnPropertyChanged();
+            }
+        }
         public Command CreateCallReportCommand { get; }
         public List<Account> Accounts
         {
@@ -57,7 +90,8 @@ namespace CompliXpertApp.ViewModels
                 _account = value;
                 if (_account == null)
                     return;
-                CanCreateCallReport(true);
+                if(callReportType != null)
+                    CanCreateCallReport(true);
                 OnPropertyChanged();
             }
         }
@@ -67,17 +101,18 @@ namespace CompliXpertApp.ViewModels
             _canCreateCallReport = value;
             ((Command) CreateCallReportCommand).ChangeCanExecute();
         }
+        //will check to see if an account is selected and a call report type
         private async Task CreateCallReportAsync()
         {
-            if(SelectedAccount != null)
+            if(SelectedAccount != null && CallReportTypeSelected != null)
             {
-                //just go to Callreport screen
                 await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage() { Detail = new NavigationPage(new CreateCallReportScreen()) });
+
+                MessagingCenter.Send<SelectAccountforCallReportViewModel, CallReportType>(this, Message.CallReportTypeLoaded, CallReportTypeSelected);
+
                 MessagingCenter.Send<SelectAccountforCallReportViewModel, Account>(this, Message.AccountLoaded, SelectedAccount);
-                SelectedAccount = null;
-                
+                SelectedAccount = null;                
             }
-            return;
         }
     }
 }

@@ -1,18 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CompliXpertApp.Views.CompliXpertAppMasterDetailPage"
-             xmlns:pages="clr-namespace:CompliXpertApp.Views"
-                  NavigationPage.HasBackButton="False"
-                  NavigationPage.HasNavigationBar="False">
-  <MasterDetailPage.Master>
-    <pages:CompliXpertAppMasterDetailPageMaster x:Name="MasterPage" />
-  </MasterDetailPage.Master>
-  <MasterDetailPage.Detail>
-    <NavigationPage>
-      <x:Arguments>
-        <pages:CustomerListScreen />
-      </x:Arguments>
-    </NavigationPage>
-  </MasterDetailPage.Detail>
+<MasterDetailPage
+    x:Class="CompliXpertApp.Views.CompliXpertAppMasterDetailPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:CompliXpertApp.Views"
+    NavigationPage.HasBackButton="False"
+    NavigationPage.HasNavigationBar="False">
+    <MasterDetailPage.Master>
+        <pages:CompliXpertAppMasterDetailPageMaster x:Name="MasterPage" />
+    </MasterDetailPage.Master>
+    <MasterDetailPage.Detail>
+        <NavigationPage>
+            <x:Arguments>
+                <pages:CustomerListScreen />
+            </x:Arguments>
+        </NavigationPage>
+    </MasterDetailPage.Detail>
 </MasterDetailPage>

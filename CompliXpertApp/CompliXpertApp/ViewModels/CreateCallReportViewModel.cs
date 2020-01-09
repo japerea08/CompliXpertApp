@@ -18,7 +18,6 @@ namespace CompliXpertApp.ViewModels
         private bool customerVisitSelected = false;
         private Account _account;
         private string _customerName;
-        private List<CallReportType> _types;
         private List<CallReportQuestions> _callReportQuestions;
         private List<QuestionandResponse> _questionsandResponse = new List<QuestionandResponse>();
         private CallReportType _type;
@@ -28,17 +27,23 @@ namespace CompliXpertApp.ViewModels
         //constructor
         public CreateCallReportViewModel()
         {
-            MessagingCenter.Subscribe<SelectAccountforCallReportViewModel, Account>(this, Message.AccountLoaded, async (sender, account) => 
+            MessagingCenter.Subscribe<SelectAccountforCallReportViewModel, Account>(this, Message.AccountLoaded,  (sender, account) => 
             {
                 Account = account;
-                await InitializeCreateCallReportScreenAsync();
+                InitializeCreateCallReportScreenAsync();
 
             });
 
-            MessagingCenter.Subscribe<AccountMasterViewModel, Account>(this, Message.CustomerLoaded, async (sender, account)=> 
+            MessagingCenter.Subscribe<SelectAccountforCallReportViewModel, CallReportType>(this, Message.CallReportTypeLoaded, (sender, callreporttype) => 
+            {
+                Type = callreporttype;
+                InitializeCallReportQuestions();
+            });
+
+            MessagingCenter.Subscribe<AccountMasterViewModel, Account>(this, Message.CustomerLoaded,  (sender, account)=> 
             {
                 Account = account;
-                await InitializeCreateCallReportScreenAsync();
+                InitializeCreateCallReportScreenAsync();
             });
             SaveCallReportCommand = new Command(async () => await SaveNewCallReportAsync(), () => canSave);
 
@@ -55,19 +60,45 @@ namespace CompliXpertApp.ViewModels
             
         }
 
-
-        private async Task InitializeCreateCallReportScreenAsync()
+        private void InitializeCallReportQuestions()
         {
-            using (var context = new CompliXperAppContext())
+            using (CompliXperAppContext context = new CompliXperAppContext())
+            {
+                Questions = (
+                            from q in context.CallReportQuestions
+                            where q.Type == Type.Type
+                            select new CallReportQuestions
+                            {
+                                QuestionId = q.QuestionId,
+                                QuestionHeader = q.QuestionHeader,
+                                Status = q.Status,
+                                Type = q.Type
+                            }
+                        ).ToList();
+
+                //add to qr
+
+                List<QuestionandResponse> ques = new List<QuestionandResponse>();
+                foreach (CallReportQuestions question in Questions)
+                {
+                    QuestionandResponse qr = new QuestionandResponse();
+                    qr.QuestionHeader = question.QuestionHeader;
+                    qr.QuestionId = question.QuestionId;
+                    qr.Response = "";
+                    ques.Add(qr);
+                }
+                QR = ques;
+            }
+        }
+        private async void InitializeCreateCallReportScreenAsync()
+        {
+            using (CompliXperAppContext context = new CompliXperAppContext())
             {
                 CustomerName = (
                     from c in context.Customer
                     where c.CustomerNumber == Account.CustomerNumber
                     select c.CustomerName
                 ).FirstOrDefault();
-
-                //get all the types
-                Types = await context.CallReportType.ToListAsync();
             }
         }
         #region Properties
@@ -86,18 +117,6 @@ namespace CompliXpertApp.ViewModels
             set
             {
                 _height = value;
-                OnPropertyChanged();
-            }
-        }
-        public List<CallReportType> Types
-        {
-            get
-            {
-                return _types;
-            }
-            set
-            {
-                _types = value;
                 OnPropertyChanged();
             }
         }
@@ -176,6 +195,7 @@ namespace CompliXpertApp.ViewModels
                         QR = ques;
                     }
                 }
+                OnPropertyChanged();
             }
         }
         public List<QuestionandResponse> QR
