@@ -3,106 +3,189 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CompliXpertApp.Views.CustomerMaster">
     <ContentPage.Content>
-
         <StackLayout>
-            <Label Text="Customer Name"
+            <Label Text="Customer"
+                   FontAttributes="Bold"
                    FontSize="Large"
-                   TextColor="#305d82"
-                   Margin="20,0,0,0"/>
+                   HorizontalTextAlignment="Center"
+                   Margin="0,0,0,20"/>
+            <ListView ItemsSource="{Binding Customer.Account}"
+                      SelectedItem="{Binding AccountSelected, Mode=TwoWay}"
+                      SeparatorColor="#ffffff"
+                      HasUnevenRows="True">
+                <ListView.Header>
+                    <Grid Margin="15,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Text="Customer Name:"
+                               FontAttributes="Bold"
+                               FontSize="Medium"
+                               Grid.Row="0"
+                               Grid.Column="0"
+                               HorizontalTextAlignment="Start"
+                               Margin="0,0,0,20"/>
+                        <Label Text="{Binding Customer.CustomerName}"
+                               FontSize="Medium"
+                               Grid.Row="0"
+                               Grid.Column="1"
+                               HorizontalTextAlignment="Start"
+                               Margin="0,0,0,20"/>
+                        <Label Text="Customer Number:"
+                               FontAttributes="Bold"
+                               FontSize="Medium"
+                               Grid.Row="1"
+                               Grid.Column="0"
+                               HorizontalTextAlignment="Start"
+                               Margin="0,0,0,20"/>
+                        <Label Text="{Binding Customer.CustomerNumber}"
+                               FontSize="Medium"
+                               Grid.Row="1"
+                               Grid.Column="1"
+                               HorizontalTextAlignment="Start"
+                               Margin="0,0,0,15"/>
+                        <Label Text="Customer Id:"
+                               FontAttributes="Bold"
+                               FontSize="Medium"
+                               Grid.Row="2"
+                               Grid.Column="0"
+                               HorizontalTextAlignment="Start"
+                               Margin="0,0,0,20"/>
+                        <Label Text="{Binding Customer.CustomerId}"
+                               FontSize="Medium"
+                               Grid.Row="2"
+                               Grid.Column="1"
+                               HorizontalTextAlignment="Start"
+                               Margin="0,0,0,20"/>
+                        <Label Text="Legal Type:"
+                               FontAttributes="Bold"
+                               FontSize="Medium"
+                               Grid.Row="3"
+                               Grid.Column="0"
+                               HorizontalTextAlignment="Start"
+                               Margin="0,0,0,20"/>
+                        <Label Text="{Binding Customer.LegalType}"
+                               FontSize="Medium"
+                               Grid.Row="3"
+                               Grid.Column="1"
+                               HorizontalTextAlignment="Start"
+                               Margin="0,0,0,20"/>
+                        <Label Text="Accounts"
+                               FontAttributes="Bold"
+                               FontSize="Medium"
+                               HorizontalTextAlignment="Center"
+                               Grid.Row="4"
+                               Grid.ColumnSpan="2"/>
+                    </Grid>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid BackgroundColor="#eff4f9">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Label Text="{Binding AccountClass.Description}"
+                                               FontSize="Medium"
+                                               Grid.Row="0"
+                                               Grid.Column="0"
+                                       TextColor="{StaticResource DarkBlueLabelColor}"
+                                       Margin="15,0,0,0"/>
+                                <Label Text="{Binding AccountNumber}"
+                                               FontSize="Small"
+                                                Grid.Column="0"
+                                                Grid.Row="1"
+                                       Margin="15,0,0,0"/>
+                                <Image
+                                                Grid.RowSpan="2"
+                                                Grid.Column="2"
+                                                Margin="5,0"
+                                                HorizontalOptions="End"
+                                                Opacity="0.5"
+                                                Source="three_dot.png" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <!--<Label Text="Customer Name"
+                   FontSize="Medium"
+                   FontAttributes="Bold"/>
             <Label Text="{Binding Customer.CustomerName}"
-                       FontSize="Medium"
-                       TextDecorations="Underline"
-                   Margin="20,0,0,0"/>
+                       FontSize="Medium"/>
             <Label Text="Customer Number"
-                       FontSize="Large"
-                       TextColor="#305d82"
-                   Margin="20,0,0,0"/>
+                       FontSize="Medium"
+                   FontAttributes="Bold"/>
             <Label Text="{Binding Customer.CustomerNumber}"
-                       TextDecorations="Underline"
-                       FontSize="Medium"
-                   Margin="20,0,0,0"/>
+                       FontSize="Medium"/>
             <Label Text="Customer ID"
-                       FontSize="Large"
-                       TextColor="#305d82"
-                   Margin="20,0,0,0"/>
-            <Label Text="{Binding Customer.CustomerId}"
-                    TextDecorations="Underline"
-                    FontSize="Medium"
-                   Margin="20,0,0,0"/>
-            <Label Text="Legal Type"
-                       FontSize="Large"
-                       TextColor="#305d82"
-                   Margin="20,0,0,0"/>
-            <Label Text="{Binding Customer.LegalType}"
-                       TextDecorations="Underline"
                        FontSize="Medium"
-                   Margin="20,0,0,0"/>
-            <Frame Margin="5,0">
+                   FontAttributes="Bold"/>
+            <Label Text="{Binding Customer.CustomerId}"
+                       FontSize="Medium"/>
+            <Label Text="Legal Type"
+                       FontSize="Medium"
+                   FontAttributes="Bold"/>
+            <Label Text="{Binding Customer.LegalType}"
+                       FontSize="Medium"/>
+            <Frame BackgroundColor="#eff4f9"
+                       HorizontalOptions="FillAndExpand">
                 <ListView ItemsSource="{Binding Customer.Account}"
                           SelectedItem="{Binding AccountSelected, Mode=TwoWay}"
                           SeparatorColor="#000000">
                     <ListView.Header>
-                        <Grid BackgroundColor="#428bca">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Text="Accounts"
-                                   Grid.ColumnSpan="3"
+                        <Label Text="Accounts"
+                                   FontAttributes="Bold"
+                                   FontSize="Large"
                                    HorizontalTextAlignment="Center"
-                                   Grid.Row="0"
-                                   FontSize="Medium"
-                                   TextColor="#ffffff"/>
-                            <Label Text="Account Number"
-                               TextColor="#ffffff"
-                                   Margin="1,0"
-                               Grid.Column="0"
-                               Grid.Row="1"/>
-                            <Label Text="Account Type"
-                               TextColor="#ffffff"
-                                   Margin="1,0"
-                               Grid.Column="1"
-                               Grid.Row="1"/>
-                            <Label Text="Account Class"
-                              TextColor="#ffffff"
-                                   Margin="1,0"
-                               Grid.Column="2"
-                               Grid.Row="1"/>
-                        </Grid>
+                                   Margin="0,5"/>
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
-                                    <Label Text="{Binding AccountNumber}"
-                                   Grid.Column="0"
-                                   Grid.Row="1"
-                                       HorizontalTextAlignment="Center"/>
-                                    <Label Text="{Binding AccountType}"
-                                   Grid.Column="1"
-                                   Grid.Row="1"
-                                       HorizontalTextAlignment="Center"/>
                                     <Label Text="{Binding AccountClass.Description}"
-                                   Grid.Column="2"
-                                   Grid.Row="1"
-                                       HorizontalTextAlignment="Center"/>
+                                               FontSize="Medium"
+                                               Grid.Row="0"
+                                               Grid.Column="0"/>
+                                    <Label Text="{Binding AccountNumber}"
+                                               FontSize="Medium"
+                                                Grid.Column="0"
+                                                Grid.Row="1"/>
+                                    <Image
+                                                Grid.RowSpan="2"
+                                                Grid.Column="2"
+                                                Margin="5,0"
+                                                HorizontalOptions="Center"
+                                                Opacity="0.5"
+                                                Source="three_dot.png" />
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-            </Frame>
-            <ActivityIndicator IsRunning="{Binding IsBusy}"/>
+            </Frame>-->
         </StackLayout>
-
     </ContentPage.Content>
 </ContentPage>
