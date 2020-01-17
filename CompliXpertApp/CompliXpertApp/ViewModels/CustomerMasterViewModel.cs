@@ -5,6 +5,8 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System;
+using System.Collections.Generic;
 
 namespace CompliXpertApp.ViewModels
 {
@@ -14,26 +16,67 @@ namespace CompliXpertApp.ViewModels
         private readonly bool canTap = true;
         private Customer _customer;
         private bool _isBusy = false;
+        private bool _isExpanded = false;
+        private List<ObjectIndexer> objectIndexers;
 
         //constructor
         public CustomerMasterViewModel()
         {
+            ExpandMenuCommand = new Command(ExpandMenu);
             //message from the prospect list screen
             MessagingCenter.Subscribe<ProspectListScreenViewModel, Customer>(this, Message.CustomerLoaded, (sender, args) =>
             {
                 Customer = args;
+
+                IndexedAccount = new List<ObjectIndexer>();
+                int i = 0;
+                //initialize the indexed list
+                foreach (Account account in Customer.Account)
+                {
+                    IndexedAccount.Add(new ObjectIndexer()
+                    {
+                        Object = account,
+                        Index = i
+                    });
+                    i++;
+                }
             });
             //this message is for the incoming
             MessagingCenter.Subscribe<CustomerListScreenViewModel, Customer>(this, Message.CustomerLoaded, (sender, args) =>
             {
                 Customer = args;
+
+                //dummy list
+                List<ObjectIndexer> dummyindexer = new List<ObjectIndexer>();
+                int i = 0;
+                //initialize the indexed list
+                foreach (Account account in Customer.Account)
+                {
+                    dummyindexer.Add(new ObjectIndexer()
+                    {
+                        Object = account,
+                        Index = i
+                    });
+                    i++;
+                }
+                IndexedAccount = dummyindexer;
             });
             //this message is for the return
             MessagingCenter.Subscribe<CreateCallReportViewModel, Customer>(this, Message.CallReportCreated, (sender, _account) =>
             {
                 Customer = _account;
+
+                IndexedAccount = new List<ObjectIndexer>();
+                int i = 0;
                 foreach (Account account in Customer.Account)
                 {
+                    IndexedAccount.Add(new ObjectIndexer()
+                    {
+                        Object = account,
+                        Index = i
+                    });
+                    i++;
+
                     if (account.AccountClass == null)
                     {
                         using (CompliXperAppContext context = new CompliXperAppContext())
@@ -51,8 +94,40 @@ namespace CompliXpertApp.ViewModels
             });
         }
 
+        private void ExpandMenu(object s)
+        {
+            if (IsMenuExpanded == true)
+                IsMenuExpanded = false;
+            else
+                IsMenuExpanded = true;
+        }
+
         //properties
         public Account Account { get; set; }
+        public List<ObjectIndexer> IndexedAccount
+        {
+            get
+            {
+                return objectIndexers;
+            }
+            set
+            {
+                objectIndexers = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool IsMenuExpanded
+        {
+            get
+            {
+                return _isExpanded;
+            }
+            set
+            {
+                _isExpanded = value;
+                OnPropertyChanged();
+            }
+        }
         public Account AccountSelected
         {
             get
@@ -80,8 +155,8 @@ namespace CompliXpertApp.ViewModels
                 OnPropertyChanged();
             }
         }
-        public ICommand ViewCallReportsCommand { get; private set; }
-        public ICommand GoToCreateCallReportCommand { get; private set; }
+        public ICommand ExpandMenuCommand { get; set; }
+
         public Customer Customer
         {
             get
@@ -94,6 +169,7 @@ namespace CompliXpertApp.ViewModels
                 OnPropertyChanged();
             }
         }
+
         //methods
         async void GetAccountMaster(Account account)
         {
