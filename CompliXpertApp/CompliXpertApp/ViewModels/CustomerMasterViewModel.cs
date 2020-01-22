@@ -16,12 +16,16 @@ namespace CompliXpertApp.ViewModels
         private readonly bool canTap = true;
         private Customer _customer;
         private bool _isBusy = false;
-        private bool _isExpanded = false;
+        private bool _isExpanded;
         private List<ObjectIndexer> objectIndexers;
-
+        private ObjectIndexer oiAccountSelected;
+        //private flag to see if the menu is expanded
+        private bool isExpanded;
         //constructor
         public CustomerMasterViewModel()
         {
+            isExpanded = false;
+            //IsMenuExpanded = false;
             ExpandMenuCommand = new Command(ExpandMenu);
             //message from the prospect list screen
             MessagingCenter.Subscribe<ProspectListScreenViewModel, Customer>(this, Message.CustomerLoaded, (sender, args) =>
@@ -36,7 +40,8 @@ namespace CompliXpertApp.ViewModels
                     IndexedAccount.Add(new ObjectIndexer()
                     {
                         Object = account,
-                        Index = i
+                        Index = i,
+                        IsVisible = true
                     });
                     i++;
                 }
@@ -55,7 +60,8 @@ namespace CompliXpertApp.ViewModels
                     dummyindexer.Add(new ObjectIndexer()
                     {
                         Object = account,
-                        Index = i
+                        Index = i,
+                        IsVisible = true
                     });
                     i++;
                 }
@@ -73,7 +79,8 @@ namespace CompliXpertApp.ViewModels
                     IndexedAccount.Add(new ObjectIndexer()
                     {
                         Object = account,
-                        Index = i
+                        Index = i,
+                        IsVisible = true
                     });
                     i++;
 
@@ -94,12 +101,24 @@ namespace CompliXpertApp.ViewModels
             });
         }
 
-        private void ExpandMenu(object s)
+        //will take the number of index as a parameter
+        private void ExpandMenu(object index)
         {
-            if (IsMenuExpanded == true)
-                IsMenuExpanded = false;
+            ObjectIndexer o = (ObjectIndexer) index;
+            //dummy list
+            List<ObjectIndexer> dummy = new List<ObjectIndexer>();
+            foreach (ObjectIndexer oz in objectIndexers)
+            {
+                dummy.Add(oz);
+            }
+            //check to see if menu is exanded
+            if (objectIndexers[(int)o.Index].IsVisible == true)
+                dummy[(int) o.Index].IsVisible = false;
             else
-                IsMenuExpanded = true;
+                dummy[(int) o.Index].IsVisible = true;
+
+
+            IndexedAccount = dummy;
         }
 
         //properties
@@ -125,6 +144,21 @@ namespace CompliXpertApp.ViewModels
             set
             {
                 _isExpanded = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObjectIndexer ObjectIndexerAccountSelected
+        {
+            get
+            {
+                return oiAccountSelected;
+            }
+            set
+            {
+                oiAccountSelected = value;
+                if (oiAccountSelected == null)
+                    return;
+                GetAccountMaster((Account)oiAccountSelected.Object);
                 OnPropertyChanged();
             }
         }

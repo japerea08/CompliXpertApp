@@ -4,6 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Name="CustomerMast">
+
     <ContentPage.Content>
         <StackLayout>
             <Label
@@ -13,9 +14,10 @@
                 HorizontalTextAlignment="Center"
                 Text="Customer" />
             <ListView
+                x:Name="ListView"
                 HasUnevenRows="True"
                 ItemsSource="{Binding IndexedAccount}"
-                SelectedItem="{Binding AccountSelected, Mode=TwoWay}"
+                SelectedItem="{Binding ObjectIndexerAccountSelected, Mode=TwoWay}"
                 SeparatorColor="#ffffff">
                 <ListView.Header>
                     <Grid Margin="15,0">
@@ -102,40 +104,107 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid BackgroundColor="#eff4f9">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Label
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    Margin="15,0,0,0"
-                                    FontSize="Medium"
-                                    Text="{Binding Object.AccountClass.Description}"
-                                    TextColor="{StaticResource DarkBlueLabelColor}" />
-                                <Label
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    Margin="15,0,0,10"
-                                    FontSize="Small"
-                                    Text="{Binding Object.AccountNumber}" />
-                                <Image
-                                    Grid.RowSpan="2"
-                                    Grid.Column="2"
-                                    Margin="15,0"
-                                    HorizontalOptions="Center"
-                                    Opacity="0.5"
-                                    Source="three_dot.png">
-                                    <Image.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.ExpandMenuCommand, Source={x:Reference CustomerMast}}" CommandParameter="{Binding Index}" />
-                                    </Image.GestureRecognizers>
-                                </Image>
-                            </Grid>
+                            <StackLayout>
+                                <!--  Grid that will show default  -->
+                                <Grid BackgroundColor="#eff4f9">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Margin="15,0,0,0"
+                                        FontSize="Medium"
+                                        Text="{Binding Object.AccountClass.Description}"
+                                        IsVisible="{Binding IsVisible}"
+                                        TextColor="{StaticResource DarkBlueLabelColor}" />
+                                    <Label
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Margin="15,0,0,10"
+                                        FontSize="Small"
+                                        Text="{Binding Object.AccountNumber}"
+                                        IsVisible="{Binding IsVisible}"/>
+                                    <Image
+                                        Grid.RowSpan="2"
+                                        Grid.Column="2"
+                                        Margin="15,0"
+                                        HorizontalOptions="Center"
+                                        Opacity="0.5"
+                                        Source="three_dot.png"
+                                        IsVisible="{Binding IsVisible}"
+                                        TabIndex="{Binding Index}">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer CommandParameter="{Binding .}" Command="{Binding Path=BindingContext.ExpandMenuCommand, Source={x:Reference CustomerMast}}"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                    <!--Image for whe tapped-->
+                                    <Image
+                                        Grid.RowSpan="2"
+                                        Grid.Column="0"
+                                        Margin="15,0"
+                                        HorizontalOptions="Center"
+                                        Opacity="0.5"
+                                        Source="three_dot.png"
+                                        IsVisible="False"
+                                        TabIndex="{Binding Index}">
+                                        <Image.Triggers>
+                                            <DataTrigger TargetType="Image"
+                                                         Binding="{Binding IsVisible}"
+                                                         Value="false">
+                                                <Setter Property="IsVisible" Value="True"/>
+                                            </DataTrigger>
+                                        </Image.Triggers>
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer CommandParameter="{Binding .}" 
+                                                                  Command="{Binding Path=BindingContext.ExpandMenuCommand, 
+                                                                  Source={x:Reference CustomerMast}}"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                    <Label
+                                        Text="Create Call Report"
+                                        IsVisible="False"
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Grid.RowSpan="2"
+                                        HorizontalTextAlignment="Start"
+                                        FontSize="Medium"
+                                        VerticalOptions="StartAndExpand"
+                                        BackgroundColor="LightGray">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label"
+                                                         Binding="{Binding IsVisible}"
+                                                         Value="false">
+                                                <Setter Property="IsVisible" Value="True"/>
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Label
+                                        Text="View Call Report"
+                                        IsVisible="False"
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        Grid.RowSpan="2"
+                                        HorizontalTextAlignment="Start"
+                                        FontSize="Medium"
+                                        VerticalOptions="StartAndExpand"
+                                        BackgroundColor="LightGray">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label"
+                                                         Binding="{Binding IsVisible}"
+                                                         Value="false">
+                                                <Setter Property="IsVisible" Value="True"/>
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                </Grid>
+                            </StackLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
