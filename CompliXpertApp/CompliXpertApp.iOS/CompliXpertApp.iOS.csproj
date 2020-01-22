@@ -204,4 +204,10 @@
   <ItemGroup>
     <BundleResource Include="Resources\three_dot.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\view_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\create_icon.png" />
+  </ItemGroup>
 </Project>

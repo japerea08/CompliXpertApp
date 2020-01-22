@@ -105,101 +105,161 @@
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout>
-                                <!--  Grid that will show default  -->
                                 <Grid BackgroundColor="#eff4f9">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="50" />
+                                        <RowDefinition Height="50" />
                                     </Grid.RowDefinitions>
+                                    <BoxView Color="LightGray"
+                                             Grid.Row="0"
+                                             Grid.RowSpan="2"
+                                             Grid.Column="1"
+                                             Grid.ColumnSpan="2"
+                                             IsVisible="False">
+                                        <BoxView.Triggers>
+                                            <DataTrigger
+                                                Binding="{Binding IsVisible}"
+                                                TargetType="BoxView"
+                                                Value="False">
+                                                <Setter Property="IsVisible" Value="True"/>
+                                            </DataTrigger>
+                                        </BoxView.Triggers>
+                                    </BoxView>
                                     <Label
                                         Grid.Row="0"
                                         Grid.Column="0"
                                         Margin="15,0,0,0"
                                         FontSize="Medium"
-                                        Text="{Binding Object.AccountClass.Description}"
                                         IsVisible="{Binding IsVisible}"
+                                        Text="{Binding Object.AccountClass.Description}"
                                         TextColor="{StaticResource DarkBlueLabelColor}" />
                                     <Label
                                         Grid.Row="1"
                                         Grid.Column="0"
                                         Margin="15,0,0,10"
                                         FontSize="Small"
-                                        Text="{Binding Object.AccountNumber}"
-                                        IsVisible="{Binding IsVisible}"/>
-                                    <Image
+                                        IsVisible="{Binding IsVisible}"
+                                        Text="{Binding Object.AccountNumber}" />
+                                    <ImageButton
+                                        Grid.RowSpan="2"
+                                        Grid.Column="2"
+                                        BorderColor="LightGray"
+                                        Margin="15,0"
+                                        HorizontalOptions="CenterAndExpand"
+                                        BackgroundColor="#eff4f9"
+                                        IsVisible="{Binding IsVisible}"
+                                        Opacity="0.5"
+                                        Source="three_dot.png"
+                                        TabIndex="{Binding Index}"
+                                        Command="{Binding Path=BindingContext.ExpandMenuCommand, Source={x:Reference CustomerMast}}"
+                                        CommandParameter="{Binding .}">
+
+                                    </ImageButton>
+                                    <!--<Image
                                         Grid.RowSpan="2"
                                         Grid.Column="2"
                                         Margin="15,0"
                                         HorizontalOptions="Center"
+                                        IsVisible="{Binding IsVisible}"
                                         Opacity="0.5"
                                         Source="three_dot.png"
-                                        IsVisible="{Binding IsVisible}"
                                         TabIndex="{Binding Index}">
                                         <Image.GestureRecognizers>
-                                            <TapGestureRecognizer CommandParameter="{Binding .}" Command="{Binding Path=BindingContext.ExpandMenuCommand, Source={x:Reference CustomerMast}}"/>
+                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.ExpandMenuCommand, Source={x:Reference CustomerMast}}" CommandParameter="{Binding .}" />
                                         </Image.GestureRecognizers>
-                                    </Image>
-                                    <!--Image for whe tapped-->
-                                    <Image
+                                    </Image>-->
+                                    <!--Image for when tapped-->
+                                    
+                                    <ImageButton
                                         Grid.RowSpan="2"
+                                        BackgroundColor="#eff4f9"
                                         Grid.Column="0"
                                         Margin="15,0"
-                                        HorizontalOptions="Center"
+                                        HorizontalOptions="CenterAndExpand"
+                                        IsVisible="False"
                                         Opacity="0.5"
                                         Source="three_dot.png"
-                                        IsVisible="False"
-                                        TabIndex="{Binding Index}">
+                                        Command="{Binding Path=BindingContext.ExpandMenuCommand, Source={x:Reference CustomerMast}}"
+                                        CommandParameter="{Binding .}">
+                                        <ImageButton.Triggers>
+                                            <DataTrigger
+                                                Binding="{Binding IsVisible}"
+                                                TargetType="ImageButton"
+                                                Value="false">
+                                                <Setter Property="IsVisible" Value="True" />
+                                            </DataTrigger>
+                                        </ImageButton.Triggers>
+                                    </ImageButton>
+                                    <Image Grid.Column="1"
+                                           Grid.Row="0"
+                                           HorizontalOptions="Center"
+                                           IsVisible="False"
+                                           Source="create_icon.png"
+                                           BackgroundColor="LightGray">
                                         <Image.Triggers>
-                                            <DataTrigger TargetType="Image"
-                                                         Binding="{Binding IsVisible}"
-                                                         Value="false">
-                                                <Setter Property="IsVisible" Value="True"/>
+                                            <DataTrigger
+                                                Binding="{Binding IsVisible}"
+                                                TargetType="Image"
+                                                Value="false">
+                                                <Setter Property="IsVisible" Value="True" />
                                             </DataTrigger>
                                         </Image.Triggers>
-                                        <Image.GestureRecognizers>
-                                            <TapGestureRecognizer CommandParameter="{Binding .}" 
-                                                                  Command="{Binding Path=BindingContext.ExpandMenuCommand, 
-                                                                  Source={x:Reference CustomerMast}}"/>
-                                        </Image.GestureRecognizers>
+                                    </Image>
+                                    <Image Grid.Column="2"
+                                           Grid.Row="0"
+                                           HorizontalOptions="Center"
+                                           IsVisible="False"
+                                           Source="view_icon.png"
+                                           BackgroundColor="LightGray">
+                                        <Image.Triggers>
+                                            <DataTrigger
+                                                Binding="{Binding IsVisible}"
+                                                TargetType="Image"
+                                                Value="false">
+                                                <Setter Property="IsVisible" Value="True" />
+                                            </DataTrigger>
+                                        </Image.Triggers>
                                     </Image>
                                     <Label
-                                        Text="Create Call Report"
-                                        IsVisible="False"
-                                        Grid.Row="0"
-                                        Grid.Column="1"
+                                        Grid.Row="1"
                                         Grid.RowSpan="2"
-                                        HorizontalTextAlignment="Start"
+                                        Grid.Column="1"
+                                        BackgroundColor="LightGray"
                                         FontSize="Medium"
-                                        VerticalOptions="StartAndExpand"
-                                        BackgroundColor="LightGray">
+                                        HorizontalTextAlignment="Start"
+                                        IsVisible="False"
+                                        Text="Create Call Report"
+                                        VerticalOptions="StartAndExpand">
                                         <Label.Triggers>
-                                            <DataTrigger TargetType="Label"
-                                                         Binding="{Binding IsVisible}"
-                                                         Value="false">
-                                                <Setter Property="IsVisible" Value="True"/>
+                                            <DataTrigger
+                                                Binding="{Binding IsVisible}"
+                                                TargetType="Label"
+                                                Value="false">
+                                                <Setter Property="IsVisible" Value="True" />
                                             </DataTrigger>
                                         </Label.Triggers>
                                     </Label>
                                     <Label
-                                        Text="View Call Report"
-                                        IsVisible="False"
-                                        Grid.Row="0"
-                                        Grid.Column="2"
+                                        Grid.Row="1"
                                         Grid.RowSpan="2"
-                                        HorizontalTextAlignment="Start"
+                                        Grid.Column="2"
+                                        BackgroundColor="LightGray"
                                         FontSize="Medium"
-                                        VerticalOptions="StartAndExpand"
-                                        BackgroundColor="LightGray">
+                                        HorizontalTextAlignment="Start"
+                                        IsVisible="False"
+                                        Text="View Call Report"
+                                        VerticalOptions="StartAndExpand">
                                         <Label.Triggers>
-                                            <DataTrigger TargetType="Label"
-                                                         Binding="{Binding IsVisible}"
-                                                         Value="false">
-                                                <Setter Property="IsVisible" Value="True"/>
+                                            <DataTrigger
+                                                Binding="{Binding IsVisible}"
+                                                TargetType="Label"
+                                                Value="false">
+                                                <Setter Property="IsVisible" Value="True" />
                                             </DataTrigger>
                                         </Label.Triggers>
                                     </Label>

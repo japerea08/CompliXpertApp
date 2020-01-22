@@ -19,12 +19,10 @@ namespace CompliXpertApp.ViewModels
         private bool _isExpanded;
         private List<ObjectIndexer> objectIndexers;
         private ObjectIndexer oiAccountSelected;
-        //private flag to see if the menu is expanded
-        private bool isExpanded;
+
         //constructor
         public CustomerMasterViewModel()
         {
-            isExpanded = false;
             //IsMenuExpanded = false;
             ExpandMenuCommand = new Command(ExpandMenu);
             //message from the prospect list screen
