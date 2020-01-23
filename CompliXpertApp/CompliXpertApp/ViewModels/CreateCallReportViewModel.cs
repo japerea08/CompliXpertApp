@@ -39,8 +39,19 @@ namespace CompliXpertApp.ViewModels
                 Type = callreporttype;
                 InitializeCallReportQuestions();
             });
+            MessagingCenter.Subscribe<SelectTypeOfCallReportViewModel, Account>(this, Message.AccountLoaded, (sender, account) =>
+            {
+                Account = account;
+                InitializeCreateCallReportScreenAsync();
 
-            MessagingCenter.Subscribe<AccountMasterViewModel, Account>(this, Message.CustomerLoaded,  (sender, account)=> 
+            });
+
+            MessagingCenter.Subscribe<SelectTypeOfCallReportViewModel, CallReportType>(this, Message.CallReportTypeLoaded, (sender, callreporttype) =>
+            {
+                Type = callreporttype;
+                InitializeCallReportQuestions();
+            });
+            MessagingCenter.Subscribe<CustomerMasterViewModel, Account>(this, Message.AccountLoaded,  (sender, account)=> 
             {
                 Account = account;
                 InitializeCreateCallReportScreenAsync();

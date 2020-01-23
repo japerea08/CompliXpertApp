@@ -102,7 +102,7 @@ namespace CompliXpertApp.ViewModels
             ((Command) CreateCallReportCommand).ChangeCanExecute();
         }
         //will check to see if an account is selected and a call report type
-        private async Task CreateCallReportAsync()
+        virtual public async Task CreateCallReportAsync()
         {
             if(SelectedAccount != null && CallReportTypeSelected != null)
             {

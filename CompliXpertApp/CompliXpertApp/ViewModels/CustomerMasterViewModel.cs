@@ -23,8 +23,9 @@ namespace CompliXpertApp.ViewModels
         //constructor
         public CustomerMasterViewModel()
         {
-            //IsMenuExpanded = false;
             ExpandMenuCommand = new Command(ExpandMenu);
+            CallCreateCallReportCommand = new Command(CallCreateCallReportScreenAsync);
+            CallViewCallReportsCommand = new Command(CallViewCallReportsScreenAsync);
             //message from the prospect list screen
             MessagingCenter.Subscribe<ProspectListScreenViewModel, Customer>(this, Message.CustomerLoaded, (sender, args) =>
             {
@@ -98,7 +99,21 @@ namespace CompliXpertApp.ViewModels
                 }
             });
         }
+        //goes to the create call report screen
+        private async void CallCreateCallReportScreenAsync(object indexer)
+        {
+            await App.Current.MainPage.Navigation.PushAsync(new SelectTypeOfCallReport());
+            MessagingCenter.Send<CustomerMasterViewModel, Account>(this, Message.AccountLoaded, (Account) ((ObjectIndexer) indexer).Object);
+        }
+        //goes to the account's call report list, which is expecting an account number 
+        private async void CallViewCallReportsScreenAsync(object indexer)
+        {
+            Account account = (Account) ((ObjectIndexer) indexer).Object;
 
+            await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage() { Detail = new NavigationPage(new CallReportsList())});
+            IsBusy = false;
+            MessagingCenter.Send<CustomerMasterViewModel, int>(this, Message.AccountNumber, account.AccountNumber);
+        }
         //will take the number of index as a parameter
         private void ExpandMenu(object index)
         {
@@ -130,18 +145,6 @@ namespace CompliXpertApp.ViewModels
             set
             {
                 objectIndexers = value;
-                OnPropertyChanged();
-            }
-        }
-        public bool IsMenuExpanded
-        {
-            get
-            {
-                return _isExpanded;
-            }
-            set
-            {
-                _isExpanded = value;
                 OnPropertyChanged();
             }
         }
@@ -188,7 +191,8 @@ namespace CompliXpertApp.ViewModels
             }
         }
         public ICommand ExpandMenuCommand { get; set; }
-
+        public ICommand CallCreateCallReportCommand { get; set; }
+        public ICommand CallViewCallReportsCommand { get; set; }
         public Customer Customer
         {
             get
