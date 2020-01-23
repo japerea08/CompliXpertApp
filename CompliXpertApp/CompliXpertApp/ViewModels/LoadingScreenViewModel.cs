@@ -42,7 +42,7 @@ namespace CompliXpertApp.ViewModels
                 if(context.Customer.Any() == true)
                 {
                     await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage());
-                    //App.Current.MainPage = new NavigationPage(new CompliXpertAppMasterDetailPage());
+                    App.Current.MainPage = new NavigationPage(new CompliXpertAppMasterDetailPage());
                     IsBusy = false;
                 }
                 else
@@ -53,7 +53,7 @@ namespace CompliXpertApp.ViewModels
                     {
                         //the Customer List screen is set as the root page.
                         await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage());
-                        //App.Current.MainPage = new NavigationPage(new CompliXpertAppMasterDetailPage());
+                        App.Current.MainPage = new NavigationPage(new CompliXpertAppMasterDetailPage());
                         IsBusy = false;
                     }
                     
