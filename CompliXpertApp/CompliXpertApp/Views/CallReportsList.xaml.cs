@@ -31,5 +31,18 @@ namespace CompliXpertApp.Views
                 BindingContext = new CallReportListViewModel();
             }            
         }
+        protected override bool OnBackButtonPressed()
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                if (await App.Current.MainPage.DisplayAlert("Sign Off", "Are you sure you want to sign off?", "Yes", "No"))
+                {
+                    await App.Current.MainPage.Navigation.PopToRootAsync();
+                }
+
+            });
+            return true;
+
+        }
     }
 }

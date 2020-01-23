@@ -31,22 +31,15 @@ namespace CompliXpertApp.Views
         //method only works for Android Hard Key
         protected override bool OnBackButtonPressed()
         {
-            //check to see if data has been entered
-            if (addProspectScreenViewModel.CustomerNameEntered == false)
+            Device.BeginInvokeOnMainThread(async () =>
             {
-                return base.OnBackButtonPressed();
-            }
-            else
-            {
-                Device.BeginInvokeOnMainThread(async () =>
+                if (await App.Current.MainPage.DisplayAlert("Are you sure you want to Sign Off?", "All unsaved information will be lost.", "Yes", "Cancel"))
                 {
-                    if (await App.Current.MainPage.DisplayAlert("Are you sure you want to go back?", "All unsaved information will be lost.", "Yes", "Cancel"))
-                    {
-                        await this.Navigation.PopAsync();
-                    }
-                });
-                return true;
-            }
+                    await App.Current.MainPage.Navigation.PopToRootAsync();
+                }
+            });
+            return true;
+            
         }
     }
 }

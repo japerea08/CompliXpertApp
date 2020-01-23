@@ -102,7 +102,7 @@ namespace CompliXpertApp.ViewModels
         //goes to the create call report screen
         private async void CallCreateCallReportScreenAsync(object indexer)
         {
-            await App.Current.MainPage.Navigation.PushAsync(new SelectTypeOfCallReport());
+            await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage() { Detail = new NavigationPage(new SelectTypeOfCallReport())});
             MessagingCenter.Send<CustomerMasterViewModel, Account>(this, Message.AccountLoaded, (Account) ((ObjectIndexer) indexer).Object);
         }
         //goes to the account's call report list, which is expecting an account number 

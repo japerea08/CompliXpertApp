@@ -57,22 +57,16 @@ namespace CompliXpertApp.Views
         //only for Android hard button back; returns false to implement the back action and returns true to cancel the back action
         protected override bool OnBackButtonPressed()
         {
-            //check to see if data is saved
-            if (createCallReportViewModel.ReasonSelected == false)
+            Device.BeginInvokeOnMainThread(async () =>
             {
-                return base.OnBackButtonPressed();
-            }
-            else
-            {
-                Device.BeginInvokeOnMainThread(async () =>
+                if (await App.Current.MainPage.DisplayAlert("Sign Off", "Are you sure you want to sign off?", "Yes", "No"))
                 {
-                    if (await App.Current.MainPage.DisplayAlert("Are you sure you want to go back?", "All unsaved information will be lost.", "Yes", "Cancel"))
-                    {
-                        await this.Navigation.PopAsync();
-                    }
-                });
-                return true;
-            }     
+                    await App.Current.MainPage.Navigation.PopToRootAsync();
+                }
+
+            });
+            return true;
+
         }
     }
 }
