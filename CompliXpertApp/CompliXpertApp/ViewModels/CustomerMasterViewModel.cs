@@ -148,36 +148,6 @@ namespace CompliXpertApp.ViewModels
                 OnPropertyChanged();
             }
         }
-        public ObjectIndexer ObjectIndexerAccountSelected
-        {
-            get
-            {
-                return oiAccountSelected;
-            }
-            set
-            {
-                oiAccountSelected = value;
-                if (oiAccountSelected == null)
-                    return;
-                GetAccountMaster((Account)oiAccountSelected.Object);
-                OnPropertyChanged();
-            }
-        }
-        public Account AccountSelected
-        {
-            get
-            {
-                return Account;
-            }
-            set
-            {
-                Account = value;
-                if (Account == null)
-                    return;
-                GetAccountMaster(Account);
-                OnPropertyChanged();
-            }
-        }
         public bool IsBusy
         {
             get
@@ -204,16 +174,6 @@ namespace CompliXpertApp.ViewModels
                 _customer = value;
                 OnPropertyChanged();
             }
-        }
-
-        //methods
-        async void GetAccountMaster(Account account)
-        {
-            AccountSelected = null;
-            IsBusy = true;
-            await App.Current.MainPage.Navigation.PushAsync(new CompliXpertAppMasterDetailPage() { Detail = new NavigationPage(new AccountMasterScreen()) });
-            IsBusy = false;
-            MessagingCenter.Send<CustomerMasterViewModel, Account>(this, Message.AccountLoaded, account);
-        }        
+        }     
     }
 }

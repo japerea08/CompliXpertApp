@@ -126,7 +126,7 @@ namespace CompliXpertApp.ViewModels
                         if (item.TargetType.FullName.Equals(typeof(LoadingScreen).FullName))
                         {
                             i = item.Id;
-                            items.RemoveRange(i + 1, customers.Count);
+                            items.RemoveRange(i + 1, callReports.Count);
                             break;
                         }
                     }
