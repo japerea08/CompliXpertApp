@@ -20,11 +20,16 @@ namespace CompliXpertApp.ViewModels
         private List<QuestionandResponse> _questionandResponses = new List<QuestionandResponse>();
         private string _callReportType;
         private int _height = 0;
+        private bool canViewPersons;
+        private bool canViewNotes;
 
 
         //constructor
         public CallReportDetailsViewModel()
         {
+            canViewPersons = false;
+            canViewNotes = false;
+
             MessagingCenter.Subscribe<CallReportListScreenViewModel, CallReport>(this, Message.CallReportLoaded, async (sender, _report) =>
             {
                 Report = _report;
@@ -40,6 +45,9 @@ namespace CompliXpertApp.ViewModels
                     Report.Notes = (from notes in context.Notes
                                     where notes.CallReportId == Report.CallReportId
                                     select notes).ToList();
+
+                    if (Report.Notes.Count != 0)
+                        CanViewNotes(true);
 
                     List < CallReportQuestions > Questions = await (
                         from _q in context.CallReportQuestions
@@ -96,6 +104,13 @@ namespace CompliXpertApp.ViewModels
                                  where r.Type == Report.CallReportType
                                  select r.Description).SingleOrDefault();
 
+                    Report.Notes = (from notes in context.Notes
+                                    where notes.CallReportId == Report.CallReportId
+                                    select notes).ToList();
+
+                    if (Report.Notes.Count != 0)
+                        CanViewNotes(true);
+
                     List<CallReportQuestions> Questions = await (
                         from _q in context.CallReportQuestions
                         where _q.Type == Report.CallReportType
@@ -150,6 +165,13 @@ namespace CompliXpertApp.ViewModels
                                   where r.Type == Report.CallReportType
                                   select r.Description).SingleOrDefault();
 
+                    Report.Notes = (from notes in context.Notes
+                                    where notes.CallReportId == Report.CallReportId
+                                    select notes).ToList();
+
+                    if (Report.Notes.Count != 0)
+                        CanViewNotes(true);
+
                     List<CallReportQuestions> Questions = await (
                         from _q in context.CallReportQuestions
                         where _q.Type == Report.CallReportType
@@ -196,11 +218,15 @@ namespace CompliXpertApp.ViewModels
             SaveCallReportCommand = new Command(async () => await SaveCallReportAsync());
             DeleteCallReportCommand = new Command(async () => await DeleteCallReportAsync());
             CloseCallReportCommand = new Command(async () => await CloseCallReportAsync());
+            ViewPersonsCommand = new Command(async () => await ViewPersonsAsync(), () => canViewPersons);
+            ViewNotesCommand = new Command(async () => await ViewNotesAsync(), () => canViewNotes);
         }
         #region Properties
         public ICommand SaveCallReportCommand { get; set; }
         public ICommand DeleteCallReportCommand { get; set; }
         public ICommand CloseCallReportCommand { get; set; }
+        public ICommand ViewPersonsCommand { get; set; }
+        public ICommand ViewNotesCommand { get; set; }
         public int Height
         {
             get
@@ -276,6 +302,26 @@ namespace CompliXpertApp.ViewModels
         }
         #endregion
         #region Methods
+        void CanViewPersons(bool value)
+        {
+            canViewPersons = value;
+            if(canViewPersons == true)
+                ((Command) ViewPersonsCommand).ChangeCanExecute();
+        }
+        void CanViewNotes(bool value)
+        {
+            canViewNotes = value;
+            if (canViewNotes == true)
+                ((Command) ViewNotesCommand).ChangeCanExecute();
+        }
+        async Task ViewPersonsAsync()
+        {
+            //will call the modal to see all person associated wth the Call Report
+        }
+        async Task ViewNotesAsync()
+        {
+            //will call the modal to view all the notes associated with call report
+        }
         //really an update call report
         public async Task SaveCallReportAsync()
         {

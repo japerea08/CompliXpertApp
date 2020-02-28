@@ -40,22 +40,21 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Label Text="Notes"
+                            <Button Text="Notes"
+                                    BackgroundColor="#eff4f9"
+                                    FontSize="Medium"
+                                    TextColor="#305d82"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    HorizontalOptions="FillAndExpand"
+                                    Command="{Binding ViewNotesCommand}"/>
+                            <Button Text="Persons"
                                    BackgroundColor="#eff4f9"
                                    TextColor="#305d82"
-                                   FontSize="Large"
-                                   Grid.Row="0"
-                                   Grid.Column="0"
-                                   HorizontalTextAlignment="Center"
-                                   VerticalTextAlignment="Center"/>
-                            <Label Text="Persons"
-                                   BackgroundColor="#eff4f9"
-                                   TextColor="#305d82"
-                                   FontSize="Large"
+                                   FontSize="Medium"
                                    Grid.Row="0"
                                    Grid.Column="1"
-                                   HorizontalTextAlignment="Center"
-                                   VerticalTextAlignment="Center"/>
+                                    Command="{Binding ViewPersonsCommand}"/>
                         </Grid>
                         <StackLayout Margin="15,0">
                             <Label Text="Call Report Details"
@@ -172,22 +171,21 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Label Text="Notes"
+                            <Button Text="Notes"
+                                    BackgroundColor="#eff4f9"
+                                    FontSize="Medium"
+                                    TextColor="#305d82"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    HorizontalOptions="FillAndExpand"
+                                    Command="{Binding ViewNotesCommand}"/>
+                            <Button Text="Persons"
                                    BackgroundColor="#eff4f9"
                                    TextColor="#305d82"
-                                   FontSize="Large"
-                                   Grid.Row="0"
-                                   Grid.Column="0"
-                                   HorizontalTextAlignment="Center"
-                                   VerticalTextAlignment="Center"/>
-                            <Label Text="Persons"
-                                   BackgroundColor="#eff4f9"
-                                   TextColor="#305d82"
-                                   FontSize="Large"
+                                   FontSize="Medium"
                                    Grid.Row="0"
                                    Grid.Column="1"
-                                   HorizontalTextAlignment="Center"
-                                   VerticalTextAlignment="Center"/>
+                                    Command="{Binding ViewPersonsCommand}"/>
                         </Grid>
                         <StackLayout Margin="15,0">
                             <Label Text="Call Report Details"

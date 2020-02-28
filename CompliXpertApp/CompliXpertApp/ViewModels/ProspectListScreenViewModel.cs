@@ -17,7 +17,8 @@ namespace CompliXpertApp.ViewModels
 
         public ProspectListScreenViewModel()
         {
-            _prospectSelected = new Customer();
+            //_prospectSelected = new Customer();
+            _prospectList = new List<Customer>();
         }
 
         public Customer ProspectSelected

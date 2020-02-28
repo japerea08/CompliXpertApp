@@ -256,7 +256,9 @@ namespace CompliXpertApp.ViewModels
         void CanSave(bool value)
         {
             canSave = value;
-            ((Command) SaveCallReportCommand).ChangeCanExecute();
+
+            if(canSave == true)
+                ((Command) SaveCallReportCommand).ChangeCanExecute();
         }
 
         async Task AddNoteAsync()
