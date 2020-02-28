@@ -161,9 +161,6 @@
     <AndroidResource Include="Resources\drawable\compli_logo_xsmall.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\white_home.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\lightgradient.png" />
   </ItemGroup>
   <ItemGroup>

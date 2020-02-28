@@ -11,7 +11,7 @@
                   HorizontalOptions="FillAndExpand">
             <ListView.Footer>
                 <StackLayout HorizontalOptions="FillAndExpand"
-                             BackgroundColor="#a1a1a1">
+                             BackgroundColor="#305d82">
                     <Label Text="Sign Out"
                            TextColor="White"
                            FontSize="Medium"
@@ -27,7 +27,6 @@
                             <Label Text="{Binding Title}"
                                TextColor="White"
                                FontSize="Medium"
-                               HorizontalTextAlignment="End"
                                Margin="25,15"
                                    HorizontalOptions="End"/>
                             <Image Source="{Binding ImageSource}"
