@@ -10,7 +10,8 @@
                    FontSize="Large"/>
             <ListView ItemsSource="{Binding Notes}"
                       HasUnevenRows="True"
-                      SeparatorColor="#ffffff">
+                      SeparatorColor="#ffffff"
+                      SelectedItem="{Binding SelectedNote, Mode=TwoWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -57,7 +58,7 @@
                                 <Label
                                     Grid.Row="0"
                                     Grid.Column="1"
-                                    Margin="10,2,0,0"
+                                    Margin="10,2,10,0"
                                     FontSize="Small"
                                     Text="{Binding Date}"
                                     HorizontalTextAlignment="End"
@@ -65,7 +66,7 @@
                                 <Label
                                     Grid.Row="1"
                                     Grid.Column="1"
-                                    Margin="10,0,0,2"
+                                    Margin="10,0,10,2"
                                     FontSize="Small"
                                     HorizontalTextAlignment="End"
                                     Text="{Binding Time}"
