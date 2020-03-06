@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CompliXpertApp.Views.NotesListScreen">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Notes List"
+                   HorizontalTextAlignment="Center"
+                   FontAttributes="Bold"
+                   FontSize="Large"/>
+            <ListView ItemsSource="{Binding Notes}"
+                      HasUnevenRows="True"
+                      SeparatorColor="#ffffff">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid BackgroundColor="#eff4f9">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Margin="10,2,0,0"
+                                    FontSize="Large"
+                                    Text="{Binding Subject}"
+                                    TextColor="{StaticResource DarkBlueLabelColor}" />
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="10,0,0,2"
+                                    FontSize="Small"
+                                    TextColor="#305d82">
+                                    <Label.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding CreatedonMobile}"
+                                            TargetType="Label"
+                                            Value="True">
+                                            <Setter Property="Text" Value="Created on Mobile" />
+                                            <Setter Property="TextColor" Value="Green" />
+                                        </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding CreatedonMobile}"
+                                            TargetType="Label"
+                                            Value="False">
+                                            <Setter Property="Text" Value="Downloaded from Core" />
+                                            <Setter Property="TextColor" Value="DarkGray" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Margin="10,2,0,0"
+                                    FontSize="Small"
+                                    Text="{Binding Date}"
+                                    HorizontalTextAlignment="End"
+                                    TextColor="#305d82" />
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Margin="10,0,0,2"
+                                    FontSize="Small"
+                                    HorizontalTextAlignment="End"
+                                    Text="{Binding Time}"
+                                    TextColor="#305d82" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

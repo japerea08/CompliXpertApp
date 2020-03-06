@@ -241,6 +241,7 @@ namespace MigrationsApp.Migrations
                     b.Property<int?>("CallReportId");
 
                     b.Property<bool>("CreatedonMobile");
+                    b.Property<DateTime>("CreatedDate");
 
                     b.Property<string>("Description");
 

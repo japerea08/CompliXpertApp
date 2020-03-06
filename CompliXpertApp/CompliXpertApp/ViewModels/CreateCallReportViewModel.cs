@@ -297,9 +297,6 @@ namespace CompliXpertApp.ViewModels
                     note.CallReportId = NewCallReport.CallReportId;
                 }
                 NewCallReport.Notes = Notes;
-                //Note.CallReportId = NewCallReport.CallReportId;
-                //NewCallReport.Notes = new List<Note>();
-                //NewCallReport.Notes.Add(Note);
             }
 
             NewCallReport.AccountNumber = Account.AccountNumber;

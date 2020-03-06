@@ -1,36 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CompliXpertApp.Views.CompliXpertAppMasterDetailPageMaster"
-             Title="Master">
-  <StackLayout>
-        <ListView BackgroundColor="#428bca"
-                  ItemsSource="{Binding MenuItems}"
-                  SelectedItem="{Binding MenuItem, Mode=TwoWay}"
-                  HasUnevenRows="True"
-                  HorizontalOptions="FillAndExpand">
+<ContentPage
+    x:Class="CompliXpertApp.Views.CompliXpertAppMasterDetailPageMaster"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Master">
+    <StackLayout>
+        <ListView
+            BackgroundColor="#428bca"
+            HasUnevenRows="True"
+            HorizontalOptions="FillAndExpand"
+            ItemsSource="{Binding MenuItems}"
+            SelectedItem="{Binding MenuItem, Mode=TwoWay}">
             <ListView.Footer>
-                <StackLayout HorizontalOptions="FillAndExpand"
-                             BackgroundColor="#305d82">
-                    <Label Text="Sign Out"
-                           TextColor="White"
-                           FontSize="Medium"
-                           Margin="25,15"/>
+                <StackLayout BackgroundColor="#305d82" HorizontalOptions="FillAndExpand">
+                    <Label
+                        Margin="25,15"
+                        FontSize="Medium"
+                        Text="Sign Out"
+                        TextColor="White" />
                 </StackLayout>
             </ListView.Footer>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Orientation="Horizontal"
-                                     HorizontalOptions="FillAndExpand"
-                                     BackgroundColor="{Binding Color}">
-                            <Label Text="{Binding Title}"
-                               TextColor="White"
-                               FontSize="Medium"
-                               Margin="25,15"
-                                   HorizontalOptions="End"/>
-                            <Image Source="{Binding ImageSource}"
-                                   HorizontalOptions="End"/>
+                        <StackLayout
+                            BackgroundColor="{Binding Color}"
+                            HorizontalOptions="FillAndExpand"
+                            Orientation="Horizontal">
+                            <Label
+                                Margin="25,15"
+                                FontSize="Medium"
+                                HorizontalOptions="End"
+                                Text="{Binding Title}"
+                                TextColor="White" />
+                            <Image HorizontalOptions="End" Source="{Binding ImageSource}" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

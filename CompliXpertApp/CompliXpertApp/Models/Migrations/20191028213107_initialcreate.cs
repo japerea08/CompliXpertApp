@@ -227,6 +227,7 @@ namespace MigrationsApp.Migrations
                     Subject = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     CreatedonMobile = table.Column<bool>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
                     CallReportId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>

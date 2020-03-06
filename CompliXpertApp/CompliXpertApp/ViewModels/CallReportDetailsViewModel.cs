@@ -321,6 +321,10 @@ namespace CompliXpertApp.ViewModels
         async Task ViewNotesAsync()
         {
             //will call the modal to view all the notes associated with call report
+            //send the notes
+            
+            await App.Current.MainPage.Navigation.PushModalAsync(new NotesListScreen());
+            MessagingCenter.Send<CallReportDetailsViewModel, ICollection<Note>>(this, Message.NotesLoaded, Report.Notes);
         }
         //really an update call report
         public async Task SaveCallReportAsync()

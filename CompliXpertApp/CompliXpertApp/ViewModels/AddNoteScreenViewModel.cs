@@ -63,6 +63,7 @@ namespace CompliXpertApp.ViewModels
             {
                 Subject = subject,
                 Description = description,
+                CreatedDate = DateTime.Now,
                 CreatedonMobile = true
             };
             //generate a unique NoteId
