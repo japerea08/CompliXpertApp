@@ -1,8 +1,6 @@
 ﻿using CompliXpertApp.Helpers;
 using CompliXpertApp.Models;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -16,10 +14,6 @@ namespace CompliXpertApp.ViewModels
         private string description;
         public AddNoteScreenViewModel()
         {
-            //MessagingCenter.Subscribe<CreateCallReportViewModel, CallReport>(this, Message.CallReportLoaded, async (sender, callreport) =>
-            //{
-            //    //initializ
-            //});
             SaveNoteCommand = new Command(async () => await SaveNoteAsync(), () => canSave);
         }
 

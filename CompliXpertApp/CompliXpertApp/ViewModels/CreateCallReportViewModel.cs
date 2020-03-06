@@ -23,10 +23,25 @@ namespace CompliXpertApp.ViewModels
         private CallReportType _type;
         private double _height = 0;
         private bool canSave = false;
+        public List<Note> _notes;
 
         //constructor
         public CreateCallReportViewModel()
         {
+            Notes = new List<Note>();
+            _notes = new List<Note>();
+
+            MessagingCenter.Subscribe<AddNoteScreenViewModel, Note>(this, Message.NoteCreated, (sender, note) =>
+            {
+                Notes.Add(note);
+                //toast the user
+                int amount = Notes.Count();
+                if (amount > 1)
+                    DependencyService.Get<IToast>().WriteToast($"{amount} notes were created");
+                else if (amount == 1)
+                    DependencyService.Get<IToast>().WriteToast("A note was created");
+            });
+
             MessagingCenter.Subscribe<SelectAccountforCallReportViewModel, Account>(this, Message.AccountLoaded,  (sender, account) => 
             {
                 Account = account;
@@ -118,7 +133,7 @@ namespace CompliXpertApp.ViewModels
         public ICommand AddPersonCommand { get; set; }
         public ICommand SaveCallReportCommand { get; set; }
         public double StandardHeight { get; set; }
-        public Note Note { get; set; }
+        public List<Note> Notes { get; set; }
         public double Height
         {
             get
@@ -275,11 +290,16 @@ namespace CompliXpertApp.ViewModels
         //save the new call report to local db for persistance
         async Task SaveNewCallReportAsync()
         {
-            if (Note != null)
+            if (Notes.Count > 0)
             {
-                Note.CallReportId = NewCallReport.CallReportId;
-                NewCallReport.Notes = new List<Note>();
-                NewCallReport.Notes.Add(Note);
+                foreach (Note note in Notes)
+                {
+                    note.CallReportId = NewCallReport.CallReportId;
+                }
+                NewCallReport.Notes = Notes;
+                //Note.CallReportId = NewCallReport.CallReportId;
+                //NewCallReport.Notes = new List<Note>();
+                //NewCallReport.Notes.Add(Note);
             }
 
             NewCallReport.AccountNumber = Account.AccountNumber;

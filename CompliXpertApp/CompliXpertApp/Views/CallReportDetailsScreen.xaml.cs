@@ -31,7 +31,7 @@ namespace CompliXpertApp.Views
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
-                if (await App.Current.MainPage.DisplayAlert("Are you sure you want to return to Customer List?", "All unsaved information will be lost.", "Yes", "No"))
+                if (await App.Current.MainPage.DisplayAlert("Are you sure you want to return to Customer List?", "Any new information entered will be lost.", "Yes", "No"))
                 {
                     await App.Current.MainPage.Navigation.PopToRootAsync();
                 }

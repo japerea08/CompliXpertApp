@@ -229,7 +229,7 @@ namespace CompliXpertApp.ViewModels
         {
             MenuItems = new List<CompliXpertAppMasterDetailPageMenuItem>()
             {
-                    new CompliXpertAppMasterDetailPageMenuItem { Id = 0, Title = "Customer List", ImageSource = null, TargetType = typeof(CustomerListScreen) },
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 0, Title = "Customer List", ImageSource = null, TargetType = typeof(CustomerListScreen), Color = "#a1a1a1" },
                     new CompliXpertAppMasterDetailPageMenuItem { Id = 1, Title = "Prospect List", ImageSource = null, TargetType = typeof(ProspectListScreen) },
                     new CompliXpertAppMasterDetailPageMenuItem { Id = 2, Title = "Create Call Report", ImageSource = null, TargetType = typeof(CreateCallReportScreen)},
                     new CompliXpertAppMasterDetailPageMenuItem{Id = 3, Title = "Add Prospect", ImageSource = null, TargetType = typeof(AddProspectScreen)},
