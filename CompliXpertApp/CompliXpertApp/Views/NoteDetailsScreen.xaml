@@ -13,31 +13,31 @@
                    FontSize="Medium"
                    Margin="0,5"/>
             <Entry
-                            FontSize="Medium"
-                            Text="{Binding Note.Subject}" />
+                FontSize="Medium"
+                Text="{Binding Note.Subject}" />
             <Label Text="Description"
                    FontSize="Medium"
                    Margin="0,5"/>
             <Entry
                         
-                            FontSize="Medium"
-                            Text="{Binding Note.Description}" />
+                FontSize="Medium"
+                Text="{Binding Note.Description}" />
             <Button Text="Save" 
-                            BackgroundColor="#428bca" 
-                            TextColor="White" 
-                            Command="{Binding SaveNoteCommand}"
+                    BackgroundColor="#428bca" 
+                    TextColor="White" 
+                    Command="{Binding SaveNoteCommand}"
                     Margin="0,5">
                 <Button.Triggers>
                     <DataTrigger
-                                            Binding="{Binding CreatedonMobile}"
-                                            TargetType="Button"
-                                            Value="True">
+                                Binding="{Binding CreatedonMobile}"
+                                TargetType="Button"
+                                Value="True">
                         <Setter Property="IsVisible" Value="True" />
                     </DataTrigger>
                     <DataTrigger
-                                            Binding="{Binding CreatedonMobile}"
-                                            TargetType="Button"
-                                            Value="False">
+                                Binding="{Binding CreatedonMobile}"
+                                TargetType="Button"
+                                Value="False">
                         <Setter Property="IsVisible" Value="False" />
                     </DataTrigger>
                 </Button.Triggers>
@@ -45,7 +45,7 @@
             <Button Text="Delete" 
                             BackgroundColor="Red" 
                             TextColor="White" 
-                            Command="{Binding SaveNoteCommand}"
+                            Command="{Binding DeleteNoteCommand}"
                     Margin="0,5">
                 <Button.Triggers>
                     <DataTrigger

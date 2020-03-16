@@ -13,10 +13,7 @@ namespace CompliXpertApp.ViewModels
         private Note selectedNote;
         public NotesListScreenViewModel()
         {
-            MessagingCenter.Subscribe<CallReportDetailsViewModel, ICollection<Note>>(this, Message.NotesLoaded, (sender, notesList) => 
-            {
-                Notes = notesList.ToList();
-            });
+            
         }
         public List<Note> Notes
         {

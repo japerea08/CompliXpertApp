@@ -2,6 +2,13 @@
 {
     static public class Message
     {
+        public static string CallReportId
+        {
+            get
+            {
+                return "call report id loaded";
+            }
+        }
         public static string NotesLoaded
         {
             get

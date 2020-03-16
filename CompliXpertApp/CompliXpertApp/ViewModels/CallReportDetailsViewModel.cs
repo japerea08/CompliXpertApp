@@ -308,7 +308,7 @@ namespace CompliXpertApp.ViewModels
             if(canViewPersons == true)
                 ((Command) ViewPersonsCommand).ChangeCanExecute();
         }
-        void CanViewNotes(bool value)
+        public void CanViewNotes(bool value)
         {
             canViewNotes = value;
             if (canViewNotes == true)
@@ -324,7 +324,8 @@ namespace CompliXpertApp.ViewModels
             //send the notes
             
             await App.Current.MainPage.Navigation.PushModalAsync(new NotesListScreen());
-            MessagingCenter.Send<CallReportDetailsViewModel, ICollection<Note>>(this, Message.NotesLoaded, Report.Notes);
+            //pass the callreportid
+            MessagingCenter.Send<CallReportDetailsViewModel, int>(this, Message.CallReportId, Report.CallReportId);
         }
         //really an update call report
         public async Task SaveCallReportAsync()
