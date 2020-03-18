@@ -11,6 +11,7 @@ namespace CompliXpertApp.ViewModels
     {
         private List<Note> notes;
         private Note selectedNote;
+        private bool notesCreated;
         public NotesListScreenViewModel()
         {
             
@@ -41,7 +42,18 @@ namespace CompliXpertApp.ViewModels
                 GetNoteDetailsScreen(selectedNote);
             }
         }
-
+        public bool NotesCreated
+        {
+            get
+            {
+                return notesCreated;
+            }
+            set
+            {
+                notesCreated = value;
+                OnPropertyChanged();
+            }
+        }
         async private void GetNoteDetailsScreen(Note note)
         {
             SelectedNote = null;

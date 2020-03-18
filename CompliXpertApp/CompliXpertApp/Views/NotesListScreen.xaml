@@ -3,11 +3,29 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CompliXpertApp.Views.NotesListScreen">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout Padding="0,5"
+                     Margin="15,0">
             <Label Text="Notes List"
                    HorizontalTextAlignment="Center"
                    FontAttributes="Bold"
                    FontSize="Large"/>
+            <Label Text="No Notes Have Been Created"
+                   HorizontalTextAlignment="Center"
+                   FontAttributes="Bold"
+                   Margin="0,10">
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label"
+                                 Binding="{Binding NotesCreated}"
+                                 Value="false">
+                        <Setter Property="IsVisible" Value="True"/>
+                    </DataTrigger>
+                    <DataTrigger TargetType="Label"
+                                 Binding="{Binding NotesCreated}"
+                                 Value="True">
+                        <Setter Property="IsVisible" Value="False"/>
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
             <ListView ItemsSource="{Binding Notes}"
                       HasUnevenRows="True"
                       SeparatorColor="#ffffff"
@@ -76,6 +94,11 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <Button Text="Add Note"
+                                BackgroundColor="#428bca"
+                               TextColor="White"
+                                Command="{Binding AddNoteCommand}">
+            </Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

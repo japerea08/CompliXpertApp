@@ -40,9 +40,6 @@ namespace CompliXpertApp.Views
                                     where notes.CallReportId == viewModel.Report.CallReportId
                                     select notes).ToList();
 
-                    if (viewModel.Report.Notes.Count != 0)
-                        viewModel.CanViewNotes(true);
-
                     List<CallReportQuestions> Questions = await (
                         from _q in context.CallReportQuestions
                         where _q.Type == viewModel.Report.CallReportType
@@ -102,9 +99,6 @@ namespace CompliXpertApp.Views
                                     where notes.CallReportId == viewModel.Report.CallReportId
                                     select notes).ToList();
 
-                    if (viewModel.Report.Notes.Count != 0)
-                        viewModel.CanViewNotes(true);
-
                     List<CallReportQuestions> Questions = await (
                         from _q in context.CallReportQuestions
                         where _q.Type == viewModel.Report.CallReportType
@@ -162,9 +156,6 @@ namespace CompliXpertApp.Views
                     viewModel.Report.Notes = (from notes in context.Notes
                                     where notes.CallReportId == viewModel.Report.CallReportId
                                     select notes).ToList();
-
-                    if (viewModel.Report.Notes.Count != 0)
-                        viewModel.CanViewNotes(true);
 
                     List<CallReportQuestions> Questions = await (
                         from _q in context.CallReportQuestions

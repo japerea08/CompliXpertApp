@@ -29,12 +29,22 @@ namespace CompliXpertApp.Views
                     notesListScreenViewModel.Notes = (from notes in context.Notes
                                                       where notes.CallReportId == callReportId
                                                       select notes).ToList();
+                    if (notesListScreenViewModel.Notes.Count == 0)
+                        notesListScreenViewModel.NotesCreated = false;
+                    else
+                        notesListScreenViewModel.NotesCreated = true;
                 }
                     
             });
+
             MessagingCenter.Subscribe<NoteDetailsScreenViewModel, List<Note>>(this, Message.NotesLoaded, (sender, notesList) =>
             {
                notesListScreenViewModel.Notes = notesList;
+
+                if (notesList.Count == 0)
+                    notesListScreenViewModel.NotesCreated = false;
+                else
+                    notesListScreenViewModel.NotesCreated = true;
             });
         }
     }

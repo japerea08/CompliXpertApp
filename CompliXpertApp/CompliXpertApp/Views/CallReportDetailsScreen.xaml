@@ -30,75 +30,71 @@
                 </ListView.Triggers>
                 <ListView.Header>
                     <StackLayout Padding="0,10">
-                        <Grid BackgroundColor="DarkGray"
-                              Margin="0,5"
-                              ColumnSpacing="1">
+                        <Grid
+                            Margin="0,5"
+                            BackgroundColor="DarkGray"
+                            ColumnSpacing="1">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Button Text="Notes"
-                                    BackgroundColor="#eff4f9"
-                                    FontSize="Medium"
-                                    TextColor="#305d82"
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    HorizontalOptions="FillAndExpand"
-                                    Command="{Binding ViewNotesCommand}"/>
-                            <Button Text="Persons"
-                                   BackgroundColor="#eff4f9"
-                                   TextColor="#305d82"
-                                   FontSize="Medium"
-                                   Grid.Row="0"
-                                   Grid.Column="1"
-                                    Command="{Binding ViewPersonsCommand}"/>
+                            <Button
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                BackgroundColor="#eff4f9"
+                                Command="{Binding ViewNotesCommand}"
+                                FontSize="Medium"
+                                HorizontalOptions="FillAndExpand"
+                                Text="Notes"
+                                TextColor="#305d82" />
+                            <Button
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                BackgroundColor="#eff4f9"
+                                Command="{Binding ViewPersonsCommand}"
+                                FontSize="Medium"
+                                Text="Persons"
+                                TextColor="#305d82" />
                         </Grid>
                         <StackLayout Margin="15,0">
-                            <Label Text="Call Report Details"
-                               HorizontalTextAlignment="Center"
+                            <Label
+                                FontAttributes="Bold"
                                 FontSize="Large"
-                                FontAttributes="Bold"/>
-                            <Label Text="{Binding ReportType}"
-                               FontAttributes="Bold"
-                               FontSize="Medium"
-                               Margin="0,15,0,10"/>
+                                HorizontalTextAlignment="Center"
+                                Text="Call Report Details" />
                             <Label
-                            FontSize="Medium"
-                            Text="Account"/>
+                                Margin="0,15,0,10"
+                                FontAttributes="Bold"
+                                FontSize="Medium"
+                                Text="{Binding ReportType}" />
+                            <Label FontSize="Medium" Text="Account" />
                             <Entry
-                            FontSize="Medium"
-                            IsReadOnly="True"
-                            Text="{Binding Report.AccountNumber}" />
-                            <Label
-                            FontSize="Medium"
-                            Text="Call Report"/>
+                                FontSize="Medium"
+                                IsReadOnly="True"
+                                Text="{Binding Report.AccountNumber}" />
+                            <Label FontSize="Medium" Text="Call Report" />
                             <Entry
-                            FontSize="Medium"
-                            IsReadOnly="True"
-                            Text="{Binding Report.CallReportId}" />
-                            <Label
-                            FontSize="Medium"
-                            Text="Call Date" />
+                                FontSize="Medium"
+                                IsReadOnly="True"
+                                Text="{Binding Report.CallReportId}" />
+                            <Label FontSize="Medium" Text="Call Date" />
                             <DatePicker
-                            Date="{Binding Report.CallDate}"
-                            FontSize="Medium"
-                            IsEnabled="False" />
-                            <Label
-                            FontSize="Medium"
-                            Text="Reference" />
+                                Date="{Binding Report.CallDate}"
+                                FontSize="Medium"
+                                IsEnabled="False" />
+                            <Label FontSize="Medium" Text="Reference" />
                             <Entry
-                            FontSize="Medium"
-                            IsReadOnly="True"
-                            Text="{Binding Report.Reference, TargetNullValue='Reference Not Given'}" />
+                                FontSize="Medium"
+                                IsReadOnly="True"
+                                Text="{Binding Report.Reference, TargetNullValue='Reference Not Given'}" />
                         </StackLayout>
                     </StackLayout>
                 </ListView.Header>
                 <ListView.Footer>
-                    <StackLayout Margin="15,0" 
-                        Padding="0,15,0,10">
+                    <StackLayout Margin="15,0" Padding="0,15,0,10">
                         <Button
                             BackgroundColor="#428bca"
                             Command="{Binding CloseCallReportCommand}"
@@ -125,9 +121,7 @@
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Margin="15,0">
-                                <Label
-                                    FontSize="Medium"
-                                    Text="{Binding QuestionHeader}" />
+                                <Label FontSize="Medium" Text="{Binding QuestionHeader}" />
                                 <Editor
                                     FontSize="Medium"
                                     IsReadOnly="True"
@@ -161,69 +155,66 @@
                 </ListView.Triggers>
                 <ListView.Header>
                     <StackLayout Padding="0,10">
-                        <Grid BackgroundColor="DarkGray"
-                              Margin="0,5"
-                              ColumnSpacing="1">
+                        <Grid
+                            Margin="0,5"
+                            BackgroundColor="DarkGray"
+                            ColumnSpacing="1">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Button Text="Notes"
-                                    BackgroundColor="#eff4f9"
-                                    FontSize="Medium"
-                                    TextColor="#305d82"
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    HorizontalOptions="FillAndExpand"
-                                    Command="{Binding ViewNotesCommand}"/>
-                            <Button Text="Persons"
-                                   BackgroundColor="#eff4f9"
-                                   TextColor="#305d82"
-                                   FontSize="Medium"
-                                   Grid.Row="0"
-                                   Grid.Column="1"
-                                    Command="{Binding ViewPersonsCommand}"/>
+                            <Button
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                BackgroundColor="#eff4f9"
+                                Command="{Binding ViewNotesCommand}"
+                                FontSize="Medium"
+                                HorizontalOptions="FillAndExpand"
+                                Text="Notes"
+                                TextColor="#305d82" />
+                            <Button
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                BackgroundColor="#eff4f9"
+                                Command="{Binding ViewPersonsCommand}"
+                                FontSize="Medium"
+                                Text="Persons"
+                                TextColor="#305d82" />
                         </Grid>
                         <StackLayout Margin="15,0">
-                            <Label Text="Call Report Details"
-                               HorizontalTextAlignment="Center"
+                            <Label
+                                FontAttributes="Bold"
                                 FontSize="Large"
-                                FontAttributes="Bold"/>
-                            <Label Text="{Binding ReportType}"
-                               FontAttributes="Bold"
-                               FontSize="Medium"
-                               Margin="0,15,0,10"/>
+                                HorizontalTextAlignment="Center"
+                                Text="Call Report Details" />
                             <Label
-                            FontSize="Medium"
-                            Text="Account"/>
+                                Margin="0,15,0,10"
+                                FontAttributes="Bold"
+                                FontSize="Medium"
+                                Text="{Binding ReportType}" />
+                            <Label FontSize="Medium" Text="Account" />
                             <Entry
-                            FontSize="Medium"
-                            IsReadOnly="False"
-                            Text="{Binding Report.AccountNumber}" />
-                            <Label
-                            FontSize="Medium"
-                            Text="Call Report"/>
+                                FontSize="Medium"
+                                IsReadOnly="False"
+                                Text="{Binding Report.AccountNumber}" />
+                            <Label FontSize="Medium" Text="Call Report" />
                             <Entry
-                            FontSize="Medium"
-                            IsReadOnly="False"
-                            Text="{Binding Report.CallReportId}" />
-                            <Label
-                            FontSize="Medium"
-                            Text="Call Date" />
+                                FontSize="Medium"
+                                IsReadOnly="False"
+                                Text="{Binding Report.CallReportId}" />
+                            <Label FontSize="Medium" Text="Call Date" />
                             <DatePicker
-                            Date="{Binding Report.CallDate}"
-                            FontSize="Medium"
-                            IsEnabled="True" />
-                            <Label
-                            FontSize="Medium"
-                            Text="Reference" />
+                                Date="{Binding Report.CallDate}"
+                                FontSize="Medium"
+                                IsEnabled="True" />
+                            <Label FontSize="Medium" Text="Reference" />
                             <Entry
-                            FontSize="Medium"
-                            IsReadOnly="False"
-                            Text="{Binding Report.Reference, TargetNullValue='Reference Not Given'}" />
+                                FontSize="Medium"
+                                IsReadOnly="False"
+                                Text="{Binding Report.Reference, TargetNullValue='Reference Not Given'}" />
 
                         </StackLayout>
                     </StackLayout>
@@ -276,9 +267,7 @@
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Margin="15,0">
-                                <Label
-                                    FontSize="Medium"
-                                    Text="{Binding QuestionHeader}" />
+                                <Label FontSize="Medium" Text="{Binding QuestionHeader}" />
                                 <Editor
                                     AutoSize="TextChanges"
                                     FontSize="Medium"
