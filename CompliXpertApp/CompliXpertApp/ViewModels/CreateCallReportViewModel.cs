@@ -279,8 +279,7 @@ namespace CompliXpertApp.ViewModels
         async Task AddNoteAsync()
         {
             await App.Current.MainPage.Navigation.PushModalAsync(new AddNoteScreen());
-            //use messaging center to send call report info
-            MessagingCenter.Send<CreateCallReportViewModel, CallReport>(this, Message.CallReportLoaded, NewCallReport);
+
         }
 
         private Task AddPersonAsync()

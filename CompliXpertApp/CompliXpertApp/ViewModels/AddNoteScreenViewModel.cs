@@ -12,8 +12,16 @@ namespace CompliXpertApp.ViewModels
         private bool canSave = false;
         private string subject;
         private string description;
+        public int callreportId;
+        public bool callReportCreatedAlready = false;
         public AddNoteScreenViewModel()
         {
+            MessagingCenter.Subscribe<CallReportDetailsViewModel, int>(this, Message.CallReportId, (sender, callReportId) =>
+            {
+                callreportId = callReportId;
+                callReportCreatedAlready = true;
+            });
+
             SaveNoteCommand = new Command(async () => await SaveNoteAsync(), () => canSave);
         }
 
@@ -66,10 +74,35 @@ namespace CompliXpertApp.ViewModels
                 CreatedDate = DateTime.Now,
                 CreatedonMobile = true
             };
-            //generate a unique NoteId
-            await App.Current.MainPage.Navigation.PopModalAsync();
-            ////use messaging center to send note back
-            MessagingCenter.Send<AddNoteScreenViewModel, Note>(this, Message.NoteCreated, note);
+
+            if(callReportCreatedAlready == true)
+            {
+                using (CompliXperAppContext context = new CompliXperAppContext())
+                {
+                    note.CallReportId = callreportId;
+
+                    context.Notes.Add(note);
+
+                    try
+                    {
+                        await context.SaveChangesAsync();
+                        await App.Current.MainPage.Navigation.PopModalAsync();
+                        MessagingCenter.Send<AddNoteScreenViewModel, Note>(this, Message.NoteCreated, note);
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+            }
+            else
+            {
+                await App.Current.MainPage.Navigation.PopModalAsync();
+                ////use messaging center to send note back
+                MessagingCenter.Send<AddNoteScreenViewModel, Note>(this, Message.NoteCreated, note);
+            }
+            
+
         }
     }
 }

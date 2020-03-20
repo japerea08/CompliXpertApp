@@ -78,7 +78,7 @@ namespace CompliXpertApp.ViewModels
             {
                 using (var context = new CompliXperAppContext())
                 {
-                    var entity = await context.Notes.FirstOrDefaultAsync(x => x.CallReportId == note.CallReportId);
+                    var entity = await context.Notes.FirstOrDefaultAsync(x => x.NoteId == Note.NoteId);
                     context.Notes.Remove(entity);
                     await context.SaveChangesAsync();
                     await App.Current.MainPage.Navigation.PopModalAsync();
