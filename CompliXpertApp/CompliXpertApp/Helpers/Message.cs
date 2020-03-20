@@ -2,6 +2,13 @@
 {
     static public class Message
     {
+        public static string PersonCreated
+        {
+            get
+            {
+                return "Person created";
+            }
+        }
         public static string CallReportId
         {
             get

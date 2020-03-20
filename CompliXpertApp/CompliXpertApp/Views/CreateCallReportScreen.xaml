@@ -65,6 +65,7 @@
                         </Button>
                         <Button Text="Add Person"
                                 BackgroundColor="#428bca"
+                                Command="{Binding AddPersonCommand}"
                                TextColor="White">
                         </Button>
                     </StackLayout>

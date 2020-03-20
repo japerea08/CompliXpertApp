@@ -31,11 +31,6 @@ namespace CompliXpertApp.Views
             {
                 addNoteScreenViewModel.callreportId = callReportId;
             });
-            MessagingCenter.Subscribe<CallReportDetailsViewModel, int>(this, Message.CallReportId, (sender, callReportId) =>
-            {
-                addNoteScreenViewModel.callreportId = callReportId;
-                addNoteScreenViewModel.callReportCreatedAlready = true;
-            });
         }
     }
 }

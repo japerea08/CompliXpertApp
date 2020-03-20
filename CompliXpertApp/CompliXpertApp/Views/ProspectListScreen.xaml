@@ -6,24 +6,28 @@
     NavigationPage.HasBackButton="False">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Prospect List"
-                   FontAttributes="Bold"
-                   FontSize="Large"
-                   HorizontalTextAlignment="Center"/>
-            <Label Text="No Prospects Have Been Created"
-                   HorizontalTextAlignment="Center"
-                   FontAttributes="Bold"
-                   Margin="0,10">
+            <Label
+                FontAttributes="Bold"
+                FontSize="Large"
+                HorizontalTextAlignment="Center"
+                Text="Prospect List" />
+            <Label
+                Margin="0,10"
+                FontAttributes="Bold"
+                HorizontalTextAlignment="Center"
+                Text="No Prospects Have Been Created">
                 <Label.Triggers>
-                    <DataTrigger TargetType="Label"
-                                 Binding="{Binding ProspectsCreated}"
-                                 Value="false">
-                        <Setter Property="IsVisible" Value="True"/>
+                    <DataTrigger
+                        Binding="{Binding ProspectsCreated}"
+                        TargetType="Label"
+                        Value="false">
+                        <Setter Property="IsVisible" Value="True" />
                     </DataTrigger>
-                    <DataTrigger TargetType="Label"
-                                 Binding="{Binding ProspectsCreated}"
-                                 Value="True">
-                        <Setter Property="IsVisible" Value="False"/>
+                    <DataTrigger
+                        Binding="{Binding ProspectsCreated}"
+                        TargetType="Label"
+                        Value="True">
+                        <Setter Property="IsVisible" Value="False" />
                     </DataTrigger>
                 </Label.Triggers>
             </Label>
@@ -42,7 +46,7 @@
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
                                 <Label
@@ -57,15 +61,15 @@
                                     Grid.Column="1"
                                     Margin="10,0,0,2"
                                     FontSize="Small"
-                                    Text="{Binding Date}"
-                                    HorizontalTextAlignment="Center"/>
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding Date}" />
                                 <Label
                                     Grid.Row="1"
                                     Grid.Column="1"
                                     Margin="10,2,0,0"
                                     FontSize="Small"
-                                    Text="{Binding Time}" 
-                                    HorizontalTextAlignment="Center"/>
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding Time}" />
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

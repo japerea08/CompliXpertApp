@@ -248,6 +248,9 @@ namespace MigrationsApp.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    Position = table.Column<string>(nullable: true),
                     CreatedonMobile = table.Column<bool>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     CallReportId = table.Column<int>(nullable: true)

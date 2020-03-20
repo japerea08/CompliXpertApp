@@ -267,6 +267,10 @@ namespace MigrationsApp.Migrations
                 b.Property<string>("FirstName");
 
                 b.Property<string>("LastName");
+                b.Property<string>("Email");
+
+                b.Property<string>("Position");
+                b.Property<string>("PhoneNumber");
 
                 b.HasKey("PersonId");
 

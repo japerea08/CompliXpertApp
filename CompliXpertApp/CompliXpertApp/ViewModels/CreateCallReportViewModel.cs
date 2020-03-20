@@ -24,12 +24,15 @@ namespace CompliXpertApp.ViewModels
         private double _height = 0;
         private bool canSave = false;
         public List<Note> _notes;
+        public List<Person> persons;
 
         //constructor
         public CreateCallReportViewModel()
         {
             Notes = new List<Note>();
             _notes = new List<Note>();
+            Persons = new List<Person>();
+            persons = new List<Person>();
 
             MessagingCenter.Subscribe<AddNoteScreenViewModel, Note>(this, Message.NoteCreated, (sender, note) =>
             {
@@ -40,6 +43,17 @@ namespace CompliXpertApp.ViewModels
                     DependencyService.Get<IToast>().WriteToast($"{amount} notes were created");
                 else if (amount == 1)
                     DependencyService.Get<IToast>().WriteToast("A note was created");
+            });
+
+            MessagingCenter.Subscribe<AddPersonScreenViewModel, Person>(this, Message.PersonCreated, (sender, person) =>
+            {
+                Persons.Add(person);
+                //toast the user
+                int amount = Persons.Count();
+                if (amount > 1)
+                    DependencyService.Get<IToast>().WriteToast($"{amount} persons were created");
+                else if (amount == 1)
+                    DependencyService.Get<IToast>().WriteToast("A person was created");
             });
 
             MessagingCenter.Subscribe<SelectAccountforCallReportViewModel, Account>(this, Message.AccountLoaded,  (sender, account) => 
@@ -134,6 +148,7 @@ namespace CompliXpertApp.ViewModels
         public ICommand SaveCallReportCommand { get; set; }
         public double StandardHeight { get; set; }
         public List<Note> Notes { get; set; }
+        public List<Person> Persons { get; set; }
         public double Height
         {
             get
@@ -282,9 +297,9 @@ namespace CompliXpertApp.ViewModels
 
         }
 
-        private Task AddPersonAsync()
+        async Task AddPersonAsync()
         {
-            throw new NotImplementedException();
+            await App.Current.MainPage.Navigation.PushModalAsync(new AddPersonScreen(-1, false));
         }
         //save the new call report to local db for persistance
         async Task SaveNewCallReportAsync()
@@ -296,6 +311,14 @@ namespace CompliXpertApp.ViewModels
                     note.CallReportId = NewCallReport.CallReportId;
                 }
                 NewCallReport.Notes = Notes;
+            }
+            if(Persons.Count > 0)
+            {
+                foreach(Person person in Persons)
+                {
+                    person.CallReportId = NewCallReport.CallReportId;
+                }
+                NewCallReport.Persons = Persons;
             }
 
             NewCallReport.AccountNumber = Account.AccountNumber;
