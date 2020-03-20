@@ -26,6 +26,7 @@ namespace CompliXpertApp.Models
         public DbSet<LinesofBusiness> LinesofBusinesses { get; set; }
         public DbSet<ProductCode> ProductCodes { get; set; }
         public DbSet<Note> Notes { get; set; }
+        public DbSet<Person> Persons { get; set; }
         public DbSet<NewContact> NewContacts { get; set; }
         //public DbSet<QuestionandResponse> QuestionandResponses { get; set; }
         //public DbSet<User> Users { get; set; }
@@ -276,6 +277,26 @@ namespace CompliXpertApp.Models
                 b.ToTable("Note");
             });
 
+            modelBuilder.Entity("CompliXpertApp.Models.Person", b =>
+            {
+                b.Property<int>("PersonId")
+                    .ValueGeneratedOnAdd();
+
+                b.Property<int?>("CallReportId");
+
+                b.Property<bool>("CreatedonMobile");
+
+                b.Property<string>("FirstName");
+
+                b.Property<string>("LastName");
+
+                b.HasKey("PersonId");
+
+                b.HasIndex("CallReportId");
+
+                b.ToTable("Person");
+            });
+
             modelBuilder.Entity("CompliXpertApp.Models.ProductCode", b =>
             {
                 b.Property<string>("Code")
@@ -319,6 +340,13 @@ namespace CompliXpertApp.Models
             {
                 b.HasOne("CompliXpertApp.Models.CallReport")
                     .WithMany("Notes")
+                    .HasForeignKey("CallReportId");
+            });
+
+            modelBuilder.Entity("CompliXpertApp.Models.Person", b =>
+            {
+                b.HasOne("CompliXpertApp.Models.CallReport")
+                    .WithMany("Persons")
                     .HasForeignKey("CallReportId");
             });
 

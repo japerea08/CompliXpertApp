@@ -241,6 +241,28 @@ namespace MigrationsApp.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
             migrationBuilder.CreateTable(
+                name: "Person",
+                columns: table => new
+                {
+                    PersonId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    CreatedonMobile = table.Column<bool>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    CallReportId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Person", x => x.PersonId);
+                    table.ForeignKey(
+                        name: "FK_Person_CallReport_CallReportId",
+                        column: x => x.CallReportId,
+                        principalTable: "CallReport",
+                        principalColumn: "CallReportId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -288,6 +310,10 @@ namespace MigrationsApp.Migrations
                 name: "IX_Note_CallReportId",
                 table: "Note",
                 column: "CallReportId");
+            migrationBuilder.CreateIndex(
+                name: "IX_Person_CallReportId",
+                table: "Person",
+                column: "CallReportId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -312,6 +338,8 @@ namespace MigrationsApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "Note");
+            migrationBuilder.DropTable(
+                name: "Person");
 
             migrationBuilder.DropTable(
                 name: "ProductCodes");

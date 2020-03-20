@@ -25,6 +25,7 @@ namespace CompliXpertApp.Models
         public string Reason { get; set; }
         public ICollection<CallReportResponse> Responses { get; set; }
         public ICollection<Note> Notes { get; set; }
+        public ICollection<Person> Persons { get; set; }
         public string Date
         {
             get

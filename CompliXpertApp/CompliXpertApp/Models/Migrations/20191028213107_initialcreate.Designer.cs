@@ -245,6 +245,27 @@ namespace MigrationsApp.Migrations
                 b.ToTable("Note");
             });
 
+            modelBuilder.Entity("CompliXperLite.Models.Person", b =>
+            {
+                b.Property<int>("PersonId")
+                    .ValueGeneratedOnAdd();
+
+                b.Property<int?>("CallReportId");
+
+                b.Property<bool>("CreatedonMobile");
+                b.Property<DateTime>("CreatedDate");
+
+                b.Property<string>("FirstName");
+
+                b.Property<string>("LastName");
+
+                b.HasKey("PersonId");
+
+                b.HasIndex("CallReportId");
+
+                b.ToTable("Person");
+            });
+
             modelBuilder.Entity("CompliXperLite.Models.ProductCode", b =>
             {
                 b.Property<string>("Code")
@@ -300,6 +321,12 @@ namespace MigrationsApp.Migrations
             {
                 b.HasOne("CompliXperLite.Models.CallReport")
                     .WithMany("Notes")
+                    .HasForeignKey("CallReportId");
+            });
+            modelBuilder.Entity("CompliXperLite.Models.Person", b =>
+            {
+                b.HasOne("CompliXperLite.Models.CallReport")
+                    .WithMany("Persons")
                     .HasForeignKey("CallReportId");
             });
 #pragma warning restore 612, 618
