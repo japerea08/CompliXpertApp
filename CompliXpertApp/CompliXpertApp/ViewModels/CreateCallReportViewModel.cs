@@ -34,57 +34,7 @@ namespace CompliXpertApp.ViewModels
             Persons = new List<Person>();
             persons = new List<Person>();
 
-            MessagingCenter.Subscribe<AddNoteScreenViewModel, Note>(this, Message.NoteCreated, (sender, note) =>
-            {
-                Notes.Add(note);
-                //toast the user
-                int amount = Notes.Count();
-                if (amount > 1)
-                    DependencyService.Get<IToast>().WriteToast($"{amount} notes were created");
-                else if (amount == 1)
-                    DependencyService.Get<IToast>().WriteToast("A note was created");
-            });
-
-            MessagingCenter.Subscribe<AddPersonScreenViewModel, Person>(this, Message.PersonCreated, (sender, person) =>
-            {
-                Persons.Add(person);
-                //toast the user
-                int amount = Persons.Count();
-                if (amount > 1)
-                    DependencyService.Get<IToast>().WriteToast($"{amount} persons were created");
-                else if (amount == 1)
-                    DependencyService.Get<IToast>().WriteToast("A person was created");
-            });
-
-            MessagingCenter.Subscribe<SelectAccountforCallReportViewModel, Account>(this, Message.AccountLoaded,  (sender, account) => 
-            {
-                Account = account;
-                InitializeCreateCallReportScreenAsync();
-
-            });
-
-            MessagingCenter.Subscribe<SelectAccountforCallReportViewModel, CallReportType>(this, Message.CallReportTypeLoaded, (sender, callreporttype) => 
-            {
-                Type = callreporttype;
-                InitializeCallReportQuestions();
-            });
-            MessagingCenter.Subscribe<SelectTypeOfCallReportViewModel, Account>(this, Message.AccountLoaded, (sender, account) =>
-            {
-                Account = account;
-                InitializeCreateCallReportScreenAsync();
-
-            });
-
-            MessagingCenter.Subscribe<SelectTypeOfCallReportViewModel, CallReportType>(this, Message.CallReportTypeLoaded, (sender, callreporttype) =>
-            {
-                Type = callreporttype;
-                InitializeCallReportQuestions();
-            });
-            MessagingCenter.Subscribe<CustomerMasterViewModel, Account>(this, Message.AccountLoaded,  (sender, account)=> 
-            {
-                Account = account;
-                InitializeCreateCallReportScreenAsync();
-            });
+            
             SaveCallReportCommand = new Command(async () => await SaveNewCallReportAsync(), () => canSave);
 
             AddNoteCommand = new Command(async () => await AddNoteAsync());
@@ -97,6 +47,7 @@ namespace CompliXpertApp.ViewModels
                 CreatedDate = DateTime.Now
             };
 
+            Subscribe();
             
         }
 
@@ -134,11 +85,11 @@ namespace CompliXpertApp.ViewModels
         {
             using (CompliXperAppContext context = new CompliXperAppContext())
             {
-                CustomerName = (
+                CustomerName = await (
                     from c in context.Customer
                     where c.CustomerNumber == Account.CustomerNumber
                     select c.CustomerName
-                ).FirstOrDefault();
+                ).FirstOrDefaultAsync();
             }
         }
         #region Properties
@@ -304,6 +255,7 @@ namespace CompliXpertApp.ViewModels
         //save the new call report to local db for persistance
         async Task SaveNewCallReportAsync()
         {
+            Unsubscribe();
             if (Notes.Count > 0)
             {
                 foreach (Note note in Notes)
@@ -371,6 +323,77 @@ namespace CompliXpertApp.ViewModels
                 await context.AddRangeAsync(responses);
                 await context.SaveChangesAsync();
             }
+        }
+        //method to unsubscribe
+        private void Unsubscribe()
+        {
+            MessagingCenter.Unsubscribe<AddNoteScreenViewModel, Note>(this, Message.NoteCreated);
+
+            MessagingCenter.Unsubscribe<AddPersonScreenViewModel, Person>(this, Message.PersonCreated);
+
+            MessagingCenter.Unsubscribe<SelectAccountforCallReportViewModel, Account>(this, Message.AccountLoaded);
+
+            MessagingCenter.Unsubscribe<SelectAccountforCallReportViewModel, CallReportType>(this, Message.CallReportTypeLoaded);
+
+            MessagingCenter.Unsubscribe<SelectTypeOfCallReportViewModel, Account>(this, Message.AccountLoaded);
+
+            MessagingCenter.Unsubscribe<SelectTypeOfCallReportViewModel, CallReportType>(this, Message.CallReportTypeLoaded);
+
+            MessagingCenter.Unsubscribe<CustomerMasterViewModel, Account>(this, Message.AccountLoaded);
+        }
+        private void Subscribe()
+        {
+            MessagingCenter.Subscribe<AddNoteScreenViewModel, Note>(this, Message.NoteCreated, (sender, note) =>
+            {
+                Notes.Add(note);
+                //toast the user
+                int amount = Notes.Count();
+                if (amount > 1)
+                    DependencyService.Get<IToast>().WriteToast($"{amount} notes were created");
+                else if (amount == 1)
+                    DependencyService.Get<IToast>().WriteToast("A note was created");
+            });
+
+            MessagingCenter.Subscribe<AddPersonScreenViewModel, Person>(this, Message.PersonCreated, (sender, person) =>
+            {
+                Persons.Add(person);
+                //toast the user
+                int amount = Persons.Count();
+                if (amount > 1)
+                    DependencyService.Get<IToast>().WriteToast($"{amount} persons were created");
+                else if (amount == 1)
+                    DependencyService.Get<IToast>().WriteToast("A person was created");
+            });
+
+            MessagingCenter.Subscribe<SelectAccountforCallReportViewModel, Account>(this, Message.AccountLoaded, (sender, account) =>
+            {
+                Account = account;
+                InitializeCreateCallReportScreenAsync();
+
+            });
+
+            MessagingCenter.Subscribe<SelectAccountforCallReportViewModel, CallReportType>(this, Message.CallReportTypeLoaded, (sender, callreporttype) =>
+            {
+                Type = callreporttype;
+                InitializeCallReportQuestions();
+            });
+            MessagingCenter.Subscribe<SelectTypeOfCallReportViewModel, Account>(this, Message.AccountLoaded, (sender, account) =>
+            {
+                Account = account;
+                InitializeCreateCallReportScreenAsync();
+
+            });
+
+            MessagingCenter.Subscribe<SelectTypeOfCallReportViewModel, CallReportType>(this, Message.CallReportTypeLoaded, (sender, callreporttype) =>
+            {
+                Type = callreporttype;
+                InitializeCallReportQuestions();
+            });
+            MessagingCenter.Subscribe<CustomerMasterViewModel, Account>(this, Message.AccountLoaded, (sender, account) =>
+            {
+                Account = account;
+                InitializeCreateCallReportScreenAsync();
+            });
         }
         #endregion
     }

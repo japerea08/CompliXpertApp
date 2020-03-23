@@ -17,7 +17,7 @@ namespace CompliXpertApp.ViewModels
         private bool canSaveNote;
         public NoteDetailsScreenViewModel()
         {
-            //true for now to build in some capacity of checking info entered by the user
+            //true for now need to build in some capacity of checking info entered by the user
             canSaveNote = true;
 
             MessagingCenter.Subscribe<NotesListScreenViewModel, Note>(this, Message.NotesLoaded, (sender, note) =>

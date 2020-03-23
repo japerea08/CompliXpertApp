@@ -42,15 +42,12 @@ namespace CompliXpertApp.Views
         protected override void OnAppearing()
         {
             MessagingCenter.Send(this, Message.AllowLandscapePortrait);
-            base.OnAppearing();
-            
+            base.OnAppearing();            
         }
         protected override void OnDisappearing()
         {
             MessagingCenter.Send(this, Message.PreventLandscape);
             base.OnDisappearing();
-            MessagingCenter.Unsubscribe<CustomerMasterViewModel>(createCallReportViewModel, Message.CustomerLoaded);
-            MessagingCenter.Unsubscribe<AddNoteScreenViewModel>(this, Message.NoteCreated);
         }
         //only for Android hard button back; returns false to implement the back action and returns true to cancel the back action
         protected override bool OnBackButtonPressed()
@@ -63,7 +60,6 @@ namespace CompliXpertApp.Views
                 }
             });
             return true;
-
         }
     }
 }

@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CompliXpertApp.Views.PersonDetailsScreen">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Margin="15,0">
+                <Label Text="Person Details"
+                   FontSize="Large"
+                   FontAttributes="Bold"
+                   HorizontalTextAlignment="Center"
+                   Margin="0, 5"/>
+                <Label Text="First Name"
+                   FontSize="Medium"
+                   Margin="0,5"/>
+                <Entry
+                            FontSize="Medium"
+                            Text="{Binding Person.FirstName}" />
+                <Label Text="Last Name"
+                   FontSize="Medium"
+                   Margin="0,5"/>
+                <Entry
+                        
+                            FontSize="Medium"
+                            Text="{Binding Person.LastName}" />
+                <Label Text="Email"
+                   FontSize="Medium"
+                   Margin="0,5"/>
+                <Entry
+                        
+                            FontSize="Medium"
+                            Text="{Binding Person.Email}" />
+                <Label Text="Phone Number"
+                   FontSize="Medium"
+                   Margin="0,5"/>
+                <Entry
+                        
+                            FontSize="Medium"
+                            Text="{Binding Person.PhoneNumber}" />
+                <Label Text="Position"
+                   FontSize="Medium"
+                   Margin="0,5"/>
+                <Entry
+                        
+                            FontSize="Medium"
+                            Text="{Binding Person.Position}" />
+                <Button Text="Save" 
+                    BackgroundColor="#428bca" 
+                    TextColor="White" 
+                    Command="{Binding SavePersonCommand}"
+                    Margin="0,5">
+                    <Button.Triggers>
+                        <DataTrigger
+                                Binding="{Binding CreatedonMobile}"
+                                TargetType="Button"
+                                Value="True">
+                            <Setter Property="IsVisible" Value="True" />
+                        </DataTrigger>
+                        <DataTrigger
+                                Binding="{Binding CreatedonMobile}"
+                                TargetType="Button"
+                                Value="False">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+                <Button Text="Delete" 
+                            BackgroundColor="Red" 
+                            TextColor="White" 
+                            Command="{Binding DeletePersonCommand}"
+                    Margin="0,5">
+                    <Button.Triggers>
+                        <DataTrigger
+                                            Binding="{Binding CreatedonMobile}"
+                                            TargetType="Button"
+                                            Value="True">
+                            <Setter Property="IsVisible" Value="True" />
+                        </DataTrigger>
+                        <DataTrigger
+                                            Binding="{Binding CreatedonMobile}"
+                                            TargetType="Button"
+                                            Value="False">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

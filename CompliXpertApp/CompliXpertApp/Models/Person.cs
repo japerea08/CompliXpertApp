@@ -29,5 +29,12 @@ namespace CompliXpertApp.Models
                 return CreatedDate.ToShortTimeString();
             }
         }
+        public string Name
+        {
+            get
+            {
+                return FirstName + " " + LastName;
+            }
+        }
     }
 }

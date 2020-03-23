@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CompliXpertApp.Views.PersonsListScreen">
+    <ContentPage.Content>
+        <StackLayout Padding="0,5"
+                     Margin="15,0">
+            <Label Text="Persons List"
+                   HorizontalTextAlignment="Center"
+                   FontAttributes="Bold"
+                   FontSize="Large"/>
+            <Label Text="No Persons Have Been Created"
+                   HorizontalTextAlignment="Center"
+                   FontAttributes="Bold"
+                   Margin="0,10">
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label"
+                                 Binding="{Binding PersonsCreated}"
+                                 Value="false">
+                        <Setter Property="IsVisible" Value="True"/>
+                    </DataTrigger>
+                    <DataTrigger TargetType="Label"
+                                 Binding="{Binding PersonsCreated}"
+                                 Value="True">
+                        <Setter Property="IsVisible" Value="False"/>
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
+            <ListView ItemsSource="{Binding Persons}"
+                      HasUnevenRows="True"
+                      SeparatorColor="#ffffff"
+                      SelectedItem="{Binding SelectedPerson, Mode=TwoWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid BackgroundColor="#eff4f9">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Margin="10,2,0,0"
+                                    FontSize="Medium"
+                                    Text="{Binding Name}"
+                                    TextColor="{StaticResource DarkBlueLabelColor}" />
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="10,0,0,2"
+                                    FontSize="Small"
+                                    TextColor="#305d82">
+                                    <Label.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding CreatedonMobile}"
+                                            TargetType="Label"
+                                            Value="True">
+                                            <Setter Property="Text" Value="Created on Mobile" />
+                                            <Setter Property="TextColor" Value="Green" />
+                                        </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding CreatedonMobile}"
+                                            TargetType="Label"
+                                            Value="False">
+                                            <Setter Property="Text" Value="Downloaded from Core" />
+                                            <Setter Property="TextColor" Value="DarkGray" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Margin="10,2,10,0"
+                                    FontSize="Small"
+                                    Text="{Binding Date}"
+                                    HorizontalTextAlignment="End"
+                                    TextColor="#305d82" />
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Margin="10,0,10,2"
+                                    FontSize="Small"
+                                    HorizontalTextAlignment="End"
+                                    Text="{Binding Time}"
+                                    TextColor="#305d82" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Text="Add Person"
+                                BackgroundColor="#428bca"
+                               TextColor="White"
+                                Command="{Binding AddPersonCommand}">
+            </Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

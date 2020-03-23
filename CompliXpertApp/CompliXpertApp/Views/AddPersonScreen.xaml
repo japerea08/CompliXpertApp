@@ -3,51 +3,54 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CompliXpertApp.Views.AddPersonScreen">
     <ContentPage.Content>
-        <StackLayout Margin="15,0">
-            <Label Text="Add Person"
+        <ScrollView>
+            <StackLayout Margin="15,0">
+                <Label Text="Add Person"
                    FontSize="Large"
                    FontAttributes="Bold"
                    HorizontalTextAlignment="Center"
                    Margin="0, 5"/>
-            <Label Text="First Name"
+                <Label Text="First Name"
                    FontSize="Medium"
                    Margin="0,5"/>
-            <Entry
+                <Entry
                             FontSize="Medium"
                             Text="{Binding FirstName}" />
-            <Label Text="Last Name"
+                <Label Text="Last Name"
                    FontSize="Medium"
                    Margin="0,5"/>
-            <Entry
+                <Entry
                         
                             FontSize="Medium"
                             Text="{Binding LastName}" />
-            <Label Text="Email"
+                <Label Text="Email"
                    FontSize="Medium"
                    Margin="0,5"/>
-            <Entry
+                <Entry
                         
                             FontSize="Medium"
                             Text="{Binding Email}" />
-            <Label Text="Phone Number"
+                <Label Text="Phone Number"
                    FontSize="Medium"
                    Margin="0,5"/>
-            <Entry
+                <Entry
                         
                             FontSize="Medium"
                             Text="{Binding PhoneNumber}" />
-            <Label Text="Position"
+                <Label Text="Position"
                    FontSize="Medium"
                    Margin="0,5"/>
-            <Entry
+                <Entry
                         
                             FontSize="Medium"
                             Text="{Binding Position}" />
-            <Button Text="Save" 
+                <Button Text="Save" 
                             BackgroundColor="#428bca" 
                             TextColor="White" 
                             Command="{Binding SavePersonCommand}"
                     Margin="0,5"/>
-        </StackLayout>
+            </StackLayout>
+        </ScrollView>
+        
     </ContentPage.Content>
 </ContentPage>

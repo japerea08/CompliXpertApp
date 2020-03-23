@@ -62,6 +62,7 @@ namespace CompliXpertApp.ViewModels
 
                 dummyList.Add(note);
                 Notes = dummyList;
+                NotesCreated = true;
             });
         }
         public ICommand AddNoteCommand { get; set; }

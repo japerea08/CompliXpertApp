@@ -97,7 +97,7 @@ namespace CompliXpertApp.ViewModels
             else
             {
                 await App.Current.MainPage.Navigation.PopModalAsync();
-                ////use messaging center to send note back
+                ////use messaging center to send person back
                 MessagingCenter.Send<AddPersonScreenViewModel, Person>(this, Message.PersonCreated, person);
             }
 

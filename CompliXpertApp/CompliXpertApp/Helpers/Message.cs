@@ -2,6 +2,19 @@
 {
     static public class Message
     {
+        public static string PersonsLoaded
+        { get
+            {
+                return "Persons Loaded";
+            }
+        }
+        public static string PersonLoaded
+        {
+            get
+            {
+                return "Person loaded";
+            }
+        }
         public static string PersonCreated
         {
             get

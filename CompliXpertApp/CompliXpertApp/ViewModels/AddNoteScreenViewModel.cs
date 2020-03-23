@@ -87,6 +87,7 @@ namespace CompliXpertApp.ViewModels
                     {
                         await context.SaveChangesAsync();
                         await App.Current.MainPage.Navigation.PopModalAsync();
+                        //message being set back to the Notes List Screen to update it
                         MessagingCenter.Send<AddNoteScreenViewModel, Note>(this, Message.NoteCreated, note);
                     }
                     catch (Exception ex)

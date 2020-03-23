@@ -291,6 +291,9 @@ namespace CompliXpertApp.ViewModels
         async Task ViewPersonsAsync()
         {
             //will call the modal to see all person associated wth the Call Report
+            await App.Current.MainPage.Navigation.PushModalAsync(new PersonsListScreen());
+            //pass the callreportid
+            MessagingCenter.Send<CallReportDetailsViewModel, int>(this, Message.CallReportId, Report.CallReportId);
         }
         async Task ViewNotesAsync()
         {
