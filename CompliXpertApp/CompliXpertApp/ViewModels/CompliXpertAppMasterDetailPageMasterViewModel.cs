@@ -24,12 +24,12 @@ namespace CompliXpertApp.ViewModels
             MenuItems = new List<CompliXpertAppMasterDetailPageMenuItem>()
             {
                     new CompliXpertAppMasterDetailPageMenuItem { Id = 0, Title = "Customer List", ImageSource = null, TargetType = typeof(CustomerListScreen), Color = "#a1a1a1"},
-                    new CompliXpertAppMasterDetailPageMenuItem { Id = 1, Title = "Prospect List", ImageSource = null, TargetType = typeof(ProspectListScreen) },
-                    new CompliXpertAppMasterDetailPageMenuItem { Id = 2, Title = "Create Call Report", ImageSource = null, TargetType = typeof(CreateCallReportScreen)},
-                    new CompliXpertAppMasterDetailPageMenuItem{Id = 3, Title = "Add Prospect", ImageSource = null, TargetType = typeof(AddProspectScreen)},
-                    new CompliXpertAppMasterDetailPageMenuItem{Id = 4, Title = "Add New Contact", ImageSource = null, TargetType = typeof(AddNewContactScreen) },
-                    new CompliXpertAppMasterDetailPageMenuItem { Id = 5, Title = "Call Report List", ImageSource = null, TargetType = typeof(CallReportListScreen)},
-                    new CompliXpertAppMasterDetailPageMenuItem { Id = 6, Title = "Add Note/Add Attendee", ImageSource = null, TargetType = typeof(LoadingScreen)}
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 1, Title = "Call Report List", ImageSource = null, TargetType = typeof(CallReportListScreen)},
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 2, Title = "Contact List", ImageSource = null, TargetType = typeof(ContactListScreen)},
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 3, Title = "Prospect List", ImageSource = null, TargetType = typeof(ProspectListScreen) },
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 4, Title = "Create Call Report", ImageSource = null, TargetType = typeof(CreateCallReportScreen)},
+                    new CompliXpertAppMasterDetailPageMenuItem{Id = 5, Title = "Add Prospect", ImageSource = null, TargetType = typeof(AddProspectScreen)},
+                    new CompliXpertAppMasterDetailPageMenuItem{Id = 6, Title = "Add New Contact", ImageSource = null, TargetType = typeof(AddNewContactScreen) }         
             };
 
             SignOffCommand = new Command(async () => await SignOffAsync());
@@ -245,14 +245,13 @@ namespace CompliXpertApp.ViewModels
         {
             MenuItems = new List<CompliXpertAppMasterDetailPageMenuItem>()
             {
-                    new CompliXpertAppMasterDetailPageMenuItem { Id = 0, Title = "Customer List", ImageSource = null, TargetType = typeof(CustomerListScreen), Color = "#a1a1a1" },
-                    new CompliXpertAppMasterDetailPageMenuItem { Id = 1, Title = "Prospect List", ImageSource = null, TargetType = typeof(ProspectListScreen) },
-                    new CompliXpertAppMasterDetailPageMenuItem { Id = 2, Title = "Create Call Report", ImageSource = null, TargetType = typeof(CreateCallReportScreen)},
-                    new CompliXpertAppMasterDetailPageMenuItem{Id = 3, Title = "Add Prospect", ImageSource = null, TargetType = typeof(AddProspectScreen)},
-                    new CompliXpertAppMasterDetailPageMenuItem{Id = 4, Title = "Add New Contact", ImageSource = null, TargetType = typeof(AddNewContactScreen) },
-                    new CompliXpertAppMasterDetailPageMenuItem { Id = 5, Title = "Call Report List", ImageSource = null, TargetType = typeof(CallReportListScreen)},
-                    new CompliXpertAppMasterDetailPageMenuItem { Id = 6, Title = "Add Note/Add Attendee", ImageSource = null, TargetType = typeof(LoadingScreen)},
-                    new CompliXpertAppMasterDetailPageMenuItem { Id = 7, Title = "History", ImageSource = null }
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 0, Title = "Customer List", ImageSource = null, TargetType = typeof(CustomerListScreen), Color = "#a1a1a1"},
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 1, Title = "Call Report List", ImageSource = null, TargetType = typeof(CallReportListScreen)},
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 2, Title = "Contact List", ImageSource = null, TargetType = typeof(ContactListScreen)},
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 3, Title = "Prospect List", ImageSource = null, TargetType = typeof(ProspectListScreen) },
+                    new CompliXpertAppMasterDetailPageMenuItem { Id = 4, Title = "Create Call Report", ImageSource = null, TargetType = typeof(CreateCallReportScreen)},
+                    new CompliXpertAppMasterDetailPageMenuItem{Id = 5, Title = "Add Prospect", ImageSource = null, TargetType = typeof(AddProspectScreen)},
+                    new CompliXpertAppMasterDetailPageMenuItem{Id = 6, Title = "Add New Contact", ImageSource = null, TargetType = typeof(AddNewContactScreen) }
             };
             CreateCallReportTapped = false;
             AddNoteAttendeeTapped = false;
