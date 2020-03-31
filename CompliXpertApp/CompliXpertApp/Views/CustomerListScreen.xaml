@@ -61,6 +61,20 @@
                                     Margin="10,0,0,2"
                                     FontSize="Small"
                                     Text="{Binding Company}" />
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Margin="10,0,0,2"
+                                    FontSize="Small"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding Date}" />
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Margin="10,2,0,0"
+                                    FontSize="Small"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding Time}" />
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

@@ -213,6 +213,7 @@ namespace MigrationsApp.Migrations
                     b.Property<int>("ContactId")
                         .ValueGeneratedOnAdd();
                     //b.Property<int>("AccountNumber");
+                    b.Property<DateTime>("CreatedDate");
 
                     b.Property<string>("Comments");
 

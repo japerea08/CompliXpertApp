@@ -208,6 +208,7 @@ namespace MigrationsApp.Migrations
                 .ValueGeneratedOnAdd();
 
                 b.Property<string>("Comments");
+                b.Property<DateTime>("CreatedDate");
 
                 b.Property<string>("Company");
 

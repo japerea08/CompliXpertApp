@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace CompliXpertApp.Models
 {
@@ -13,5 +13,20 @@ namespace CompliXpertApp.Models
         public string Phonenumber { get; set; }
         public string Company { get; set; }
         public string Comments { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string Date
+        {
+            get
+            {
+                return CreatedDate.ToShortDateString();
+            }
+        }
+        public string Time
+        {
+            get
+            {
+                return CreatedDate.ToShortTimeString();
+            }
+        }
     }
 }

@@ -24,6 +24,12 @@ namespace CompliXpertApp.ViewModels
                     NewContactEmail = newContact.Email;
                     TextEntered = false;
                 });
+            MessagingCenter.Subscribe<ContactListScreenViewModel, NewContact>(this, Message.NewContactLoaded, (sender, contact) =>
+            {
+                NewContact = contact;
+                NewContactEmail = newContact.Email;
+                TextEntered = false;
+            });
         }
 
         //properties

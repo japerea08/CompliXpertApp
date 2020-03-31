@@ -117,6 +117,7 @@ namespace MigrationsApp.Migrations
                     Title = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
                     Phonenumber = table.Column<string>(nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
                     Company = table.Column<string>(nullable: true),
                     Comments = table.Column<string>(nullable: true)
                 },

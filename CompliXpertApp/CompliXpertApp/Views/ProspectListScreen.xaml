@@ -75,12 +75,6 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <!--<Button
-                Margin="0,15"
-                BackgroundColor="#428bca"
-                Command="{Binding SendNewDataCommand}"
-                Text="Send New Data"
-                TextColor="{StaticResource ButtonTextColor}" />-->
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
