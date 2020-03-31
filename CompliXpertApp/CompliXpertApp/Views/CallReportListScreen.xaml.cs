@@ -28,18 +28,16 @@ namespace CompliXpertApp.Views
 
             callReportListScreenViewModel.InitializeData();
         }
-        //method only works for Android Hard Key
         protected override bool OnBackButtonPressed()
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
-                if (await App.Current.MainPage.DisplayAlert("Sign Off", "Are you sure you want to sign off?", "Yes", "No"))
+                if (await App.Current.MainPage.DisplayAlert("Are you sure you want to return to Customer List?", "", "Yes", "No"))
                 {
                     await App.Current.MainPage.Navigation.PopToRootAsync();
                 }
             });
             return true;
-
         }
     }
 }
