@@ -1,6 +1,7 @@
 ﻿using CompliXpertApp.Helpers;
 using CompliXpertApp.Models;
 using CompliXpertApp.Views;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,57 +16,27 @@ namespace CompliXpertApp.ViewModels
         private Note selectedNote;
         private bool notesCreated;
         private int crId;
-        private bool callReportCreatedAlready = false;
+        private bool callReportCreatedAlready;
+        private bool isBusy;
         public NotesListScreenViewModel()
         {
+            callReportCreatedAlready = false;
             AddNoteCommand = new Command(async () => await AddNoteAsync());
-
-            MessagingCenter.Subscribe<CallReportDetailsViewModel, int>(this, Message.CallReportId, (sender, callReportId) =>
-            {
-                crId = callReportId;
-                callReportCreatedAlready = true;
-            });
-
-            //call any DB actions here
-            MessagingCenter.Subscribe<CallReportDetailsViewModel, int>(this, Message.CallReportId, (sender, callReportId) =>
-            {
-                using (CompliXperAppContext context = new CompliXperAppContext())
-                {
-                    Notes = (from notes in context.Notes
-                                                      where notes.CallReportId == callReportId
-                                                      select notes).ToList();
-                    if (Notes.Count == 0)
-                        NotesCreated = false;
-                    else
-                        NotesCreated = true;
-                }
-
-            });
-
-            MessagingCenter.Subscribe<NoteDetailsScreenViewModel, List<Note>>(this, Message.NotesLoaded, (sender, notesList) =>
-            {
-                Notes = notesList;
-
-                if (notesList.Count == 0)
-                    NotesCreated = false;
-                else
-                    NotesCreated = true;
-            });
-            MessagingCenter.Subscribe<AddNoteScreenViewModel, Note>(this, Message.NoteCreated, (sender, note) =>
-            {
-                List<Note> dummyList = new List<Note>();
-
-                foreach (Note n in Notes)
-                {
-                    dummyList.Add(n);
-                }
-
-                dummyList.Add(note);
-                Notes = dummyList;
-                NotesCreated = true;
-            });
+            Subscribe();
         }
         public ICommand AddNoteCommand { get; set; }
+        public bool IsBusy
+        {
+            get
+            {
+                return isBusy;
+            }
+            set
+            {
+                isBusy = value;
+                OnPropertyChanged();
+            }
+        }
         public List<Note> Notes
         {
             get
@@ -113,6 +84,65 @@ namespace CompliXpertApp.ViewModels
         async Task AddNoteAsync()
         {
             await App.Current.MainPage.Navigation.PushModalAsync(new AddNoteScreen(crId, callReportCreatedAlready));
+        }
+        private void Subscribe()
+        {
+            MessagingCenter.Subscribe<CallReportDetailsViewModel, int>(this, Message.CallReportId, (sender, callReportId) =>
+            {
+                crId = callReportId;
+                callReportCreatedAlready = true;
+            });
+
+            MessagingCenter.Subscribe<CallReportDetailsViewModel, int>(this, Message.CallReportId, async (sender, callReportId) =>
+            {
+                using (CompliXperAppContext context = new CompliXperAppContext())
+                {
+                    IsBusy = true;
+                    Notes = await (from notes in context.Notes
+                             where notes.CallReportId == callReportId
+                             select notes).ToListAsync();
+                    IsBusy = false;
+                    if (Notes.Count == 0)
+                        NotesCreated = false;
+                    else
+                        NotesCreated = true;
+                }
+
+            });
+
+            MessagingCenter.Subscribe<NoteDetailsScreenViewModel, List<Note>>(this, Message.NotesLoaded, (sender, notesList) =>
+            {
+                Notes = notesList;
+
+                if (notesList.Count == 0)
+                    NotesCreated = false;
+                else
+                    NotesCreated = true;
+            });
+            MessagingCenter.Subscribe<AddNoteScreenViewModel, Note>(this, Message.NoteCreated, (sender, note) =>
+            {
+                List<Note> dummyList = new List<Note>();
+
+                foreach (Note n in Notes)
+                {
+                    dummyList.Add(n);
+                }
+
+                dummyList.Add(note);
+                Notes = dummyList;
+                NotesCreated = true;
+            });
+        }
+
+        public void Unsubscribe()
+        {
+            MessagingCenter.Unsubscribe<CallReportDetailsViewModel, int>(this, Message.CallReportId);
+
+            MessagingCenter.Unsubscribe<CallReportDetailsViewModel, int>(this, Message.CallReportId);
+
+            MessagingCenter.Unsubscribe<NoteDetailsScreenViewModel, List<Note>>(this, Message.NotesLoaded);
+
+            MessagingCenter.Unsubscribe<AddNoteScreenViewModel, Note>(this, Message.NoteCreated);
         }
     }
 }

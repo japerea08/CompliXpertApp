@@ -17,7 +17,11 @@
                         Margin="25,15"
                         FontSize="Medium"
                         Text="Sign Out"
-                        TextColor="White" />
+                        TextColor="White">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SignOffCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
                 </StackLayout>
             </ListView.Footer>
             <ListView.ItemTemplate>

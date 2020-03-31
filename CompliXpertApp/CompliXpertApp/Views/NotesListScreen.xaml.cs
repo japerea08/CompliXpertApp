@@ -1,8 +1,5 @@
-﻿using CompliXpertApp.Helpers;
-using CompliXpertApp.Models;
+﻿
 using CompliXpertApp.ViewModels;
-using System.Collections.Generic;
-using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,12 +13,18 @@ namespace CompliXpertApp.Views
 		{
             notesListScreenViewModel = new NotesListScreenViewModel();
             BindingContext = notesListScreenViewModel;
-			InitializeComponent ();
-		}
+			InitializeComponent ();    
+        }
         protected override void OnAppearing()
         {
             base.OnAppearing();
            
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            notesListScreenViewModel.Unsubscribe();
+            return base.OnBackButtonPressed();
         }
     }
 }

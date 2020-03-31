@@ -1,35 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CompliXpertApp.Views.NotesListScreen">
+<ContentPage
+    x:Class="CompliXpertApp.Views.NotesListScreen"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <ContentPage.Content>
-        <StackLayout Padding="0,5"
-                     Margin="15,0">
-            <Label Text="Notes List"
-                   HorizontalTextAlignment="Center"
-                   FontAttributes="Bold"
-                   FontSize="Large"/>
-            <Label Text="No Notes Have Been Created"
-                   HorizontalTextAlignment="Center"
-                   FontAttributes="Bold"
-                   Margin="0,10">
+        <StackLayout Margin="15,0" Padding="0,5">
+            <Label
+                FontAttributes="Bold"
+                FontSize="Large"
+                HorizontalTextAlignment="Center"
+                Text="Notes List" />
+            <Label
+                Margin="0,10"
+                FontAttributes="Bold"
+                HorizontalTextAlignment="Center"
+                Text="No Notes Have Been Created">
                 <Label.Triggers>
-                    <DataTrigger TargetType="Label"
-                                 Binding="{Binding NotesCreated}"
-                                 Value="false">
-                        <Setter Property="IsVisible" Value="True"/>
+                    <DataTrigger
+                        Binding="{Binding NotesCreated}"
+                        TargetType="Label"
+                        Value="false">
+                        <Setter Property="IsVisible" Value="True" />
                     </DataTrigger>
-                    <DataTrigger TargetType="Label"
-                                 Binding="{Binding NotesCreated}"
-                                 Value="True">
-                        <Setter Property="IsVisible" Value="False"/>
+                    <DataTrigger
+                        Binding="{Binding NotesCreated}"
+                        TargetType="Label"
+                        Value="True">
+                        <Setter Property="IsVisible" Value="False" />
                     </DataTrigger>
                 </Label.Triggers>
             </Label>
-            <ListView ItemsSource="{Binding Notes}"
-                      HasUnevenRows="True"
-                      SeparatorColor="#ffffff"
-                      SelectedItem="{Binding SelectedNote, Mode=TwoWay}">
+            <ListView
+                HasUnevenRows="True"
+                ItemsSource="{Binding Notes}"
+                SelectedItem="{Binding SelectedNote, Mode=TwoWay}"
+                SeparatorColor="#ffffff">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -40,7 +45,7 @@
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
                                 <Label
@@ -78,8 +83,8 @@
                                     Grid.Column="1"
                                     Margin="10,2,10,0"
                                     FontSize="Small"
-                                    Text="{Binding Date}"
                                     HorizontalTextAlignment="End"
+                                    Text="{Binding Date}"
                                     TextColor="#305d82" />
                                 <Label
                                     Grid.Row="1"
@@ -94,11 +99,12 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button Text="Add Note"
-                                BackgroundColor="#428bca"
-                               TextColor="White"
-                                Command="{Binding AddNoteCommand}">
-            </Button>
+            <Button
+                BackgroundColor="#428bca"
+                Command="{Binding AddNoteCommand}"
+                Text="Add Note"
+                TextColor="White" />
+            <ActivityIndicator IsRunning="{Binding IsBusy}" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

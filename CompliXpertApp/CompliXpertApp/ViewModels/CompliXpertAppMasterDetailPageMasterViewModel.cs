@@ -4,6 +4,8 @@ using CompliXpertApp.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace CompliXpertApp.ViewModels
@@ -29,9 +31,23 @@ namespace CompliXpertApp.ViewModels
                     new CompliXpertAppMasterDetailPageMenuItem { Id = 5, Title = "Call Report List", ImageSource = null, TargetType = typeof(CallReportListScreen)},
                     new CompliXpertAppMasterDetailPageMenuItem { Id = 6, Title = "Add Note/Add Attendee", ImageSource = null, TargetType = typeof(LoadingScreen)}
             };
+
+            SignOffCommand = new Command(async () => await SignOffAsync());
+        }
+
+        private async Task SignOffAsync()
+        {
+            Device.BeginInvokeOnMainThread(async () => 
+            {
+                if (await App.Current.MainPage.DisplayAlert("Are you sure you want to Sign off?", "", "Yes", "No"))
+                {
+                    System.Diagnostics.Process.GetCurrentProcess().Kill();
+                }
+            });
         }
 
         //properties
+        public ICommand SignOffCommand { get; set; }
         public List<CompliXpertAppMasterDetailPageMenuItem> MenuItems
         {
             get

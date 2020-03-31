@@ -107,5 +107,17 @@ namespace CompliXpertApp.Views
             listScreenViewModel.CreateGroups();
             listScreenViewModel.CheckForNewData();
         }
+        protected override bool OnBackButtonPressed()
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                if (await App.Current.MainPage.DisplayAlert("Are you sure you want to Sign Off?", "", "Yes", "No"))
+                {
+                    System.Diagnostics.Process.GetCurrentProcess().Kill();
+                }
+            });
+            return true;
+
+        }
     }
 }
