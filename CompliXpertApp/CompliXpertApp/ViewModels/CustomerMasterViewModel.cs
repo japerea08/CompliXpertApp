@@ -31,12 +31,13 @@ namespace CompliXpertApp.ViewModels
             {
                 Customer = args;
 
-                IndexedAccount = new List<ObjectIndexer>();
+                //dummy list
+                List<ObjectIndexer> dummyindexer = new List<ObjectIndexer>();
                 int i = 0;
                 //initialize the indexed list
                 foreach (Account account in Customer.Account)
                 {
-                    IndexedAccount.Add(new ObjectIndexer()
+                    dummyindexer.Add(new ObjectIndexer()
                     {
                         Object = account,
                         Index = i,
@@ -44,6 +45,7 @@ namespace CompliXpertApp.ViewModels
                     });
                     i++;
                 }
+                IndexedAccount = dummyindexer;
             });
             //this message is for the incoming
             MessagingCenter.Subscribe<CustomerListScreenViewModel, Customer>(this, Message.CustomerLoaded, (sender, args) =>
