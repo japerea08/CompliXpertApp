@@ -366,7 +366,7 @@ namespace CompliXpertApp.ViewModels
         }
         public async Task CloseCallReportAsync()
         {
-            await App.Current.MainPage.Navigation.PopAsync();
+            await App.Current.MainPage.Navigation.PopToRootAsync();
             //send back the current call Reports
             MessagingCenter.Send<CallReportDetailsViewModel, int?>(this, Message.AccountNumber, Report.AccountNumber);
         }

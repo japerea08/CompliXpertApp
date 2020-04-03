@@ -209,14 +209,27 @@ namespace CompliXpertApp.Views
         }
         protected override bool OnBackButtonPressed()
         {
-            Device.BeginInvokeOnMainThread(async () =>
+            if(viewModel.CreatedOnMobile == true)
             {
-                if (await App.Current.MainPage.DisplayAlert("Are you sure you want to return to Customer List?", "Any new information entered will be lost.", "Yes", "No"))
+                Device.BeginInvokeOnMainThread(async () =>
                 {
-                    await App.Current.MainPage.Navigation.PopToRootAsync();
-                }
-            });
-            return true;
+                    if (await App.Current.MainPage.DisplayAlert("Are you sure you want to return to Customer List?", "Any new information entered will be lost.", "Yes", "No"))
+                    {
+                        await App.Current.MainPage.Navigation.PopToRootAsync();
+                    }
+                });
+                return true;
+            }
+            else
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                        await App.Current.MainPage.Navigation.PopToRootAsync();
+                    
+                });
+                return true;
+            }
+            
 
         }
     }
