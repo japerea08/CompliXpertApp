@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local1="clr-namespace:CompliXpertApp.CustomViews"
              xmlns:local2="clr-namespace:CompliXpertApp.Behaviors"
              x:Class="CompliXpertApp.Views.NewContactMaster">
     <ContentPage.Content>
@@ -10,38 +9,25 @@
                 <Label  Text="Contact Name"
                         FontSize="Large"
                        TextColor="#305d82"/>
-                <local1:CustomEntry Text="{Binding NewContact.Name}"
+                <Entry Text="{Binding NewContact.Name}"
                        FontSize="Medium"
-                       BorderEnabled="True"
-                       StrokeColor="#305d82"
-                       CornerRadius="0"
-                       StrokeThickness="3"
-                       BackgroundColor="#f5f5f5"/>
+                       />
                 <Label Text="Title"
                        FontSize="Large"
                        TextColor="#305d82"/>
-                <local1:CustomEntry Text="{Binding NewContact.Title}"
+                <Entry Text="{Binding NewContact.Title}"
                        FontSize="Medium"
-                       BorderEnabled="True"
-                       StrokeColor="#305d82"
-                       CornerRadius="0"
-                       StrokeThickness="3"
-                       BackgroundColor="#f5f5f5"/>
+                       />
                 <Label Text="Email"
                        FontSize="Large"
                        TextColor="#305d82"/>
-                <local1:CustomEntry Text="{Binding NewContactEmail}"
+                <Entry Text="{Binding NewContactEmail}"
                        FontSize="Medium"
-                       BorderEnabled="True"
-                       StrokeColor="#305d82"
-                       CornerRadius="0"
-                       StrokeThickness="3"
-                       BackgroundColor="#f5f5f5"
                        Keyboard="Email">
-                    <local1:CustomEntry.Behaviors>
+                    <Entry.Behaviors>
                         <local2:EmailValidatorBehavior Command="{Binding EmailValidateMessageCommand}"/>
-                    </local1:CustomEntry.Behaviors>
-                </local1:CustomEntry>
+                    </Entry.Behaviors>
+                </Entry>
                 <Label Text="{Binding EmailValidationMessage}"
                        TextColor="{Binding EmailValidationColor}">
                     <Label.Triggers>
@@ -62,40 +48,28 @@
                 <Label Text="Phone Number"
                        FontSize="Large"
                        TextColor="#305d82"/>
-                <local1:CustomEntry Text="{Binding NewContact.Phonenumber}"
+                <Entry Text="{Binding NewContact.Phonenumber}"
                        FontSize="Medium"
-                       BorderEnabled="True"
-                       StrokeColor="#305d82"
-                       CornerRadius="0"
-                       StrokeThickness="3"
-                       BackgroundColor="#f5f5f5"
+                       
                        Keyboard="Telephone"/>
                 <Label Text="Company"
                        FontSize="Large"
                        TextColor="#305d82"/>
-                <local1:CustomEntry Text="{Binding NewContact.Company}"
+                <Entry Text="{Binding NewContact.Company}"
                        FontSize="Medium"
-                       BorderEnabled="True"
-                       StrokeColor="#305d82"
-                       CornerRadius="0"
-                       StrokeThickness="3"
-                       BackgroundColor="#f5f5f5"/>
+                       />
                 <Label Text="Comments"
                         FontSize="Large"
                         TextColor="#305d82"/>
-                <local1:CustomEditor Text="{Binding NewContact.Comments}"
+                <Editor Text="{Binding NewContact.Comments}"
                                      AutoSize="TextChanges"
                                      FontSize="Medium"
-                                     BorderEnabled="True"
-                                     StrokeColor="#305d82"
-                                     CornerRadius="0"
-                                     StrokeThickness="3"
-                                     BackgroundColor="#f5f5f5"/>
+                                     />
                 <Button Text="Save Changes" 
                         BackgroundColor="#428bca" 
                         TextColor="White"
-                        Margin="0,0,0,20"
-                        Command="{Binding AddNewContactCommand}"></Button>
+                        Margin="0,20,0,20"
+                        Command="{Binding SaveNewContactCommand}"></Button>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
