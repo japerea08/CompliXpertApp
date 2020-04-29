@@ -98,6 +98,18 @@
                                 BackgroundColor="#428bca"
                                TextColor="White"
                                 Command="{Binding AddPersonCommand}">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button"
+                                 Binding="{Binding PersonsCreated}"
+                                 Value="false">
+                        <Setter Property="IsVisible" Value="False"/>
+                    </DataTrigger>
+                    <DataTrigger TargetType="Button"
+                                 Binding="{Binding PersonsCreated}"
+                                 Value="True">
+                        <Setter Property="IsVisible" Value="True"/>
+                    </DataTrigger>
+                </Button.Triggers>
             </Button>
         </StackLayout>
     </ContentPage.Content>

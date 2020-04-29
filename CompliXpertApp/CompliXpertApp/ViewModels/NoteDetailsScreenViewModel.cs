@@ -2,7 +2,6 @@
 using CompliXpertApp.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -78,11 +77,15 @@ namespace CompliXpertApp.ViewModels
             {
                 using (var context = new CompliXperAppContext())
                 {
-                    var entity = await context.Notes.FirstOrDefaultAsync(x => x.NoteId == Note.NoteId);
+                    var entity = await context.Notes.FirstOrDefaultAsync(x => x.CallReportId == Note.CallReportId);
                     context.Notes.Remove(entity);
                     await context.SaveChangesAsync();
+                    //get cleaned up list
+                    List<Note> notes = await (from n in context.Notes
+                                              where n.CallReportId == Note.CallReportId
+                                              select n).ToListAsync();
                     await App.Current.MainPage.Navigation.PopModalAsync();
-                    MessagingCenter.Send<NoteDetailsScreenViewModel, List<Note>>(this, Message.NotesLoaded, context.Notes.ToList());
+                    MessagingCenter.Send<NoteDetailsScreenViewModel, List<Note>>(this, Message.NotesLoaded, notes);
                     //send a message to call report details screen to make a new call 
                 }
             }

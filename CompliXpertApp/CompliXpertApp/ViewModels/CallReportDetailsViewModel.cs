@@ -343,7 +343,7 @@ namespace CompliXpertApp.ViewModels
                 }
                 
                 IsBusy = false;
-                await App.Current.MainPage.Navigation.PopAsync();
+                await App.Current.MainPage.Navigation.PopToRootAsync();
                 MessagingCenter.Send<CallReportDetailsViewModel, int?>(this, Message.AccountNumber, Report.AccountNumber);
             }
         }

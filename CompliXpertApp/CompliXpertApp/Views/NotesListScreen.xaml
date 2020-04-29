@@ -103,7 +103,20 @@
                 BackgroundColor="#428bca"
                 Command="{Binding AddNoteCommand}"
                 Text="Add Note"
-                TextColor="White" />
+                TextColor="White">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button"
+                                 Binding="{Binding CreatedOnMobile}"
+                                 Value="false">
+                        <Setter Property="IsVisible" Value="False"/>
+                    </DataTrigger>
+                    <DataTrigger TargetType="Button"
+                                 Binding="{Binding CreatedOnMobile}"
+                                 Value="True">
+                        <Setter Property="IsVisible" Value="True"/>
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
             <ActivityIndicator IsRunning="{Binding IsBusy}" />
         </StackLayout>
     </ContentPage.Content>

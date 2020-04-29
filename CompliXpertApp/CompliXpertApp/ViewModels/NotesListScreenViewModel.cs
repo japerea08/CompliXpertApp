@@ -14,6 +14,7 @@ namespace CompliXpertApp.ViewModels
     {
         private List<Note> notes;
         private Note selectedNote;
+        private bool createdOnMobile;
         private bool notesCreated;
         private int crId;
         private bool callReportCreatedAlready;
@@ -75,6 +76,18 @@ namespace CompliXpertApp.ViewModels
                 OnPropertyChanged();
             }
         }
+        public bool CreatedOnMobile
+        {
+            get
+            {
+                return createdOnMobile;
+            }
+            set
+            {
+                createdOnMobile = value;
+                OnPropertyChanged();
+            }
+        }
         async private void GetNoteDetailsScreen(Note note)
         {
             SelectedNote = null;
@@ -101,11 +114,17 @@ namespace CompliXpertApp.ViewModels
                     Notes = await (from notes in context.Notes
                              where notes.CallReportId == callReportId
                              select notes).ToListAsync();
-                    IsBusy = false;
+                    //get callreport the notes are asscoiated with
+                    CreatedOnMobile = await (from c in context.CallReport
+                                             where c.CallReportId == callReportId
+                                             select c.CreatedOnMobile).FirstOrDefaultAsync();
                     if (Notes.Count == 0)
                         NotesCreated = false;
                     else
                         NotesCreated = true;
+                    IsBusy = false;
+                    
+                        
                 }
 
             });
@@ -117,7 +136,11 @@ namespace CompliXpertApp.ViewModels
                 if (notesList.Count == 0)
                     NotesCreated = false;
                 else
+                {
                     NotesCreated = true;
+                    CreatedOnMobile = notesList[0].CreatedonMobile;
+                }                
+                    
             });
             MessagingCenter.Subscribe<AddNoteScreenViewModel, Note>(this, Message.NoteCreated, (sender, note) =>
             {
@@ -130,7 +153,10 @@ namespace CompliXpertApp.ViewModels
 
                 dummyList.Add(note);
                 Notes = dummyList;
-                NotesCreated = true;
+                if (Notes.Count == 0)
+                    NotesCreated = false;
+                else
+                    NotesCreated = true;
             });
         }
 
