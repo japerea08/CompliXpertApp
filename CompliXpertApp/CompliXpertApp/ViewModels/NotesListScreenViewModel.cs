@@ -114,7 +114,6 @@ namespace CompliXpertApp.ViewModels
                     Notes = await (from notes in context.Notes
                              where notes.CallReportId == callReportId
                              select notes).ToListAsync();
-                    //get callreport the notes are asscoiated with
                     CreatedOnMobile = await (from c in context.CallReport
                                              where c.CallReportId == callReportId
                                              select c.CreatedOnMobile).FirstOrDefaultAsync();
@@ -131,7 +130,7 @@ namespace CompliXpertApp.ViewModels
 
             MessagingCenter.Subscribe<NoteDetailsScreenViewModel, List<Note>>(this, Message.NotesLoaded, (sender, notesList) =>
             {
-                Notes = notesList;
+                
 
                 if (notesList.Count == 0)
                     NotesCreated = false;
@@ -139,8 +138,9 @@ namespace CompliXpertApp.ViewModels
                 {
                     NotesCreated = true;
                     CreatedOnMobile = notesList[0].CreatedonMobile;
-                }                
-                    
+                }
+                Notes = notesList;
+
             });
             MessagingCenter.Subscribe<AddNoteScreenViewModel, Note>(this, Message.NoteCreated, (sender, note) =>
             {

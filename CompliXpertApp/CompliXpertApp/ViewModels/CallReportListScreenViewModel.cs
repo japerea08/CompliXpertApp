@@ -58,22 +58,28 @@ namespace CompliXpertApp.ViewModels
                     CallReportList dummyCallReportList = new CallReportList();
                     dummyCallReportList.Heading = customer.CustomerName;
 
-                    //get the list of call reports
-                    IEnumerable<CallReport> callReports = (from callReport in context.CallReport
-                                                    where callReport.AccountNumber == (from account in context.Account
-                                                                                      where account.CustomerNumber == customer.CustomerNumber
-                                                                                      select account.AccountNumber).FirstOrDefault()
-                                                                                      orderby callReport.CallDate descending
-                                                    select callReport).ToList();
-                    foreach (CallReport callreport in callReports)
+                    //get all accounts
+                    List<Account> accounts = (from account in context.Account
+                                              where account.CustomerNumber == customer.CustomerNumber
+                                              select account).ToList();
+                    foreach(Account account in accounts)
                     {
-                        callreport.Reason = "Type: " + callreport.Reason;
-                        callreport.Responses = (from response in context.CallReportResponse
-                                                where response.CallReportId == callreport.CallReportId
-                                                select response).ToList(); 
-                    }
+                        //get the list of call reports
+                        IEnumerable<CallReport> callReports = (from callreport in context.CallReport
+                                                   where callreport.AccountNumber == account.AccountNumber
+                                                   orderby callreport.CallDate descending
+                                                   select callreport).ToList();
 
-                    dummyCallReportList.AddRange(callReports);
+                        foreach (CallReport callreport in callReports)
+                        {
+                            callreport.Reason = "Type: " + callreport.Reason;
+                            callreport.Responses = (from response in context.CallReportResponse
+                                                    where response.CallReportId == callreport.CallReportId
+                                                    select response).ToList();                 
+                        }
+                        dummyCallReportList.AddRange(callReports);
+
+                    }
 
                     newList.Add(dummyCallReportList);
                 }

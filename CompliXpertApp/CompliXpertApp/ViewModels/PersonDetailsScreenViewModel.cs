@@ -89,11 +89,16 @@ namespace CompliXpertApp.ViewModels
             {
                 using (var context = new CompliXperAppContext())
                 {
-                    var entity = await context.Persons.FirstOrDefaultAsync(x => x.PersonId == person.PersonId);
+                    var entity = await context.Persons.FirstOrDefaultAsync(x => x.CallReportId == person.CallReportId);
                     context.Persons.Remove(entity);
                     await context.SaveChangesAsync();
+
+                    //get current list
+                    List<Person> p = (from persons in context.Persons
+                               where persons.CallReportId == person.CallReportId
+                               select persons).ToList();
                     await App.Current.MainPage.Navigation.PopModalAsync();
-                    MessagingCenter.Send<PersonDetailsScreenViewModel, List<Person>>(this, Message.PersonsLoaded, context.Persons.ToList());
+                    MessagingCenter.Send<PersonDetailsScreenViewModel, List<Person>>(this, Message.PersonsLoaded, p);
                 }
             }
         }

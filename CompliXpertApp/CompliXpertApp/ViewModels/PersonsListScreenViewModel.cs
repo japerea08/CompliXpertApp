@@ -2,8 +2,9 @@
 using CompliXpertApp.Models;
 using CompliXpertApp.Views;
 using System.Collections.Generic;
-using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -12,6 +13,7 @@ namespace CompliXpertApp.ViewModels
     class PersonsListScreenViewModel : AbstractNotifyPropertyChanged
     {
         private List<Person> persons;
+        private bool createdOnMobile;
         private Person selectedPerson;
         private bool personsCreated;
         private int crId;
@@ -28,13 +30,16 @@ namespace CompliXpertApp.ViewModels
             });
 
             //call any DB actions here
-            MessagingCenter.Subscribe<CallReportDetailsViewModel, int>(this, Message.CallReportId, (sender, callReportId) =>
+            MessagingCenter.Subscribe<CallReportDetailsViewModel, int>(this, Message.CallReportId, async (sender, callReportId) =>
             {
                 using (CompliXperAppContext context = new CompliXperAppContext())
                 {
-                    Persons = (from persons in context.Persons
+                    Persons = await (from persons in context.Persons
                              where persons.CallReportId == callReportId
-                             select persons).ToList();
+                             select persons).ToListAsync();
+                    CreatedOnMobile = await (from c in context.CallReport
+                                            where c.CallReportId == callReportId
+                                            select c.CreatedOnMobile).FirstOrDefaultAsync();
                     if (Persons.Count == 0)
                         PersonsCreated = false;
                     else
@@ -45,12 +50,15 @@ namespace CompliXpertApp.ViewModels
 
             MessagingCenter.Subscribe<PersonDetailsScreenViewModel, List<Person>>(this, Message.PersonsLoaded, (sender, personsList) =>
             {
-                Persons = personsList;
-
                 if (personsList.Count == 0)
                     PersonsCreated = false;
                 else
+                {
                     PersonsCreated = true;
+                    CreatedOnMobile = personsList[0].CreatedonMobile;
+                }
+                Persons = personsList;
+
             });
 
             MessagingCenter.Subscribe<AddPersonScreenViewModel, Person>(this, Message.PersonCreated, (sender, person) =>
@@ -90,6 +98,18 @@ namespace CompliXpertApp.ViewModels
             set
             {
                 personsCreated = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool CreatedOnMobile
+        {
+            get
+            {
+                return createdOnMobile;
+            }
+            set
+            {
+                createdOnMobile = value;
                 OnPropertyChanged();
             }
         }
