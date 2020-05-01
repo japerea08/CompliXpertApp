@@ -77,7 +77,7 @@ namespace CompliXpertApp.ViewModels
             {
                 using (var context = new CompliXperAppContext())
                 {
-                    var entity = await context.Notes.FirstOrDefaultAsync(x => x.CallReportId == Note.CallReportId);
+                    var entity = await context.Notes.FirstOrDefaultAsync(x => x.NoteId == Note.NoteId);
                     context.Notes.Remove(entity);
                     await context.SaveChangesAsync();
                     //get cleaned up list

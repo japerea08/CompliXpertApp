@@ -89,7 +89,7 @@ namespace CompliXpertApp.ViewModels
             {
                 using (var context = new CompliXperAppContext())
                 {
-                    var entity = await context.Persons.FirstOrDefaultAsync(x => x.CallReportId == person.CallReportId);
+                    var entity = await context.Persons.FirstOrDefaultAsync(x => x.PersonId == person.PersonId);
                     context.Persons.Remove(entity);
                     await context.SaveChangesAsync();
 

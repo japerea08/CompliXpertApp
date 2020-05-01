@@ -33,13 +33,13 @@ namespace CompliXpertApp.ViewModels
                 //get the questions
                 using (var context = new CompliXperAppContext())
                 {
-                    ReportType = (from r in context.CallReportType
+                    ReportType = await (from r in context.CallReportType
                                   where r.Type == Report.CallReportType
-                                  select r.Description).SingleOrDefault();
+                                  select r.Description).SingleOrDefaultAsync();
 
-                    Report.Notes = (from notes in context.Notes
+                    Report.Notes = await (from notes in context.Notes
                                     where notes.CallReportId == Report.CallReportId
-                                    select notes).ToList();
+                                    select notes).ToListAsync();
 
                     List < CallReportQuestions > Questions = await (
                         from _q in context.CallReportQuestions
@@ -92,13 +92,13 @@ namespace CompliXpertApp.ViewModels
                 //get the questions
                 using (var context = new CompliXperAppContext())
                 {
-                    ReportType = (from r in context.CallReportType
+                    ReportType = await (from r in context.CallReportType
                                  where r.Type == Report.CallReportType
-                                 select r.Description).SingleOrDefault();
+                                 select r.Description).SingleOrDefaultAsync();
 
-                    Report.Notes = (from notes in context.Notes
+                    Report.Notes = await (from notes in context.Notes
                                     where notes.CallReportId == Report.CallReportId
-                                    select notes).ToList();
+                                    select notes).ToListAsync();
 
                     List<CallReportQuestions> Questions = await (
                         from _q in context.CallReportQuestions
@@ -111,7 +111,9 @@ namespace CompliXpertApp.ViewModels
                             Type = _q.Type
                         }
                     ).ToListAsync();
+
                     List<QuestionandResponse> _qr = new List<QuestionandResponse>();
+
                     foreach (var question in Questions)
                     {
                        foreach(var response in Report.Responses)
@@ -150,13 +152,13 @@ namespace CompliXpertApp.ViewModels
                 //get the questions
                 using (var context = new CompliXperAppContext())
                 {
-                    ReportType = (from r in context.CallReportType
+                    ReportType = await (from r in context.CallReportType
                                   where r.Type == Report.CallReportType
-                                  select r.Description).SingleOrDefault();
+                                  select r.Description).SingleOrDefaultAsync();
 
-                    Report.Notes = (from notes in context.Notes
+                    Report.Notes = await (from notes in context.Notes
                                     where notes.CallReportId == Report.CallReportId
-                                    select notes).ToList();
+                                    select notes).ToListAsync();
 
                     List<CallReportQuestions> Questions = await (
                         from _q in context.CallReportQuestions
@@ -169,7 +171,9 @@ namespace CompliXpertApp.ViewModels
                             Type = _q.Type
                         }
                     ).ToListAsync();
+
                     List<QuestionandResponse> _qr = new List<QuestionandResponse>();
+
                     foreach (var question in Questions)
                     {
                         foreach (var response in Report.Responses)
