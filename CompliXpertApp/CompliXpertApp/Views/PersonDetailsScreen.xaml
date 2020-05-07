@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local2="clr-namespace:CompliXpertApp.Behaviors"
              x:Class="CompliXpertApp.Views.PersonDetailsScreen">
     <ContentPage.Content>
         <ScrollView>
@@ -26,10 +27,31 @@
                 <Label Text="Email"
                    FontSize="Medium"
                    Margin="0,5"/>
-                <Entry
-                        
-                            FontSize="Medium"
-                            Text="{Binding Person.Email}" />
+                <Entry FontSize="Medium"
+                       Text="{Binding PersonEmail}" 
+                       Keyboard="Email">
+                    <Entry.Behaviors>
+                        <local2:EmailValidatorBehavior Command="{Binding EmailValidateMessageCommand}"/>
+                    </Entry.Behaviors>
+                </Entry>
+                <Label Text="{Binding EmailValidationMessage}"
+                       TextColor="{Binding EmailValidationColor}">
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label"
+                                     Binding="{Binding TextEntered}"
+                                     Value="false">
+                            <Setter Property="IsVisible"
+                                    Value="false"/>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Label"
+                                     Binding="{Binding TextEntered}"
+                                     Value="true">
+                            <Setter Property="IsVisible"
+                                    Value="true"/>
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+                    
                 <Label Text="Phone Number"
                    FontSize="Medium"
                    Margin="0,5"/>

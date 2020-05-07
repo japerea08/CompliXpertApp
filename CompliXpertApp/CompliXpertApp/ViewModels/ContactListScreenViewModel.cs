@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using CompliXpertApp.Helpers;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading.Tasks;
-using System;
 using Xamarin.Forms;
 using CompliXpertApp.Views;
 

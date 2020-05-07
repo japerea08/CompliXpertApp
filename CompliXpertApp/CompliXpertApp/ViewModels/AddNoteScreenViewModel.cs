@@ -16,11 +16,7 @@ namespace CompliXpertApp.ViewModels
         public bool callReportCreatedAlready = false;
         public AddNoteScreenViewModel()
         {
-            MessagingCenter.Subscribe<CallReportDetailsViewModel, int>(this, Message.CallReportId, (sender, callReportId) =>
-            {
-                callreportId = callReportId;
-                callReportCreatedAlready = true;
-            });
+            
 
             SaveNoteCommand = new Command(async () => await SaveNoteAsync(), () => canSave);
         }
@@ -63,7 +59,23 @@ namespace CompliXpertApp.ViewModels
             canSave = value;
             ((Command) SaveNoteCommand).ChangeCanExecute();
         }
-
+        public void Subscribe()
+        {
+            MessagingCenter.Subscribe<CallReportDetailsViewModel, int>(this, Message.CallReportId, (sender, callReportId) =>
+            {
+                callreportId = callReportId;
+                callReportCreatedAlready = true;
+            });
+            MessagingCenter.Subscribe<CreateCallReportViewModel, int>(this, Message.CallReportLoaded, (sender, callReportId) =>
+            {
+                callreportId = callReportId;
+            });
+        }
+        public void UnSubscribe()
+        {
+            MessagingCenter.Unsubscribe<CreateCallReportViewModel, int>(this, Message.CallReportLoaded);
+            MessagingCenter.Unsubscribe<CallReportDetailsViewModel, int>(this, Message.CallReportId);
+        }
         //methods
         async Task SaveNoteAsync()
         {

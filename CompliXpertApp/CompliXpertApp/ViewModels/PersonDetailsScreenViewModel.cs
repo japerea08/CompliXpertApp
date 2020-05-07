@@ -10,10 +10,13 @@ using System.Linq;
 
 namespace CompliXpertApp.ViewModels
 {
-    class PersonDetailsScreenViewModel: AbstractNotifyPropertyChanged
+    class PersonDetailsScreenViewModel : AbstractEmailValidator
     {
         private Person person;
         private bool canSavePerson;
+        private bool textEntered;
+        private string personEmail;
+        private ICommand emailValidateMessageCommand;
 
         public PersonDetailsScreenViewModel()
         {
@@ -23,6 +26,8 @@ namespace CompliXpertApp.ViewModels
             MessagingCenter.Subscribe<PersonsListScreenViewModel, Person>(this, Message.PersonLoaded, (sender, person) =>
             {
                 Person = person;
+                PersonEmail = person.Email;
+                TextEntered = false;
             });
 
             SavePersonCommand = new Command(async () => await SavePersonAsync(), () => canSavePerson);
@@ -30,6 +35,7 @@ namespace CompliXpertApp.ViewModels
         }
 
         public ICommand SavePersonCommand { get; set; }
+        public ICommand EmailValidateMessageCommand => emailValidateMessageCommand ?? (emailValidateMessageCommand = new Command<bool>(CheckEmailFormat));
         public ICommand DeletePersonCommand { get; set; }
         public Person Person
         {
@@ -43,6 +49,22 @@ namespace CompliXpertApp.ViewModels
                 OnPropertyChanged();
             }
         }
+        public string PersonEmail
+        {
+            get
+            {
+                return personEmail;
+            }
+            set
+            {
+                personEmail = value;
+                if (String.IsNullOrEmpty(personEmail) == true || String.IsNullOrWhiteSpace(personEmail) == true)
+                    TextEntered = false;
+                else
+                    TextEntered = true;
+                OnPropertyChanged();
+            }
+        }
 
         //methods
         private void CanSavePerson(bool value)
@@ -51,7 +73,13 @@ namespace CompliXpertApp.ViewModels
             if(canSavePerson == true)
                 ((Command) SavePersonCommand).ChangeCanExecute();
         }
-
+        void CheckEmailFormat(bool input)
+        {
+            if (input == false)
+                EmailValidated = false;
+            else
+                EmailValidated = true;
+        }
         public async Task SavePersonAsync()
         {
             using (var context = new CompliXperAppContext())
@@ -63,6 +91,7 @@ namespace CompliXpertApp.ViewModels
                 {
                     dbPerson.FirstName = person.FirstName;
                     dbPerson.LastName = person.LastName;
+                    dbPerson.Email = personEmail;
                     dbPerson.PhoneNumber = person.PhoneNumber;
                     dbPerson.Position = person.Position;
                     dbPerson.CreatedDate = DateTime.Now;
@@ -79,7 +108,10 @@ namespace CompliXpertApp.ViewModels
                 }
                 await App.Current.MainPage.Navigation.PopModalAsync();
                 //send person back to the list screen
-                MessagingCenter.Send<PersonDetailsScreenViewModel, List<Person>>(this, Message.PersonsLoaded, context.Persons.ToList());
+                List<Person> personsList = await (from p in context.Persons
+                                                  where p.CallReportId == person.CallReportId
+                                                  select p).ToListAsync();
+                MessagingCenter.Send<PersonDetailsScreenViewModel, List<Person>>(this, Message.PersonsLoaded, personsList);
             }
         }
 

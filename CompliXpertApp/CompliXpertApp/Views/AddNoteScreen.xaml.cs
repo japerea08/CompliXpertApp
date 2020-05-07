@@ -27,15 +27,13 @@ namespace CompliXpertApp.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            MessagingCenter.Subscribe<CreateCallReportViewModel, int>(this, Message.CallReportLoaded, (sender,callReportId) =>
-            {
-                addNoteScreenViewModel.callreportId = callReportId;
-            });
-            //MessagingCenter.Subscribe<CallReportDetailsViewModel, int>(this, Message.CallReportId, (sender, callReportId) =>
-            //{
-            //    addNoteScreenViewModel.callreportId = callReportId;
-            //    addNoteScreenViewModel.callReportCreatedAlready = true;
-            //});
+            addNoteScreenViewModel.Subscribe();
+        }
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            //unsubscribe to all here
+            addNoteScreenViewModel.UnSubscribe();
         }
     }
 }

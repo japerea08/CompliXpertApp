@@ -21,18 +21,7 @@ namespace CompliXpertApp.ViewModels
 
         public NewContactMasterViewModel()
         {
-            MessagingCenter.Subscribe<CustomerListScreenViewModel, NewContact>(this, Message.NewContactLoaded, (sender, args) =>
-                {
-                    NewContact = args;
-                    NewContactEmail = newContact.Email;
-                    TextEntered = false;
-                });
-            MessagingCenter.Subscribe<ContactListScreenViewModel, NewContact>(this, Message.NewContactLoaded, (sender, contact) =>
-            {
-                NewContact = contact;
-                NewContactEmail = newContact.Email;
-                TextEntered = false;
-            });
+            
 
             SaveNewContactCommand = new Command(async () => await SaveNewContactCommandAsync());
         }
@@ -76,6 +65,26 @@ namespace CompliXpertApp.ViewModels
 
 
         //methods
+        public void Subscribe()
+        {
+            MessagingCenter.Subscribe<CustomerListScreenViewModel, NewContact>(this, Message.NewContactLoaded, (sender, args) =>
+            {
+                NewContact = args;
+                NewContactEmail = newContact.Email;
+                TextEntered = false;
+            });
+            MessagingCenter.Subscribe<ContactListScreenViewModel, NewContact>(this, Message.NewContactLoaded, (sender, contact) =>
+            {
+                NewContact = contact;
+                NewContactEmail = newContact.Email;
+                TextEntered = false;
+            });
+        }
+        public void Unsubscribe()
+        {
+            MessagingCenter.Unsubscribe<CustomerListScreenViewModel, NewContact>(this, Message.NewContactLoaded);
+            MessagingCenter.Unsubscribe<ContactListScreenViewModel, NewContact>(this, Message.NewContactLoaded);
+        }
         void CheckEmailFormat(bool input)
         {
             if (input == false)
@@ -96,20 +105,22 @@ namespace CompliXpertApp.ViewModels
                     contact.Comments = newContact.Comments;
                     contact.Company = newContact.Company;
                     contact.CreatedDate = DateTime.Now;
-                    contact.Email = newContact.Email;
+                    contact.Email = newContactEmail;
                     contact.Name = newContact.Name;
                     contact.Phonenumber = newContact.Phonenumber;
                     contact.Title = newContact.Title;
+                    context.NewContacts.Update(contact);
 
                     try
                     {
                         await context.SaveChangesAsync();
-                        await App.Current.MainPage.Navigation.PopToRootAsync();
+                        
                     }
                     catch (DbUpdateException e)
                     {
                         Console.WriteLine(e.InnerException);
                     }
+                    await App.Current.MainPage.Navigation.PopToRootAsync();
                 }
             }
         }

@@ -16,5 +16,13 @@ namespace CompliXpertApp.Views
             addPersonScreenViewModel.callreportId = callReportId;
             addPersonScreenViewModel.callReportCreatedAlready = callReportCreated;
         }
-	}
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+        }
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+        }
+    }
 }

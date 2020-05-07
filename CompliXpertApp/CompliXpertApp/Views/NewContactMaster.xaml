@@ -65,7 +65,7 @@
                                      AutoSize="TextChanges"
                                      FontSize="Medium"
                                      />
-                <Button Text="Save Changes" 
+                <Button Text="Save" 
                         BackgroundColor="#428bca" 
                         TextColor="White"
                         Margin="0,20,0,20"

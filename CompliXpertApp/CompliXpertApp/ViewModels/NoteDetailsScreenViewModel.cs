@@ -67,7 +67,11 @@ namespace CompliXpertApp.ViewModels
                     Console.WriteLine(e.InnerException);
                 }
                 await App.Current.MainPage.Navigation.PopModalAsync();
-                MessagingCenter.Send<NoteDetailsScreenViewModel, List<Note>> (this, Message.NotesLoaded, context.Notes.ToList());
+                //send person back to the list screen
+                List<Note> notesList = await (from n in context.Notes
+                                                  where n.CallReportId == note.CallReportId
+                                                  select n).ToListAsync();
+                MessagingCenter.Send<NoteDetailsScreenViewModel, List<Note>> (this, Message.NotesLoaded, notesList);
             }
         }
         //remove Call Report from local DB

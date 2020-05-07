@@ -27,5 +27,15 @@ namespace CompliXpertApp.Views
             return true;
 
         }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            newContactMasterViewModel.Subscribe();
+        }
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            newContactMasterViewModel.Unsubscribe();
+        }
     }
 }

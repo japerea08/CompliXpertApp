@@ -7,13 +7,16 @@ using CompliXpertApp.Helpers;
 
 namespace CompliXpertApp.ViewModels
 {
-    class AddPersonScreenViewModel
+    class AddPersonScreenViewModel : AbstractEmailValidator
     {
         public int callreportId;
         public bool callReportCreatedAlready;
         private string firstName;
         private string lastName;
         private bool canSave;
+        private bool textEntered;
+        private ICommand emailValidateMessageCommand;
+        private string personEmail;
 
         public AddPersonScreenViewModel()
         {
@@ -51,14 +54,37 @@ namespace CompliXpertApp.ViewModels
                     CanSave(false);
             }
         }
-        public string Email { get; set; }
+        public string PersonEmail
+        {
+            get
+            {
+                return personEmail;
+            }
+            set
+            {
+                personEmail = value;
+                if (String.IsNullOrEmpty(personEmail) == true || String.IsNullOrWhiteSpace(personEmail) == true)
+                    TextEntered = false;
+                else
+                    TextEntered = true;
+                OnPropertyChanged();
+            }
+        }
         public string PhoneNumber { get; set; }
         public string Position { get; set; }
+        public ICommand EmailValidateMessageCommand => emailValidateMessageCommand ?? (emailValidateMessageCommand = new Command<bool>(CheckEmailFormat));
         //methods
         void CanSave(bool value)
         {
             canSave = value;
             ((Command) SavePersonCommand).ChangeCanExecute();
+        }
+        void CheckEmailFormat(bool input)
+        {
+            if (input == false)
+                EmailValidated = false;
+            else
+                EmailValidated = true;
         }
         async Task SavePersonAsync()
         {
@@ -67,7 +93,7 @@ namespace CompliXpertApp.ViewModels
                 CallReportId = callreportId,
                 CreatedDate = DateTime.Now,
                 CreatedonMobile = true,
-                Email = Email,
+                Email = personEmail,
                 FirstName = firstName,
                 LastName = lastName,
                 PhoneNumber = PhoneNumber,
