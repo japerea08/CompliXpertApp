@@ -1,77 +1,74 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local2="clr-namespace:CompliXpertApp.Behaviors"
-             x:Class="CompliXpertApp.Views.AddPersonScreen">
+<ContentPage
+    x:Class="CompliXpertApp.Views.AddPersonScreen"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local2="clr-namespace:CompliXpertApp.Behaviors">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Margin="15,0">
-                <Label Text="Add Person"
-                   FontSize="Large"
-                   FontAttributes="Bold"
-                   HorizontalTextAlignment="Center"
-                   Margin="0, 5"/>
-                <Label Text="First Name"
-                   FontSize="Medium"
-                   Margin="0,5"/>
+                <Label
+                    Margin="0,5"
+                    FontAttributes="Bold"
+                    FontSize="Large"
+                    HorizontalTextAlignment="Center"
+                    Text="Add Person" />
+                <Label
+                    Margin="0,5"
+                    FontSize="Medium"
+                    Text="First Name" />
+                <Entry FontSize="Medium" Text="{Binding FirstName}" />
+                <Label
+                    Margin="0,5"
+                    FontSize="Medium"
+                    Text="Last Name" />
+                <Entry FontSize="Medium" Text="{Binding LastName}" />
+                <Label
+                    Margin="0,5"
+                    FontSize="Medium"
+                    Text="Email" />
                 <Entry
-                            FontSize="Medium"
-                            Text="{Binding FirstName}" />
-                <Label Text="Last Name"
-                   FontSize="Medium"
-                   Margin="0,5"/>
-                <Entry
-                        
-                            FontSize="Medium"
-                            Text="{Binding LastName}" />
-                <Label Text="Email"
-                   FontSize="Medium"
-                   Margin="0,5"/>
-                <Entry FontSize="Medium"
-                       Text="{Binding PersonEmail}" 
-                       Keyboard="Email">
+                    FontSize="Medium"
+                    Keyboard="Email"
+                    Text="{Binding PersonEmail}">
                     <Entry.Behaviors>
-                        <local2:EmailValidatorBehavior Command="{Binding EmailValidateMessageCommand}"/>
+                        <local2:EmailValidatorBehavior Command="{Binding EmailValidateMessageCommand}" />
                     </Entry.Behaviors>
                 </Entry>
-                <Label Text="{Binding EmailValidationMessage}"
-                       TextColor="{Binding EmailValidationColor}">
+                <Label Text="{Binding EmailValidationMessage}" TextColor="{Binding EmailValidationColor}">
                     <Label.Triggers>
-                        <DataTrigger TargetType="Label"
-                                     Binding="{Binding TextEntered}"
-                                     Value="false">
-                            <Setter Property="IsVisible"
-                                    Value="false"/>
+                        <DataTrigger
+                            Binding="{Binding TextEntered}"
+                            TargetType="Label"
+                            Value="false">
+                            <Setter Property="IsVisible" Value="false" />
                         </DataTrigger>
-                        <DataTrigger TargetType="Label"
-                                     Binding="{Binding TextEntered}"
-                                     Value="true">
-                            <Setter Property="IsVisible"
-                                    Value="true"/>
+                        <DataTrigger
+                            Binding="{Binding TextEntered}"
+                            TargetType="Label"
+                            Value="true">
+                            <Setter Property="IsVisible" Value="true" />
                         </DataTrigger>
                     </Label.Triggers>
                 </Label>
-                <Label Text="Phone Number"
-                   FontSize="Medium"
-                   Margin="0,5"/>
-                <Entry
-                        
-                            FontSize="Medium"
-                            Text="{Binding PhoneNumber}" />
-                <Label Text="Position"
-                   FontSize="Medium"
-                   Margin="0,5"/>
-                <Entry
-                        
-                            FontSize="Medium"
-                            Text="{Binding Position}" />
-                <Button Text="Save" 
-                            BackgroundColor="#428bca" 
-                            TextColor="White" 
-                            Command="{Binding SavePersonCommand}"
-                    Margin="0,5"/>
+                <Label
+                    Margin="0,5"
+                    FontSize="Medium"
+                    Text="Phone Number" />
+                <Entry FontSize="Medium" Text="{Binding PhoneNumber}" />
+                <Label
+                    Margin="0,5"
+                    FontSize="Medium"
+                    Text="Position" />
+                <Entry FontSize="Medium" Text="{Binding Position}" />
+                <Button
+                    Margin="0,5"
+                    BackgroundColor="#428bca"
+                    Command="{Binding SavePersonCommand}"
+                    Text="Save"
+                    TextColor="White" />
             </StackLayout>
         </ScrollView>
-        
+
     </ContentPage.Content>
 </ContentPage>

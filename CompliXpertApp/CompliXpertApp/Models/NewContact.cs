@@ -7,7 +7,8 @@ namespace CompliXpertApp.Models
     {
         [Key]
         public int ContactId { get; set; }
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string Title { get; set; }
         public string Email { get; set; }
         public string Phonenumber { get; set; }
@@ -26,6 +27,13 @@ namespace CompliXpertApp.Models
             get
             {
                 return CreatedDate.ToShortTimeString();
+            }
+        }
+        public string Name
+        {
+            get
+            {
+                return FirstName + " " + LastName;
             }
         }
     }

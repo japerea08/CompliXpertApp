@@ -11,10 +11,15 @@
                       FontAttributes="Bold"
                        FontSize="Large"
                        Margin="0,5"/>
-                <Label  Text="Contact Name"
+                <Label  Text="First Name"
                         FontSize="Medium"
                        TextColor="#305d82"/>
-                <Entry Text="{Binding ContactName}"
+                <Entry Text="{Binding FirstName}"
+                       FontSize="Medium"/>
+                <Label  Text="Last Name"
+                        FontSize="Medium"
+                       TextColor="#305d82"/>
+                <Entry Text="{Binding LastName}"
                        FontSize="Medium"/>
                 <Label Text="Title"
                        FontSize="Medium"

@@ -6,10 +6,16 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Margin="20,10">
-                <Label  Text="Contact Name"
+                <Label  Text="First Name"
                         FontSize="Large"
                        TextColor="#305d82"/>
-                <Entry Text="{Binding NewContact.Name}"
+                <Entry Text="{Binding NewContact.FirstName}"
+                       FontSize="Medium"
+                       />
+                <Label  Text="Last Name"
+                        FontSize="Large"
+                       TextColor="#305d82"/>
+                <Entry Text="{Binding NewContact.LastName}"
                        FontSize="Medium"
                        />
                 <Label Text="Title"

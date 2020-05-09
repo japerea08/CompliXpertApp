@@ -13,7 +13,8 @@ namespace CompliXpertApp.ViewModels
     class AddNewContactScreenViewModel : AbstractEmailValidator
     {
         private bool canAdd = false;
-        private string contactName;
+        private string firstName;
+        private string lastName;
         private bool emailValidated;
         private ICommand emailValidateMessageCommand;
         private Color emailValidationColor;
@@ -45,16 +46,31 @@ namespace CompliXpertApp.ViewModels
                 OnPropertyChanged();
             }
         }
-        public string ContactName
+        public string FirstName
         {
             get
             {
-                return contactName;
+                return firstName;
             }
             set
             {
-                contactName = value;
-                if (String.IsNullOrEmpty(ContactName) == false && String.IsNullOrWhiteSpace(ContactName) == false)
+                firstName = value;
+                if (String.IsNullOrEmpty(firstName) == false && String.IsNullOrWhiteSpace(firstName) == false)
+                    CanAdd(true);
+                else
+                    CanAdd(false);
+            }
+        }
+        public string LastName
+        {
+            get
+            {
+                return lastName;
+            }
+            set
+            {
+                lastName = value;
+                if (String.IsNullOrEmpty(lastName) == false && String.IsNullOrWhiteSpace(lastName) == false)
                     CanAdd(true);
                 else
                     CanAdd(false);
@@ -82,9 +98,10 @@ namespace CompliXpertApp.ViewModels
         {
             using (CompliXperAppContext context = new CompliXperAppContext())
             {
-                if(NewContact != null || ContactName != null)
+                if(NewContact != null || firstName != null)
                 {
-                    NewContact.Name = contactName;
+                    NewContact.FirstName = firstName;
+                    NewContact.LastName = lastName;
                     NewContact.Email = newContactEmail;
                     NewContact.CreatedDate = DateTime.Now;
                     context.Add(NewContact);

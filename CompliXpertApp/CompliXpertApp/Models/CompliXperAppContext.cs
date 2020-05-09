@@ -246,7 +246,9 @@ namespace CompliXpertApp.Models
 
                 b.Property<string>("Email");
 
-                b.Property<string>("Name");
+                b.Property<string>("FirstName");
+
+                b.Property<string>("LastName");
 
                 b.Property<string>("Phonenumber");
 

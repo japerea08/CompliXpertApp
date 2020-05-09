@@ -106,7 +106,8 @@ namespace CompliXpertApp.ViewModels
                     contact.Company = newContact.Company;
                     contact.CreatedDate = DateTime.Now;
                     contact.Email = newContactEmail;
-                    contact.Name = newContact.Name;
+                    contact.FirstName = newContact.FirstName;
+                    contact.LastName = newContact.LastName;
                     contact.Phonenumber = newContact.Phonenumber;
                     contact.Title = newContact.Title;
                     context.NewContacts.Update(contact);

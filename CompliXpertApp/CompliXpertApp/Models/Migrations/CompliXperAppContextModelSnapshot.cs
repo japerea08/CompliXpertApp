@@ -221,7 +221,9 @@ namespace MigrationsApp.Migrations
 
                     b.Property<string>("Email");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("LastName");
 
                     b.Property<string>("Phonenumber");
 
@@ -331,14 +333,6 @@ namespace MigrationsApp.Migrations
                         .HasForeignKey("CallReportId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
-
-            //modelBuilder.Entity("CompliXperLite.Models.NewContact", b =>
-            //{
-            //    b.HasOne("CompliXperLite.Models.Account")
-            //        .WithOne("Contact")
-            //        .HasForeignKey("CompliXperLite.Models.NewContact", "AccountNumber")
-            //        .OnDelete(DeleteBehavior.Cascade);
-            //});
 
             modelBuilder.Entity("CompliXpertApp.Models.Note", b =>
                 {

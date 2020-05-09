@@ -113,7 +113,8 @@ namespace MigrationsApp.Migrations
                 {
                     ContactId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
                     Title = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
                     Phonenumber = table.Column<string>(nullable: true),
@@ -278,12 +279,6 @@ namespace MigrationsApp.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.UserID);
                 });
-
-            //migrationBuilder.CreateIndex(
-            //    name: "IX_NewContact_AccountNumber",
-            //    table: "NewContact",
-            //    column: "AccountNumber",
-            //    unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Account_AccountClassCode",
